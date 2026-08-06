@@ -1,7 +1,4 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
-yarn run lint-staged
-yarn run build-all
+pnpm run lint-staged
+pnpm run build-all
 git add README.md
-git add config.json
+git add ./src/config.json

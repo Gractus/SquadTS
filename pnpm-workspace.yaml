@@ -1,0 +1,6 @@
+allowBuilds:
+  cpu-features: true
+  sqlite3: true
+  ssh2: true
+overrides:
+  "ftp-tail>basic-ftp": "^6.0.0"

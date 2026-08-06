@@ -29,17 +29,16 @@ SquadJS relies on being able to access the Squad server log directory in order t
 
 #### Prerequisites
 * Git
-* [Node.js](https://nodejs.org/en/) (18.x) - [Download](https://nodejs.org/en/)
-* [Yarn](https://yarnpkg.com/) (Version 1.22.0+) - [Download](https://classic.yarnpkg.com/en/docs/install)
+* [Node.js](https://nodejs.org/en/) (24.x) - [Download](https://nodejs.org/en/)
+* [pnpm](https://pnpm.io//) (Version 11.0+) - [Download](https://pnpm.io/installation)
 * Some plugins may have additional requirements.
 
 #### Installation
 1. [Download SquadJS](https://github.com/Team-Silver-Sphere/SquadJS/releases/latest) and unzip the download.
 2. Open the unzipped folder in your terminal.
-3. Install the dependencies by running `yarn install --ignore-engines` in your terminal. Due to the use of Yarn Workspaces it is important to use `yarn install --ignore-engines` and **not** `npm install` as this will not work and will break stuff.
-Documentation has been altered slightly from the `yarn install` normal install flow. This is a stop gap until the orignal issue is corrected.
+3. Install the dependencies by running `pnpm install` in your terminal.
 4. Configure the `config.json` file. See below for more details.
-5. Start SquadJS by running `node index.js` in your terminal.
+5. Start SquadJS by running `node src/index.js` in your terminal.
 
 **Note** - If you are interested in testing versions of SquadJS not yet released please download/clone the `master` branch. Please also see [here](#versions-and-releases) for more information on our versions and release procedures.
 
@@ -101,8 +100,8 @@ The following section of the configuration contains information about your Squad
 * `rconPassword` - The RCON password of the server.
 * `logReaderMode` - `tail` will read from a local log file, `ftp` will read from a remote log file using the FTP protocol, `sftp` will read from a remote log file using the SFTP protocol.
 * `logDir` - The folder where your Squad logs are saved. Most likely will be `C:/servers/squad_server/SquadGame/Saved/Logs`.
-* `ftp` - FTP configuration for reading logs remotely.
-* `sftp` - SFTP configuration for reading logs remotely.
+* `ftp` - FTP configuration for reading logs remotely. Only required for `ftp` `logReaderMode`.
+* `sftp` - SFTP configuration for reading logs remotely. Only required for `sftp` `logReaderMode`.
 * `adminLists` - Sources for identifying an admins on the server, either remote or local.
 
   ---
