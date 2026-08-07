@@ -4,7 +4,6 @@ import { fileURLToPath } from 'url';
 import { Client as FTPClient } from 'basic-ftp';
 import WritableBuffer from './writable-buffer.js';
 
-import axios from 'axios';
 import Logger from '../../common/logger.js';
 
 const __dirname = fileURLToPath(import.meta.url);
@@ -45,12 +44,15 @@ export default async function fetchAdminLists(adminLists) {
     try {
       switch (list.type) {
         case 'remote': {
-          const resp = await axios({
-            method: 'GET',
-            url: `${list.source}`,
-            timeout: REMOTE_LIST_TIMEOUT
-          });
-          data = resp.data;
+          const resp = await fetch(list.source,
+            { signal: AbortSignal.timeout(REMOTE_LIST_TIMEOUT) }
+          );
+          if (!resp.ok) {
+            throw new Error(
+              `Failed to retrieve admin list from ${resp.url}: HTTP Status ${resp.status} - ${resp.statusText}`
+            );
+          }
+          data = await resp.json();
           break;
         }
         case 'local': {

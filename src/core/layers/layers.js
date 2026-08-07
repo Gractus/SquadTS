@@ -1,8 +1,9 @@
-import axios from 'axios';
-
 import Logger from '../../common/logger.js';
 
 import Layer from './layer.js';
+
+const LAYERS_URL =
+  'https://raw.githubusercontent.com/Squad-Wiki/squad-wiki-pipeline-map-data/master/completed_output/_Current%20Version/finished.json';
 
 class Layers {
   constructor() {
@@ -22,14 +23,21 @@ class Layers {
     this.layers = [];
 
     Logger.verbose('Layers', 1, 'Pulling layers...');
-    const response = await axios.get(
-      'https://raw.githubusercontent.com/fantinodavide/SquadLayerList/main/layers.json'
-    );
 
-    this.units = response.data.Units || {};
+    const response = await fetch(LAYERS_URL);
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to retrieve layer info: HTTP Status ${response.status} - ${response.statusText}`
+      );
+    }
+
+    const data = await response.json();
+
+    this.units = data.Units || {};
 
     let skipped = 0;
-    for (const layer of response.data.Maps) {
+    for (const layer of data.Maps) {
       try {
         this.layers.push(new Layer(layer, this.units));
       } catch (err) {
