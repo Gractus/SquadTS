@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 
 import Logger from '../common/logger.js';
-import LogParser from '../log-parser/index.js';
+import LogParser from '../log-parser/squad-log-parser.js';
 import SquadRcon from '../rcon/squad-rcon.js';
 import { playerIdNames } from '../common/id-parser.js';
 

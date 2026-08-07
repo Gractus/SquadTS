@@ -15,13 +15,6 @@ export default class LogParser extends EventEmitter {
 
     options.filename = filename;
 
-    this.eventStore = {
-      disconnected: {}, // holding area, cleared on map change.
-      players: {}, // persistent data, steamid, controller, suffix.
-      session: {}, // old eventstore, nonpersistent data
-      joinRequests: []
-    };
-
     this.linesPerMinute = 0;
     this.matchingLinesPerMinute = 0;
     this.matchingLatency = 0;
@@ -31,6 +24,7 @@ export default class LogParser extends EventEmitter {
     this.logStats = this.logStats.bind(this);
 
     this.queue = async.queue(this.processLine);
+    this.rules = [];
 
     switch (options.mode || 'tail') {
       case 'tail':
@@ -50,7 +44,7 @@ export default class LogParser extends EventEmitter {
   async processLine(line) {
     Logger.verbose('LogParser', 4, `Matching on line: ${line}`);
 
-    for (const rule of this.getRules()) {
+    for (const rule of this.rules) {
       const match = line.match(rule.regex);
       if (!match) continue;
 
@@ -70,31 +64,6 @@ export default class LogParser extends EventEmitter {
     this.linesPerMinute++;
   }
 
-  // manage cleanup disconnected players, session data.
-  clearEventStore() {
-    Logger.verbose('LogParser', 2, 'Cleaning Eventstore');
-    for (const player of Object.values(this.eventStore.players)) {
-      if (this.eventStore.disconnected[player.eosID] === true) {
-        Logger.verbose('LogParser', 2, `Removing ${player.eosID} from eventStore`);
-        delete this.eventStore.players[player.eosID];
-        delete this.eventStore.disconnected[player.eosID];
-      }
-    }
-    this.eventStore.session = {};
-  }
-
-  getRules() {
-    return [];
-  }
-
-  async watch() {
-    Logger.verbose('LogParser', 1, 'Attempting to watch log file...');
-    await this.logReader.watch();
-    Logger.verbose('LogParser', 1, 'Watching log file...');
-
-    this.parsingStatsInterval = setInterval(this.logStats, 60 * 1000);
-  }
-
   logStats() {
     Logger.verbose(
       'LogParser',
@@ -110,6 +79,14 @@ export default class LogParser extends EventEmitter {
     this.linesPerMinute = 0;
     this.matchingLinesPerMinute = 0;
     this.matchingLatency = 0;
+  }
+
+  async watch() {
+    Logger.verbose('LogParser', 1, 'Attempting to watch log file...');
+    await this.logReader.watch();
+    Logger.verbose('LogParser', 1, 'Watching log file...');
+
+    this.parsingStatsInterval = setInterval(this.logStats, 60 * 1000);
   }
 
   async unwatch() {
