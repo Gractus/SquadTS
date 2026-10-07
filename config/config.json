@@ -37,7 +37,64 @@
         "source": "ftp://<user>:<password>@<host>:<port>/<url-path>"
       }
     ],
-    "plugins": [],
+    "plugins": [
+      {
+        "plugin": "AutoKickUnassigned",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "playerThreshold": 93,
+          "timeBeforeKick": 360,
+          "warnInterval": 30,
+          "warningMessage": "Join a squad, you are unassigned and will be kicked",
+          "kickMessage": "Autokick - All players must join a squad.",
+          "roundStartDelay": 900,
+          "ignoreAdmins": false,
+          "ignoreWhitelist": false
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "AutoTKWarn",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "attackerMessage": "Please apologise for ALL TKs in ALL chat!",
+          "victimMessage": null
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "FogOfWar",
+        "instance": "default",
+        "enabled": false,
+        "options": {
+          "mode": 1,
+          "delay": 10
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "SeedingMode",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "interval": 150,
+          "seedingThreshold": 50,
+          "seedingMessage": "Seeding Rules Active! Fight only over the middle flags! No FOB Hunting!",
+          "liveEnabled": true,
+          "liveThreshold": 52,
+          "liveMessage": "Live!",
+          "waitOnNewGames": true,
+          "waitTimeOnNewGame": 30
+        },
+        "commandAliases": {},
+        "connections": {}
+      }
+    ],
     "layerHistoryMaxLength": 20
   },
   "logger": {
@@ -54,63 +111,5 @@
       "LogParser": "blueBright",
       "RCON": "redBright"
     }
-  },
-  "plugins": [
-    {
-      "plugin": "AutoKickUnassigned",
-      "instance": "default",
-      "enabled": true,
-      "options": {
-        "playerThreshold": 93,
-        "timeBeforeKick": 360,
-        "warnInterval": 30,
-        "warningMessage": "Join a squad, you are unassigned and will be kicked",
-        "kickMessage": "Autokick - All players must join a squad.",
-        "roundStartDelay": 900,
-        "ignoreAdmins": false,
-        "ignoreWhitelist": false
-      },
-      "commandAliases": {},
-      "connections": {}
-    },
-    {
-      "plugin": "AutoTKWarn",
-      "instance": "default",
-      "enabled": true,
-      "options": {
-        "attackerMessage": "Please apologise for ALL TKs in ALL chat!",
-        "victimMessage": null
-      },
-      "commandAliases": {},
-      "connections": {}
-    },
-    {
-      "plugin": "FogOfWar",
-      "instance": "default",
-      "enabled": false,
-      "options": {
-        "mode": 1,
-        "delay": 10
-      },
-      "commandAliases": {},
-      "connections": {}
-    },
-    {
-      "plugin": "SeedingMode",
-      "instance": "default",
-      "enabled": true,
-      "options": {
-        "interval": 150,
-        "seedingThreshold": 50,
-        "seedingMessage": "Seeding Rules Active! Fight only over the middle flags! No FOB Hunting!",
-        "liveEnabled": true,
-        "liveThreshold": 52,
-        "liveMessage": "Live!",
-        "waitOnNewGames": true,
-        "waitTimeOnNewGame": 30
-      },
-      "commandAliases": {},
-      "connections": {}
-    }
-  ]
+  }
 }

@@ -8,7 +8,7 @@ const TEMPLATE_PATH = path.resolve(
 )
 const CONFIG_PATH = path.resolve(
   import.meta.dirname,
-  '../../templates/config-template.json'
+  '../../config/config.json'
 )
 
 console.log('Building config...')
@@ -27,18 +27,18 @@ async function buildConfig() {
 
   plugins.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))
 
-  const thing = []
+  const pluginConfigs = []
 
   for (const plugin of plugins) {
     try {
       const config = plugin.defaultConfig
-      thing.push(config)
+      pluginConfigs.push(config)
     } catch (error) {
       console.log(`Cannot create default config for ${plugin.name}: ${error}`)
     }
   }
 
-  template.plugins = thing
+  template.server.plugins = pluginConfigs
 
   const configString = JSON.stringify(template, null, 2)
   fs.writeFileSync(CONFIG_PATH, configString)
