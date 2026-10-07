@@ -12,7 +12,7 @@ assignees: ''
 ### Errors or Screenshots of Issue
 
 ### Squad Information
- * Plugins: 
+ * Plugins:
  * SquadJS Version:
  * Squad Version:
 

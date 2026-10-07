@@ -1,0 +1,2466 @@
+{
+    "BP_US_Util_USMC_Desert_C": {
+        "displayName": "M939 Transport",
+        "className": "BP_US_Util_USMC_Desert_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_USMC_Desert_Logi_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_US_Util_USMC_Desert_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_AAVP7A1_Logi_C": {
+        "displayName": "AAVC-7A1 Logistics",
+        "className": "BP_AAVP7A1_Logi_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_Light_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_Light_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_AAVP7A1_C": {
+        "displayName": "AAVP-7A1",
+        "className": "BP_AAVP7A1_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV25_C": {
+        "displayName": "LAV-25",
+        "className": "BP_LAV25_C",
+        "icon": "map_ifv",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1A1_USMC_C": {
+        "displayName": "M1A1",
+        "className": "BP_M1A1_USMC_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_UH1Y_C": {
+        "displayName": "UH-1Y",
+        "className": "BP_UH1Y_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_RHIB_US_M240_C": {
+        "displayName": "RHIB M240",
+        "className": "BP_RHIB_US_M240_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_US_M2_C": {
+        "displayName": "RHIB M2",
+        "className": "BP_RHIB_US_M2_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_Logistics_C": {
+        "displayName": "RHIB Logistics",
+        "className": "BP_RHIB_Logistics_C",
+        "icon": "T_map_boat_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Boat"
+    },
+    "BP_Ural_375_INS_C": {
+        "displayName": "Ural-375D Transport",
+        "className": "BP_Ural_375_INS_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Minsk_black_C": {
+        "displayName": "Minsk 400",
+        "className": "BP_Minsk_black_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_Ural_375_Logi_INS_C": {
+        "displayName": "Ural-375D Logistics",
+        "className": "BP_Ural_375_Logi_INS_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Logi_C": {
+        "displayName": "Logistics Pickup Truck",
+        "className": "BP_Technical4Seater_Logi_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical_Dshk_INS_Armoured_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Technical_Dshk_INS_Armoured_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Technical_C": {
+        "displayName": "M1151 Technical DSHK",
+        "className": "BP_M1151_Technical_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BRDM-2_Insurgents_C": {
+        "displayName": "BRDM-2",
+        "className": "BP_BRDM-2_Insurgents_C",
+        "icon": "map_jeep_turret",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_INS_C": {
+        "displayName": "MT-LB PKT",
+        "className": "BP_MTLB_INS_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP1_INS_C": {
+        "displayName": "BMP-1",
+        "className": "BP_BMP1_INS_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical2Seater_White_UB32_C": {
+        "displayName": "Technical UB-32",
+        "className": "BP_Technical2Seater_White_UB32_C",
+        "icon": "map_jeep_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "Car"
+    },
+    "BP_Ural_375_ZU23_C": {
+        "displayName": "Ural-375D ZU-23-2",
+        "className": "BP_Ural_375_ZU23_C",
+        "icon": "map_truck_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_T62_C": {
+        "displayName": "T-62",
+        "className": "BP_T62_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_RHIB_PKM_C": {
+        "displayName": "RHIB PKM",
+        "className": "BP_RHIB_PKM_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_DSHK_C": {
+        "displayName": "RHIB DShK",
+        "className": "BP_RHIB_DSHK_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_Aussie_Util_Truck_C": {
+        "displayName": "HX60 Transport",
+        "className": "BP_Aussie_Util_Truck_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Aussie_Util_Truck_Logi_C": {
+        "displayName": "HX60 Logistics",
+        "className": "BP_Aussie_Util_Truck_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_PMV_Mag58_C": {
+        "displayName": "PMV Mag58",
+        "className": "BP_PMV_Mag58_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_PMV_RWS_C": {
+        "displayName": "PMV RWS M2",
+        "className": "BP_PMV_RWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ASLAV_C": {
+        "displayName": "ASLAV",
+        "className": "BP_ASLAV_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_AUS_M1A1_C": {
+        "displayName": "M1A1",
+        "className": "BP_AUS_M1A1_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MRH90_Mag58_C": {
+        "displayName": "MRH-90",
+        "className": "BP_MRH90_Mag58_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_PMV_Mag58x3_C": {
+        "displayName": "PMV Mag58",
+        "className": "BP_PMV_Mag58x3_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Light_TOW_C": {
+        "displayName": "M1151 TOW",
+        "className": "BP_M1151_Light_TOW_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_UH60_AUS_C": {
+        "displayName": "UH-60M",
+        "className": "BP_UH60_AUS_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_Brit_Util_Truck_C": {
+        "displayName": "HX60 Transport",
+        "className": "BP_Brit_Util_Truck_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Brit_Util_Truck_Logi_C": {
+        "displayName": "HX60 Logistics",
+        "className": "BP_Brit_Util_Truck_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_LPPV_C": {
+        "displayName": "LPPV",
+        "className": "BP_LPPV_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_LPPV_M2RWS_C": {
+        "displayName": "LPPV RWS",
+        "className": "BP_LPPV_M2RWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_FV510_C": {
+        "displayName": "FV510",
+        "className": "BP_FV510_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_FV510UA_C": {
+        "displayName": "FV510 UA",
+        "className": "BP_FV510UA_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_FV4034_C": {
+        "displayName": "FV4034",
+        "className": "BP_FV4034_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_SA330_C": {
+        "displayName": "SA330",
+        "className": "BP_SA330_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_FV432_RWS_M2_C": {
+        "displayName": "FV432 L11A1 RWS",
+        "className": "BP_FV432_RWS_M2_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_FV432_RWS_C": {
+        "displayName": "FV432 L37A2 RWS",
+        "className": "BP_FV432_RWS_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_FV107_C": {
+        "displayName": "FV107",
+        "className": "BP_FV107_C",
+        "icon": "T_map_trackedrecon",
+        "vehType": "APC",
+        "spawnerSize": "Car"
+    },
+    "BP_CAF_Util_Desert_C": {
+        "displayName": "MSVS Transport",
+        "className": "BP_CAF_Util_Desert_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "MBT"
+    },
+    "BP_CAF_Util_Desert_Logi_C": {
+        "displayName": "MSVS Logistics",
+        "className": "BP_CAF_Util_Desert_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "MBT"
+    },
+    "BP_LUVW_C6_Desert_C": {
+        "displayName": "LUVW C6",
+        "className": "BP_LUVW_C6_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_TAPV_C16_Desert_C": {
+        "displayName": "TAPV",
+        "className": "BP_TAPV_C16_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV6_Desert_C": {
+        "displayName": "LAV 6",
+        "className": "BP_LAV6_Desert_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_2A6_Desert_C": {
+        "displayName": "Leopard 2A6M CAN",
+        "className": "BP_2A6_Desert_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_CH146_Desert_C": {
+        "displayName": "CH-146",
+        "className": "BP_CH146_Desert_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_LUVW_Desert_C": {
+        "displayName": "LUVW Transport",
+        "className": "BP_LUVW_Desert_C",
+        "icon": "map_jeep_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "Car"
+    },
+    "BP_LUVW_Logi_Desert_C": {
+        "displayName": "LUVW Logistics",
+        "className": "BP_LUVW_Logi_Desert_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_CH146_Desert_CAS_C": {
+        "displayName": "CH-146 CAS",
+        "className": "BP_CH146_Desert_CAS_C",
+        "icon": "map_attackhelo",
+        "vehType": "AH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_M113A3_Logistics_Desert_C": {
+        "displayName": "M113A3 Logistics",
+        "className": "BP_M113A3_Logistics_Desert_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_CAF_TLAV_Desert_C": {
+        "displayName": "M113A3 TLAV",
+        "className": "BP_M113A3_CAF_TLAV_Desert_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV2_Coyote_C": {
+        "displayName": "Coyote",
+        "className": "BP_LAV2_Coyote_C",
+        "icon": "T_map_wheeledrecon",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_2A6_Desert_Cage_C": {
+        "displayName": "Leopard 2A6M CAN",
+        "className": "BP_2A6_Desert_Cage_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_LAV_RWS_C6_Desert_C": {
+        "displayName": "LAV III C6 RWS",
+        "className": "BP_LAV_RWS_C6_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_QJZ89_Desert_C": {
+        "displayName": "CTM131 Transport QJZ89",
+        "className": "BP_CTM131_QJZ89_Desert_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_Logistic_Desert_C": {
+        "displayName": "CTM131 Logistics",
+        "className": "BP_CTM131_Logistic_Desert_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_CSK131_QJZ89_Desert_C": {
+        "displayName": "CSK131 QJZ89",
+        "className": "BP_CSK131_QJZ89_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_RWS_Desert_C": {
+        "displayName": "CSK131 QJC88 RWS",
+        "className": "BP_CSK131_RWS_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ZBL08_HJ73C_Desert_C": {
+        "displayName": "ZBL08",
+        "className": "BP_ZBL08_HJ73C_Desert_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZBD04A_Desert_C": {
+        "displayName": "ZBD04A",
+        "className": "BP_ZBD04A_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZTZ99_Desert_wCage_C": {
+        "displayName": "ZTZ99A",
+        "className": "BP_ZTZ99_Desert_wCage_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_Z8G_C": {
+        "displayName": "Z-8G",
+        "className": "BP_Z8G_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_RHIB_QJY88_C": {
+        "displayName": "RHIB QJY88",
+        "className": "BP_RHIB_QJY88_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_QJZ89_C": {
+        "displayName": "RHIB QJZ89",
+        "className": "BP_RHIB_QJZ89_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_CSK131_QJY88_Desert_C": {
+        "displayName": "CSK131 QJY88",
+        "className": "BP_CSK131_QJY88_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_HJ8ATGM_Desert_C": {
+        "displayName": "CSK131 HJ8",
+        "className": "BP_CSK131_HJ8ATGM_Desert_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_ZSL10_QJZ-89_Desert_C": {
+        "displayName": "ZSL10",
+        "className": "BP_ZSL10_QJZ-89_Desert_C",
+        "icon": "T_map_apc_open_turret",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_QJZ89_Naval_C": {
+        "displayName": "CTM131 QJZ89",
+        "className": "BP_CTM131_QJZ89_Naval_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_Logistic_Naval_C": {
+        "displayName": "CTM131 Logistics",
+        "className": "BP_CTM131_Logistic_Naval_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_ZSD05_Logi_C": {
+        "displayName": "ZSD05 Logistics",
+        "className": "BP_ZSD05_Logi_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_ZSD05_QJZ-89_C": {
+        "displayName": "ZSD05",
+        "className": "BP_ZSD05_QJZ-89_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_ZBD05_HJ73C_C": {
+        "displayName": "ZBD05",
+        "className": "BP_ZBD05_HJ73C_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZTD05_C": {
+        "displayName": "ZTD05",
+        "className": "BP_ZTD05_C",
+        "icon": "T_map_mgs",
+        "vehType": "MGS",
+        "spawnerSize": "MBT"
+    },
+    "BP_Z8J_C": {
+        "displayName": "Z-8J",
+        "className": "BP_Z8J_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_CSK131_QJY88_Naval_C": {
+        "displayName": "CSK131 QJY88",
+        "className": "BP_CSK131_QJY88_Naval_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_QJZ89_Naval_C": {
+        "displayName": "CSK131 QJZ89",
+        "className": "BP_CSK131_QJZ89_Naval_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_RWS_Naval_C": {
+        "displayName": "CSK131 QJC88 RWS",
+        "className": "BP_CSK131_RWS_Naval_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_HJ-8ATGM_Naval_C": {
+        "displayName": "CSK131 HJ8",
+        "className": "BP_CSK131_HJ-8ATGM_Naval_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_ZSL10_QJZ-89_Naval_C": {
+        "displayName": "ZSL10",
+        "className": "BP_ZSL10_QJZ-89_Naval_C",
+        "icon": "T_map_apc_open_turret",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_ZBL08_HJ73C_Naval_C": {
+        "displayName": "ZBL08",
+        "className": "BP_ZBL08_HJ73C_Naval_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZSD05_Logi_Woodland_C": {
+        "displayName": "ZSD05 Logistics",
+        "className": "BP_ZSD05_Logi_Woodland_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_ZSD05_QJZ-89_Woodland_C": {
+        "displayName": "ZSD05",
+        "className": "BP_ZSD05_QJZ-89_Woodland_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_ZBD05_HJ73C_Woodland_C": {
+        "displayName": "ZBD05",
+        "className": "BP_ZBD05_HJ73C_Woodland_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZTD05_WoodLand_C": {
+        "displayName": "ZTD05",
+        "className": "BP_ZTD05_WoodLand_C",
+        "icon": "T_map_mgs",
+        "vehType": "MGS",
+        "spawnerSize": "MBT"
+    },
+    "BP_US_Util_Desert_C": {
+        "displayName": "M939 Transport",
+        "className": "BP_US_Util_Desert_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_Desert_Logi_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_US_Util_Desert_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_MATV_C": {
+        "displayName": "M-ATV M2",
+        "className": "BP_MATV_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_CROWS_C": {
+        "displayName": "M-ATV CROWS M2",
+        "className": "BP_MATV_CROWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1126_C": {
+        "displayName": "M1126 CROWS M2",
+        "className": "BP_M1126_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BFV_C": {
+        "displayName": "M2A3",
+        "className": "BP_BFV_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_M1A2_C": {
+        "displayName": "M1A2",
+        "className": "BP_M1A2_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_UH60_C": {
+        "displayName": "UH-60M",
+        "className": "BP_UH60_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_M1151_M240_C": {
+        "displayName": "M1151 M240",
+        "className": "BP_M1151_M240_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Mk19_C": {
+        "displayName": "M1151 Mk19",
+        "className": "BP_M1151_Mk19_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_CROWS_C": {
+        "displayName": "M1151 CROWS M2",
+        "className": "BP_M1151_CROWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Quadbike_Desert_C": {
+        "displayName": "Quad Bike",
+        "className": "BP_Quadbike_Desert_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_MATV_M240_C": {
+        "displayName": "M-ATV M240",
+        "className": "BP_MATV_M240_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_Mk19_C": {
+        "displayName": "M-ATV Mk19",
+        "className": "BP_MATV_Mk19_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_TOW_C": {
+        "displayName": "M-ATV TOW",
+        "className": "BP_MATV_TOW_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_M1126_M240_C": {
+        "displayName": "M1126 CROWS M240",
+        "className": "BP_M1126_M240_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1128_C": {
+        "displayName": "M1128 MGS",
+        "className": "BP_M1128_C",
+        "icon": "T_map_mgs",
+        "vehType": "MGS",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_M2_Desert_Cage_C": {
+        "displayName": "M113A3 M2",
+        "className": "BP_M113A3_M2_Desert_Cage_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M7A3_IFV_C": {
+        "displayName": "M7A3",
+        "className": "BP_M7A3_IFV_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_M2_Desert_C": {
+        "displayName": "M113A3 M2",
+        "className": "BP_M113A3_M2_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_MK19_Desert_Cage_C": {
+        "displayName": "M113A3 Mk19",
+        "className": "BP_M113A3_MK19_Desert_Cage_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1064A3_M121_Desert_C": {
+        "displayName": "M1064A3 M121",
+        "className": "BP_M1064A3_M121_Desert_C",
+        "icon": "T_map_trackedapc_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_MK19_Desert_C": {
+        "displayName": "M113A3 Mk19",
+        "className": "BP_M113A3_MK19_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_MATV_USMC_C": {
+        "displayName": "MATV M2",
+        "className": "BP_MATV_USMC_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_Mk19_USMC_C": {
+        "displayName": "MATV Mk19",
+        "className": "BP_MATV_Mk19_USMC_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_USMC_CROWS_C": {
+        "displayName": "MATV CROWS M2",
+        "className": "BP_MATV_USMC_CROWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_USMC_TOW_C": {
+        "displayName": "MATV TOW",
+        "className": "BP_MATV_USMC_TOW_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_ZU23_INS_C": {
+        "displayName": "MT-LB ZU-23-2",
+        "className": "BP_MTLB_ZU23_INS_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_minsk_C": {
+        "displayName": "Minsk 400",
+        "className": "BP_minsk_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_Technical_SPG9_INS_Armoured_C": {
+        "displayName": "Technical SPG-9",
+        "className": "BP_Technical_SPG9_INS_Armoured_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_White_Kornet_C": {
+        "displayName": "Technical Kornet",
+        "className": "BP_Technical2Seater_White_Kornet_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Minsk_blue_C": {
+        "displayName": "Minsk 400",
+        "className": "BP_Minsk_blue_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_Technical2Seater_White_SPG9_C": {
+        "displayName": "Technical SPG-9",
+        "className": "BP_Technical2Seater_White_SPG9_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_White_BMP1_C": {
+        "displayName": "Technical BMP-1",
+        "className": "BP_Technical2Seater_White_BMP1_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_White_ZU23_C": {
+        "displayName": "Technical ZU-23-2",
+        "className": "BP_Technical2Seater_White_ZU23_C",
+        "icon": "T_map_jeep_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "Car"
+    },
+    "BP_Minsk_green_C": {
+        "displayName": "Minsk 400",
+        "className": "BP_Minsk_green_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_Technical2Seater_White_Dshk_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Technical2Seater_White_Dshk_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_LOGI_INS_C": {
+        "displayName": "MT-LB Logistics",
+        "className": "BP_MTLB_LOGI_INS_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Kamaz_5350_Desert_C": {
+        "displayName": "KamAZ 5350 Transport",
+        "className": "BP_Kamaz_5350_Desert_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Kamaz_5350_Logi_Desert_C": {
+        "displayName": "KamAZ 5350 Logistics",
+        "className": "BP_Kamaz_5350_Logi_Desert_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Tigr_Desert_C": {
+        "displayName": "Tigr-M Kord",
+        "className": "BP_Tigr_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Tigr_RWS_Desert_C": {
+        "displayName": "Tigr-M RWS Kord",
+        "className": "BP_Tigr_RWS_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR82A_RUS_Desert_C": {
+        "displayName": "BTR-82A",
+        "className": "BP_BTR82A_RUS_Desert_C",
+        "icon": "map_ifv",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP2_Desert_C": {
+        "displayName": "BMP-2",
+        "className": "BP_BMP2_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_T90A_Desert_C": {
+        "displayName": "T-90A",
+        "className": "BP_T90A_Desert_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MI8_C": {
+        "displayName": "Mi-8MTV-5",
+        "className": "BP_MI8_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_RHIB_RUS_PKP_C": {
+        "displayName": "RHIB PKP",
+        "className": "BP_RHIB_RUS_PKP_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_RUS_NSV_C": {
+        "displayName": "RHIB NSV",
+        "className": "BP_RHIB_RUS_NSV_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_BRDM-2_RUS_Desert_C": {
+        "displayName": "BRDM-2",
+        "className": "BP_BRDM-2_RUS_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BRDM-2_Spandrel_RUS_Desert_C": {
+        "displayName": "BRDM-2 Spandrel",
+        "className": "BP_BRDM-2_Spandrel_RUS_Desert_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_LOGI_RUS_Desert_C": {
+        "displayName": "MT-LB Logistics",
+        "className": "BP_MTLB_LOGI_RUS_Desert_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLB_VMK_RUS_Desert_C": {
+        "displayName": "MT-LB VMK",
+        "className": "BP_MTLB_VMK_RUS_Desert_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP2M_Desert_C": {
+        "displayName": "BMP-2M",
+        "className": "BP_BMP2M_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP3M_Desert_C": {
+        "displayName": "BMP-3M",
+        "className": "BP_BMP3M_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_T72B3_Desert_C": {
+        "displayName": "T-72B3",
+        "className": "BP_T72B3_Desert_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MTLBM_6MA_RUS_Desert_C": {
+        "displayName": "MT-LBM 6MA",
+        "className": "BP_MTLBM_6MA_RUS_Desert_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLBM_6MB_RUS_Desert_C": {
+        "displayName": "MT-LBM 6MB",
+        "className": "BP_MTLBM_6MB_RUS_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR80_RUS_Desert_C": {
+        "displayName": "BTR-80",
+        "className": "BP_BTR80_RUS_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLB_RGF_Desert_C": {
+        "displayName": "MT-LB PKT",
+        "className": "BP_MTLB_RGF_Desert_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP1AM_Desert_C": {
+        "displayName": "BMP-1AM",
+        "className": "BP_BMP1AM_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR-DG_Logistics_Desert_C": {
+        "displayName": "BTR-DG Logistics",
+        "className": "BP_BTR-DG_Logistics_Desert_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR-D_Kord_Desert_C": {
+        "displayName": "BTR-D Kord",
+        "className": "BP_BTR-D_Kord_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR-ZD_Desert_C": {
+        "displayName": "BTR-ZD",
+        "className": "BP_BTR-ZD_Desert_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_BTRMDM_PKT_RWS_Desert_C": {
+        "displayName": "BTR-MDM",
+        "className": "BP_BTRMDM_PKT_RWS_Desert_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMD4M_Desert_C": {
+        "displayName": "BMD-4M",
+        "className": "BP_BMD4M_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Sprut_Desert_C": {
+        "displayName": "Sprut-SDM1",
+        "className": "BP_Sprut_Desert_C",
+        "icon": "T_map_mgs",
+        "vehType": "MGS",
+        "spawnerSize": "MBT"
+    },
+    "BP_MI8_VDV_C": {
+        "displayName": "Mi-8",
+        "className": "BP_MI8_VDV_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_BMD1M_Desert_C": {
+        "displayName": "BMD-1M",
+        "className": "BP_BMD1M_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_TLF_Util_Truck_Desert_C": {
+        "displayName": "BMC-185 Transport",
+        "className": "BP_TLF_Util_Truck_Desert_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_TLF_Util_Truck_Logi_Desert_C": {
+        "displayName": "BMC-185 Logistics",
+        "className": "BP_TLF_Util_Truck_Logi_Desert_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Cobra2_M2_Desert_C": {
+        "displayName": "Cobra II M2",
+        "className": "BP_Cobra2_M2_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Cobra2_RWS_M2_Desert_C": {
+        "displayName": "Cobra II M2 RWS",
+        "className": "BP_Cobra2_RWS_M2_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ACV-15_Desert_C": {
+        "displayName": "ACV-15 25mm",
+        "className": "BP_ACV-15_Desert_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_PARS3_Desert_C": {
+        "displayName": "PARS III 25mm",
+        "className": "BP_PARS3_Desert_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_M60T_Desert_C": {
+        "displayName": "M60T",
+        "className": "BP_M60T_Desert_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_UH60_TLF_PKM_C": {
+        "displayName": "UH60 PKM",
+        "className": "BP_UH60_TLF_PKM_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_RHIB_GFI_MG3_C": {
+        "displayName": "RHIB MG3",
+        "className": "BP_RHIB_GFI_MG3_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_Cobra2_MG3_Desert_C": {
+        "displayName": "Cobra II MG3",
+        "className": "BP_Cobra2_MG3_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ACV-15_MG3_Desert_C": {
+        "displayName": "ACV-15 MG3",
+        "className": "BP_ACV-15_MG3_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_ACV-15_M2_Desert_C": {
+        "displayName": "ACV-15 M2",
+        "className": "BP_ACV-15_M2_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A2T_Logistics_TLF_Desert_C": {
+        "displayName": "M113A2 Logistics",
+        "className": "BP_M113A2T_Logistics_TLF_Desert_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_M1064_M121_TLF_Desert_C": {
+        "displayName": "M113A2T M121",
+        "className": "BP_M1064_M121_TLF_Desert_C",
+        "icon": "T_map_trackedapc_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "APC"
+    },
+    "BP_PARS3_MK19_Desert_C": {
+        "displayName": "PARS III Mk19 RWS",
+        "className": "BP_PARS3_MK19_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_PARS3_MG3_Desert_C": {
+        "displayName": "PARS III MG3 RWS",
+        "className": "BP_PARS3_MG3_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_PARS3_M2_Desert_C": {
+        "displayName": "PARS III M2 RWS",
+        "className": "BP_PARS3_M2_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_Ural_4320_GFI_C": {
+        "displayName": "Ural-4320 Transport",
+        "className": "BP_Ural_4320_GFI_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Ural_4320_logi_GFI_C": {
+        "displayName": "Ural-4320 Logistics",
+        "className": "BP_Ural_4320_logi_GFI_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Safir_C": {
+        "displayName": "Safir Logistics",
+        "className": "BP_Safir_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_Safir_Kord_C": {
+        "displayName": "Safir Kord",
+        "className": "BP_Safir_Kord_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BRDM-2_GFI_C": {
+        "displayName": "BRDM-2 UB-32",
+        "className": "BP_BRDM-2_GFI_C",
+        "icon": "map_jeep_turret",
+        "vehType": "RSV",
+        "spawnerSize": "Car"
+    },
+    "BP_BMP1_GFI_C": {
+        "displayName": "BMP-1",
+        "className": "BP_BMP1_GFI_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP2_GFI_C": {
+        "displayName": "BMP-2",
+        "className": "BP_BMP2_GFI_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_T72S_GFI_C": {
+        "displayName": "T-72S",
+        "className": "BP_T72S_GFI_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_UH1H_GFI_C": {
+        "displayName": "UH-1H MG3",
+        "className": "BP_UH1H_GFI_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_Safir_MG3_C": {
+        "displayName": "Safir MG3",
+        "className": "BP_Safir_MG3_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BRDM-2_GFI_Spandrel_C": {
+        "displayName": "BRDM-2 Spandrel",
+        "className": "BP_BRDM-2_GFI_Spandrel_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_T62_GFI_C": {
+        "displayName": "T-62",
+        "className": "BP_T62_GFI_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MTLB_LOGI_GFI_C": {
+        "displayName": "MT-LB Logistics",
+        "className": "BP_MTLB_LOGI_GFI_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLBM_6MA_GFI_C": {
+        "displayName": "MTLB 6MA UB-32",
+        "className": "BP_MTLBM_6MA_GFI_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_GFI_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_GFI_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Safir_Kornet_C": {
+        "displayName": "Safir Kornet",
+        "className": "BP_Safir_Kornet_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_TOW_GFI_C": {
+        "displayName": "M1151 TOW",
+        "className": "BP_M1151_TOW_GFI_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_WPMC_Util_Black_C": {
+        "displayName": "M939 Transport",
+        "className": "BP_WPMC_Util_Black_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_CPV_Transport_C": {
+        "displayName": "CPV Transport",
+        "className": "BP_CPV_Transport_C",
+        "icon": "map_jeep_transport",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_WPMC_Util_Black_Logi_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_WPMC_Util_Black_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Logi_Tan_C": {
+        "displayName": "Technical Logistics",
+        "className": "BP_Technical4Seater_Logi_Tan_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_CPV_M134_Red_C": {
+        "displayName": "CPV M134 Minigun",
+        "className": "BP_CPV_M134_Red_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_TOW_WPMC_C": {
+        "displayName": "M1151 TOW",
+        "className": "BP_M1151_TOW_WPMC_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_M1117_C": {
+        "displayName": "M1117",
+        "className": "BP_M1117_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_WPMC_M2_C": {
+        "displayName": "M113A3 M2",
+        "className": "BP_M113A3_WPMC_M2_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_MSV_WPMC_C": {
+        "displayName": "M113A3 MSV",
+        "className": "BP_M113A3_MSV_WPMC_C",
+        "icon": "T_map_trackedapc_msv",
+        "vehType": "MSV",
+        "spawnerSize": "APC"
+    },
+    "BP_M60T_WPMC_C": {
+        "displayName": "M60T",
+        "className": "BP_M60T_WPMC_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_Loach_CAS_Small_C": {
+        "displayName": "Loach CAS Small",
+        "className": "BP_Loach_CAS_Small_C",
+        "icon": "T_map_helicopter_lightcas",
+        "vehType": "AH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_CH146_Raven_C": {
+        "displayName": "Raven Transport",
+        "className": "BP_CH146_Raven_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_RHIB_US_M134_C": {
+        "displayName": "RHIB M134",
+        "className": "BP_RHIB_US_M134_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_RHIB_US_Mk19_C": {
+        "displayName": "RHIB Mk19",
+        "className": "BP_RHIB_US_Mk19_C",
+        "icon": "T_map_boat_openturret",
+        "vehType": "ULTV",
+        "spawnerSize": "Boat"
+    },
+    "BP_Technical2Seater_Mortar_Black_C": {
+        "displayName": "Technical Mortar",
+        "className": "BP_Technical2Seater_Mortar_Black_C",
+        "icon": "map_jeep_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_WPMC_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_WPMC_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Loach_C": {
+        "displayName": "Loach Scout",
+        "className": "BP_Loach_C",
+        "icon": "T_map_helicopter_scout",
+        "vehType": "AH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_CPV_Transport_Blue_C": {
+        "displayName": "CPV Transport",
+        "className": "BP_CPV_Transport_Blue_C",
+        "icon": "map_jeep_transport",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Logi_Black_C": {
+        "displayName": "Technical Logistics",
+        "className": "BP_Technical4Seater_Logi_Black_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_CPV_M134_Blue_C": {
+        "displayName": "CPV M134 Minigun",
+        "className": "BP_CPV_M134_Blue_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical2Seater_M2_Black_C": {
+        "displayName": "Technical M2",
+        "className": "BP_Technical2Seater_M2_Black_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_White_M2_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Technical2Seater_White_M2_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_Mortar_Grey_C": {
+        "displayName": "Technical Mortar",
+        "className": "BP_Technical2Seater_Mortar_Grey_C",
+        "icon": "map_jeep_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "Car"
+    },
+    "BP_CPV_Transport_Red_C": {
+        "displayName": "CPV Transport",
+        "className": "BP_CPV_Transport_Red_C",
+        "icon": "map_jeep_transport",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_Desert_C": {
+        "displayName": "CTM131 Transport QJY88",
+        "className": "BP_CTM131_Desert_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR-D_Transport_Desert_C": {
+        "displayName": "BTR-D",
+        "className": "BP_BTR-D_Transport_Desert_C",
+        "icon": "T_map_trackedapc_noturret",
+        "vehType": "APC",
+        "spawnerSize": "Car"
+    },
+    "BP_CPV_M134_C": {
+        "displayName": "CPV M134 Minigun",
+        "className": "BP_CPV_M134_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_AAVP7A1_Woodland_Logi_C": {
+        "displayName": "AAVC-7A1 Logistics",
+        "className": "BP_AAVP7A1_Woodland_Logi_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_AAVP7A1_Woodland_C": {
+        "displayName": "AAVP-7A1",
+        "className": "BP_AAVP7A1_Woodland_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV25_Woodland_C": {
+        "displayName": "LAV-25",
+        "className": "BP_LAV25_Woodland_C",
+        "icon": "map_ifv",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_Light_Woodland_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_Light_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Mk19_Woodland_C": {
+        "displayName": "M1151 Mk19",
+        "className": "BP_M1151_Mk19_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1A1_USMC_Woodland_C": {
+        "displayName": "M1A1",
+        "className": "BP_M1A1_USMC_Woodland_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_CTM131_QJZ89_C": {
+        "displayName": "CTM131 Transport QJZ89",
+        "className": "BP_CTM131_QJZ89_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_CTM131_Logistic_C": {
+        "displayName": "CTM131 Logistics",
+        "className": "BP_CTM131_Logistic_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_ZTZ99_wCage_C": {
+        "displayName": "ZTZ99A",
+        "className": "BP_ZTZ99_wCage_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_CSK131_QJZ89_C": {
+        "displayName": "CSK131 QJZ89",
+        "className": "BP_CSK131_QJZ89_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR-DG_Logistics_C": {
+        "displayName": "BTR-DG Logistics",
+        "className": "BP_BTR-DG_Logistics_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR-D_Kord_C": {
+        "displayName": "BTR-D Kord",
+        "className": "BP_BTR-D_Kord_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR-ZD_C": {
+        "displayName": "BTR-ZD",
+        "className": "BP_BTR-ZD_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_BTRMDM_PKT_RWS_C": {
+        "displayName": "BTR-MDM",
+        "className": "BP_BTRMDM_PKT_RWS_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMD4M_C": {
+        "displayName": "BMD-4M",
+        "className": "BP_BMD4M_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Sprut_C": {
+        "displayName": "Sprut-SDM1",
+        "className": "BP_Sprut_C",
+        "icon": "T_map_mgs",
+        "vehType": "MGS",
+        "spawnerSize": "MBT"
+    },
+    "BP_BRDM-2_RUS_C": {
+        "displayName": "BRDM-2",
+        "className": "BP_BRDM-2_RUS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_T72B3_C": {
+        "displayName": "T-72B3",
+        "className": "BP_T72B3_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MTLB_LOGI_RUS_C": {
+        "displayName": "MT-LB Logistics",
+        "className": "BP_MTLB_LOGI_RUS_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR80_RUS_C": {
+        "displayName": "BTR-80",
+        "className": "BP_BTR80_RUS_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR82A_RUS_C": {
+        "displayName": "BTR-82A",
+        "className": "BP_BTR82A_RUS_C",
+        "icon": "map_ifv",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP3M_C": {
+        "displayName": "BMP-3M",
+        "className": "BP_BMP3M_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Tigr_C": {
+        "displayName": "Tigr-M Kord",
+        "className": "BP_Tigr_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Kamaz_5350_C": {
+        "displayName": "KamAZ 5350 Transport",
+        "className": "BP_Kamaz_5350_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Kamaz_5350_Logi_C": {
+        "displayName": "KamAZ 5350 Logistics",
+        "className": "BP_Kamaz_5350_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_BTR-D_Transport_C": {
+        "displayName": "BTR-D",
+        "className": "BP_BTR-D_Transport_C",
+        "icon": "T_map_trackedapc_noturret",
+        "vehType": "APC",
+        "spawnerSize": "Car"
+    },
+    "BP_CTM131_C": {
+        "displayName": "CTM131 Transport QJY88",
+        "className": "BP_CTM131_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_CSK131_QJY88_C": {
+        "displayName": "CSK131 QJY88",
+        "className": "BP_CSK131_QJY88_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CTM131_Naval_C": {
+        "displayName": "CTM131 QJY88",
+        "className": "BP_CTM131_Naval_C",
+        "icon": "map_truck_transport_armed",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Ural_375_MIL_C": {
+        "displayName": "Ural-375D Transport",
+        "className": "BP_Ural_375_MIL_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Armored_Ural_375_Logi_MIL_C": {
+        "displayName": "Ural-375D Logistics",
+        "className": "BP_Armored_Ural_375_Logi_MIL_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Logi_Camo_C": {
+        "displayName": "Logistics Modern Pickup",
+        "className": "BP_Technical4Seater_Logi_Camo_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_Tigr_MIL_C": {
+        "displayName": "Tigr-M Kord",
+        "className": "BP_Tigr_MIL_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_Camo_Kornet_C": {
+        "displayName": "Technical Kornet",
+        "className": "BP_Technical2Seater_Camo_Kornet_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_BMP1_MIL_C": {
+        "displayName": "BMP-1",
+        "className": "BP_BMP1_MIL_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP2_IMF_C": {
+        "displayName": "BMP-2",
+        "className": "BP_BMP2_IMF_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Ural_375_ZU23_MIL_C": {
+        "displayName": "Ural-375D ZU-23-2",
+        "className": "BP_Ural_375_ZU23_MIL_C",
+        "icon": "map_truck_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_BM21Grad_MIL_C": {
+        "displayName": "BM-21 Grad",
+        "className": "BP_BM21Grad_MIL_C",
+        "icon": "T_map_truck_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "APC"
+    },
+    "BP_T72A_IMF_C": {
+        "displayName": "T-72A",
+        "className": "BP_T72A_IMF_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_MTLB_LOGI_IMF_C": {
+        "displayName": "MT-LB Logistics",
+        "className": "BP_MTLB_LOGI_IMF_C",
+        "icon": "T_map_trackedapc_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLB_ZU23_MIL_C": {
+        "displayName": "MT-LB ZU-23-2",
+        "className": "BP_MTLB_ZU23_MIL_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_T62_MIL_C": {
+        "displayName": "T-62",
+        "className": "BP_T62_MIL_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_Armored_Technical2Seater_Camo_M2_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Armored_Technical2Seater_Camo_M2_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_Camo_SPG9_C": {
+        "displayName": "Technical SPG-9",
+        "className": "BP_Technical2Seater_Camo_SPG9_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Ural_375_Logi_MIL_C": {
+        "displayName": "Ural-375D Logistics",
+        "className": "BP_Ural_375_Logi_MIL_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_BRDM-2_MIL_C": {
+        "displayName": "BRDM-2",
+        "className": "BP_BRDM-2_MIL_C",
+        "icon": "map_jeep_turret",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BTR80_Militia_C": {
+        "displayName": "BTR-80",
+        "className": "BP_BTR80_Militia_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLBM_6MB_MIL_C": {
+        "displayName": "MT-LBM 6MB",
+        "className": "BP_MTLBM_6MB_MIL_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Brit_Util_Truck_Woodland_C": {
+        "displayName": "HX60 Transport",
+        "className": "BP_Brit_Util_Truck_Woodland_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_Brit_Util_Truck_Logi_Woodland_C": {
+        "displayName": "HX60 Logistics",
+        "className": "BP_Brit_Util_Truck_Logi_Woodland_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_LPPV_Woodland_C": {
+        "displayName": "LPPV",
+        "className": "BP_LPPV_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_LPPV_M2RWS_Woodland_C": {
+        "displayName": "LPPV RWS",
+        "className": "BP_LPPV_M2RWS_Woodland_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_FV510UA_Woodland_C": {
+        "displayName": "FV510 UA",
+        "className": "BP_FV510UA_Woodland_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_CAF_Util_Woodland_C": {
+        "displayName": "MSVS Transport",
+        "className": "BP_CAF_Util_Woodland_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "MBT"
+    },
+    "BP_CAF_Util_Woodland_Logi_C": {
+        "displayName": "MSVS Logistics",
+        "className": "BP_CAF_Util_Woodland_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "MBT"
+    },
+    "BP_LUVW_C6_C": {
+        "displayName": "LUVW C6",
+        "className": "BP_LUVW_C6_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_TAPV_C16_C": {
+        "displayName": "TAPV",
+        "className": "BP_TAPV_C16_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV6_Woodland_C": {
+        "displayName": "LAV 6",
+        "className": "BP_LAV6_Woodland_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical2Seater_Camo_M2_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Technical2Seater_Camo_M2_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Armored_Technical2Seater_Camo_SPG9_C": {
+        "displayName": "Technical SPG-9",
+        "className": "BP_Armored_Technical2Seater_Camo_SPG9_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_Tigr_RWS_C": {
+        "displayName": "Tigr-M RWS Kord",
+        "className": "BP_Tigr_RWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_BMP2_C": {
+        "displayName": "BMP-2",
+        "className": "BP_BMP2_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_Woodland_C": {
+        "displayName": "M939 Transport",
+        "className": "BP_US_Util_Woodland_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_Woodland_Logi_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_US_Util_Woodland_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_MATV_Woodland_C": {
+        "displayName": "M-ATV M2",
+        "className": "BP_MATV_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_USMC_CROWS_Woodland_C": {
+        "displayName": "MATV CROWS M2",
+        "className": "BP_MATV_USMC_CROWS_Woodland_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_BFV_Woodland_C": {
+        "displayName": "M2A3",
+        "className": "BP_BFV_Woodland_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_USMC_Woodland_C": {
+        "displayName": "M939 Transport",
+        "className": "BP_US_Util_USMC_Woodland_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_USMC_Woodland_Logi_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_US_Util_USMC_Woodland_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_M240_Woodland_C": {
+        "displayName": "M1151 M240",
+        "className": "BP_M1151_M240_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_Camo_DSHK_C": {
+        "displayName": "Technical HMG",
+        "className": "BP_Technical2Seater_Camo_DSHK_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Armored_Ural_375_MIL_C": {
+        "displayName": "Ural-375D Transport",
+        "className": "BP_Armored_Ural_375_MIL_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_MATV_M240_Woodland_C": {
+        "displayName": "M-ATV M240",
+        "className": "BP_MATV_M240_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_LUVW_Logi_C": {
+        "displayName": "LUVW Logistics",
+        "className": "BP_LUVW_Logi_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_TLF_Util_Truck_C": {
+        "displayName": "BMC-185 Transport",
+        "className": "BP_TLF_Util_Truck_C",
+        "icon": "map_truck_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "APC"
+    },
+    "BP_TLF_Util_Truck_Logi_C": {
+        "displayName": "BMC-185 Logistics",
+        "className": "BP_TLF_Util_Truck_Logi_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Cobra2_MG3_C": {
+        "displayName": "Cobra II MG3",
+        "className": "BP_Cobra2_MG3_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_M240_WPMC_C": {
+        "displayName": "M1151 M240",
+        "className": "BP_M1151_M240_WPMC_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_BMD1M_C": {
+        "displayName": "BMD-1M",
+        "className": "BP_BMD1M_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Quadbike_Woodland_C": {
+        "displayName": "Quad Bike",
+        "className": "BP_Quadbike_Woodland_C",
+        "icon": "map_motorcycle",
+        "vehType": "ULTV",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_M1151_CROWS_Woodland_C": {
+        "displayName": "M1151 CROWS M2",
+        "className": "BP_M1151_CROWS_Woodland_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Light_TOW_Woodland_C": {
+        "displayName": "M1151 TOW",
+        "className": "BP_M1151_Light_TOW_Woodland_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_USMC_Woodland_C": {
+        "displayName": "MATV M2",
+        "className": "BP_MATV_USMC_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_Mk19_USMC_Woodland_C": {
+        "displayName": "MATV Mk19",
+        "className": "BP_MATV_Mk19_USMC_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MATV_USMC_TOW_Woodland_C": {
+        "displayName": "MATV TOW",
+        "className": "BP_MATV_USMC_TOW_Woodland_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_CSK131_RWS_C": {
+        "displayName": "CSK131 QJC88 RWS",
+        "className": "BP_CSK131_RWS_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ZSL10_QJZ-89_C": {
+        "displayName": "ZSL10",
+        "className": "BP_ZSL10_QJZ-89_C",
+        "icon": "T_map_apc_open_turret",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_CSK131_HJ-8ATGM_C": {
+        "displayName": "CSK131 HJ8",
+        "className": "BP_CSK131_HJ-8ATGM_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_ZBL08_HJ73C_C": {
+        "displayName": "ZBL08",
+        "className": "BP_ZBL08_HJ73C_C",
+        "icon": "map_ifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_ZBD04A_C": {
+        "displayName": "ZBD04A",
+        "className": "BP_ZBD04A_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLB_VMK_RUS_C": {
+        "displayName": "MT-LB VMK",
+        "className": "BP_MTLB_VMK_RUS_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_MTLBM_6MA_RUS_C": {
+        "displayName": "MT-LBM 6MA",
+        "className": "BP_MTLBM_6MA_RUS_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BRDM-2_Spandrel_RUS_C": {
+        "displayName": "BRDM-2 Spandrel",
+        "className": "BP_BRDM-2_Spandrel_RUS_C",
+        "icon": "map_jeep_antitank",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_BMP1AM_C": {
+        "displayName": "BMP-1AM",
+        "className": "BP_BMP1AM_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP2M_C": {
+        "displayName": "BMP-2M",
+        "className": "BP_BMP2M_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_T90A_C": {
+        "displayName": "T-90A",
+        "className": "BP_T90A_C",
+        "icon": "map_tank",
+        "vehType": "MBT",
+        "spawnerSize": "MBT"
+    },
+    "BP_Cobra2_M2_C": {
+        "displayName": "Cobra II M2",
+        "className": "BP_Cobra2_M2_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Cobra2_RWS_M2_C": {
+        "displayName": "Cobra II M2 RWS",
+        "className": "BP_Cobra2_RWS_M2_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_ACV-15_C": {
+        "displayName": "ACV-15 25mm",
+        "className": "BP_ACV-15_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_Woodland_C": {
+        "displayName": "M1151 M2",
+        "className": "BP_M1151_Woodland_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical4Seater_Transport_CRF_C": {
+        "displayName": "Light Transport",
+        "className": "BP_Technical4Seater_Transport_CRF_C",
+        "icon": "map_jeep_transport",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_US_Util_Woodland_Logi_CRF_C": {
+        "displayName": "M939 Logistics",
+        "className": "BP_US_Util_Woodland_Logi_CRF_C",
+        "icon": "map_truck_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Logi_Camo_CRF_C": {
+        "displayName": "Technical Logistics",
+        "className": "BP_Technical4Seater_Logi_Camo_CRF_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "Car"
+    },
+    "BP_M1151_Light_Woodland_CRF_C": {
+        "displayName": "Light FSV",
+        "className": "BP_M1151_Light_Woodland_CRF_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_M113A3_M2_CRF_C": {
+        "displayName": "M113A3",
+        "className": "BP_M113A3_M2_CRF_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M1151_Light_TOW_Woodland_CRF_C": {
+        "displayName": "M1151 TOW",
+        "className": "BP_M1151_Light_TOW_Woodland_CRF_C",
+        "icon": "map_jeep",
+        "vehType": "TD",
+        "spawnerSize": "Car"
+    },
+    "BP_LAV2_Coyote_CRF_C": {
+        "displayName": "Coyote",
+        "className": "BP_LAV2_Coyote_CRF_C",
+        "icon": "T_map_wheeledrecon",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_CPV_Transport_CRF_C": {
+        "displayName": "Light Transport",
+        "className": "BP_CPV_Transport_CRF_C",
+        "icon": "map_jeep_transport",
+        "vehType": "MRAP",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical2Seater_Camo_M2_CRF_C": {
+        "displayName": "Light FSV",
+        "className": "BP_Technical2Seater_Camo_M2_CRF_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_FV510UA_CTAS40_C": {
+        "displayName": "FV520 CTAS40",
+        "className": "BP_FV510UA_CTAS40_C",
+        "icon": "map_trackedifv",
+        "vehType": "IFV",
+        "spawnerSize": "APC"
+    },
+    "BP_Armored_Technical4Seater_Transport_Camo_C": {
+        "displayName": "Transport Modern Pickup",
+        "className": "BP_Armored_Technical4Seater_Transport_Camo_C",
+        "icon": "map_jeep_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_Camo_UB32_C": {
+        "displayName": "Modern Technical UB-32",
+        "className": "BP_Technical2Seater_Camo_UB32_C",
+        "icon": "map_jeep_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_VMK_MIL_C": {
+        "displayName": "MT-LB VMK",
+        "className": "BP_MTLB_VMK_MIL_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_BMP1_MIL_ZU23_C": {
+        "displayName": "BMP-1 ZU-23-2",
+        "className": "BP_BMP1_MIL_ZU23_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_M-Gator_Transport_ARID_C": {
+        "displayName": "LUV-A1 Transport",
+        "className": "BP_M-Gator_Transport_ARID_C",
+        "icon": "map_jeep_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_M-Gator_Logistics_ARID_C": {
+        "displayName": "LUV-A1 Logistics",
+        "className": "BP_M-Gator_Logistics_ARID_C",
+        "icon": "map_jeep_logistics",
+        "vehType": "LOGI",
+        "spawnerSize": "QuadBike"
+    },
+    "BP_LUVW_M2_Desert_C": {
+        "displayName": "LUVW M2",
+        "className": "BP_LUVW_M2_Desert_C",
+        "icon": "map_jeep",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M113A3_CAF_C6_Desert_C": {
+        "displayName": "M113A3 C6",
+        "className": "BP_M113A3_CAF_C6_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A3_CAF_M2_Desert_C": {
+        "displayName": "M113A3 M2",
+        "className": "BP_M113A3_CAF_M2_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_LAV_RWS_M2_Desert_C": {
+        "displayName": "LAV III M2 RWS",
+        "className": "BP_LAV_RWS_M2_Desert_C",
+        "icon": "map_apc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_CH178_C": {
+        "displayName": "CH-178",
+        "className": "BP_CH178_C",
+        "icon": "map_transporthelo",
+        "vehType": "UH",
+        "spawnerSize": "Helicopter"
+    },
+    "BP_Technical4Seater_Transport_C": {
+        "displayName": "Transport Pickup Truck",
+        "className": "BP_Technical4Seater_Transport_C",
+        "icon": "map_jeep_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical2Seater_White_Mortar_C": {
+        "displayName": "Technical Mortar",
+        "className": "BP_Technical2Seater_White_Mortar_C",
+        "icon": "map_jeep_artillery",
+        "vehType": "SPA",
+        "spawnerSize": "Car"
+    },
+    "BP_BMP1_INS_ZU23_C": {
+        "displayName": "BMP-1 ZU-23-2",
+        "className": "BP_BMP1_INS_ZU23_C",
+        "icon": "map_antiair",
+        "vehType": "SPAA",
+        "spawnerSize": "APC"
+    },
+    "BP_MATV_CROWS_M240_C": {
+        "displayName": "M-ATV CROWS M240",
+        "className": "BP_MATV_CROWS_M240_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_MTLB_VMK_GFI_C": {
+        "displayName": "MTLB VMK",
+        "className": "BP_MTLB_VMK_GFI_C",
+        "icon": "map_trackedapc",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_Technical4Seater_Transport_Black_C": {
+        "displayName": "Pickup Truck",
+        "className": "BP_Technical4Seater_Transport_Black_C",
+        "icon": "map_jeep_transport",
+        "vehType": "TRAN",
+        "spawnerSize": "Car"
+    },
+    "BP_Technical4Seater_M134_Tan_C": {
+        "displayName": "Technical M134 Minigun",
+        "className": "BP_Technical4Seater_M134_Tan_C",
+        "icon": "map_jeep",
+        "vehType": "LTV",
+        "spawnerSize": "Car"
+    },
+    "BP_Cobra2_RWS_MG3_Desert_C": {
+        "displayName": "Cobra II MG3 RWS",
+        "className": "BP_Cobra2_RWS_MG3_Desert_C",
+        "icon": "map_jeep_turret",
+        "vehType": "MRAP",
+        "spawnerSize": "Car"
+    },
+    "BP_M113A2T_M2_TLF_Desert_C": {
+        "displayName": "M113A2T M2",
+        "className": "BP_M113A2T_M2_TLF_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    },
+    "BP_M113A2T_MK19_TLF_Desert_C": {
+        "displayName": "M113A2T Mk19",
+        "className": "BP_M113A2T_MK19_TLF_Desert_C",
+        "icon": "map_trackedjeep",
+        "vehType": "APC",
+        "spawnerSize": "APC"
+    }
+}

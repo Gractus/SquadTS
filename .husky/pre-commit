@@ -1,4 +1,4 @@
 pnpm run lint-staged
 pnpm run build-all
 git add README.md
-git add ./src/config.json
+git add ./config/config.json

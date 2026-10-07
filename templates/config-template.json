@@ -3,42 +3,43 @@
     "id": 1,
     "host": "xxx.xxx.xxx.xxx",
     "queryPort": 27165,
-    "rconPort": 21114,
-    "rconPassword": "password",
-    "logReaderMode": "tail",
-    "logDir": "C:/path/to/squad/log/folder",
-    "ftp": {
-      "host": "xxx.xxx.xxx.xxx",
-      "port": 21,
-      "user": "FTP Username",
-      "password": "FTP Password"
+    "rcon": {
+      "port": 21114,
+      "password": "hunter2"
     },
-    "sftp": {
-      "host": "xxx.xxx.xxx.xxx",
-      "port": 22,
-      "username": "SFTP Username",
-      "password": "SFTP Password"
+    "logReader": {
+      "logFile": "C:/path/to/your/Squad Dedicated Server/SquadGame/Saved/Logs/SquadGame.log",
+      "mode": "local",
+      "ftp": {
+        "host": "xxx.xxx.xxx.xxx",
+        "port": 21,
+        "user": "FTP Username",
+        "password": "FTP Password"
+      },
+      "sftp": {
+        "host": "xxx.xxx.xxx.xxx",
+        "port": 22,
+        "username": "SFTP Username",
+        "password": "SFTP Password"
+      }
     },
     "adminLists": [
       {
-        "type": "",
-        "source": ""
+        "type": "local",
+        "source": "C:/path/to/your/Squad Dedicated Server/SquadGame/ServerConfig/Admins.cfg"
+      },
+      {
+        "type": "remote",
+        "source": "http://yourWebsite.com/Server1/Admins.cfg"
+      },
+      {
+        "type": "ftp",
+        "source": "ftp://<user>:<password>@<host>:<port>/<url-path>"
       }
-    ]
+    ],
+    "plugins": [],
+    "layerHistoryMaxLength": 20
   },
-  "connectors": {
-    "discord": "Discord Login Token",
-    "mysql": {
-      "host": "host",
-      "port": 3306,
-      "username": "squadjs",
-      "password": "password",
-      "database": "squadjs",
-      "dialect": "mysql"
-    },
-    "sqlite": "sqlite:database.sqlite"
-  },
-  "plugins": [],
   "logger": {
     "verboseness": {
       "SquadServer": 1,

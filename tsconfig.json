@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "NodeNext",
+        "target": "es2025",
+        "strict": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "checkJs": false,
+        "verbatimModuleSyntax": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "rootDir": "./src",
+        "outDir": "dist",
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}

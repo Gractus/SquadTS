@@ -1,8 +1,8 @@
 # Project Files
 *.sqlite
 *.tmp
+/dist/
 
-config-test*.json
 
 # Dependencies
 node_modules/
