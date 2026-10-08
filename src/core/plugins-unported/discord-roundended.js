@@ -37,11 +37,7 @@ export default class DiscordRoundEnded extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-roundended.js
-    this.server.removeListener('ROUND_ENDED', this.onRoundEnd);
-=======
     this.server.removeEventListener('ROUND_ENDED', this.onRoundEnd)
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-roundended.js
   }
 
   async onRoundEnd(info) {

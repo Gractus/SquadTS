@@ -41,14 +41,10 @@ export default class DiscordFOBHABExplosionDamage extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-fob-hab-explosion-damage.js
-    this.server.removeListener('DEPLOYABLE_DAMAGED', this.onDeployableDamaged);
-=======
     this.server.removeEventListener(
       'DEPLOYABLE_DAMAGED',
       this.onDeployableDamaged
     )
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-fob-hab-explosion-damage.js
   }
 
   async onDeployableDamaged(info) {

@@ -227,19 +227,16 @@ export default class DBLog extends BasePlugin {
       {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
-<<<<<<< HEAD:src/core/plugins/db-log.js
         // The player columns reference DBLog_Players.steamID with ON UPDATE CASCADE. Without these
         // indexes, every Player upsert scans this table once per foreign key on SQLite.
         indexes: [
           {
-            fields: ['attacker']
+            fields: ['attacker'],
           },
           {
-            fields: ['victim']
-          }
-        ]
-=======
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+            fields: ['victim'],
+          },
+        ],
       }
     )
 
@@ -289,17 +286,14 @@ export default class DBLog extends BasePlugin {
       {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
-<<<<<<< HEAD:src/core/plugins/db-log.js
         indexes: [
           {
-            fields: ['attacker']
+            fields: ['attacker'],
           },
           {
-            fields: ['victim']
-          }
-        ]
-=======
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+            fields: ['victim'],
+          },
+        ],
       }
     )
 
@@ -358,20 +352,17 @@ export default class DBLog extends BasePlugin {
       {
         charset: 'utf8mb4',
         collate: 'utf8mb4_unicode_ci',
-<<<<<<< HEAD:src/core/plugins/db-log.js
         indexes: [
           {
-            fields: ['attacker']
+            fields: ['attacker'],
           },
           {
-            fields: ['victim']
+            fields: ['victim'],
           },
           {
-            fields: ['reviver']
-          }
-        ]
-=======
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+            fields: ['reviver'],
+          },
+        ],
       }
     )
 
@@ -487,18 +478,14 @@ export default class DBLog extends BasePlugin {
   createModel(name, schema, options = {}) {
     this.models[name] = this.options.database.define(`DBLog_${name}`, schema, {
       timestamps: false,
-<<<<<<< HEAD:src/core/plugins/db-log.js
-      ...options
-    });
-=======
+      ...options,
     })
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
   }
 
   getPlayerConflictFields(player) {
     // Players from the Epic Games Store have no Steam ID. A NULL steamID never conflicts, so their upsert
     // would insert a second row and fail on the unique eosID.
-    return player.steamID ? ['steamID'] : ['eosID'];
+    return player.steamID ? ['steamID'] : ['eosID']
   }
 
   async prepareToMount() {
@@ -538,15 +525,6 @@ export default class DBLog extends BasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-    this.server.removeListener('TICK_RATE', this.onTickRate);
-    this.server.removeListener('UPDATED_A2S_INFORMATION', this.onTickRate);
-    this.server.removeListener('NEW_GAME', this.onNewGame);
-    this.server.removeListener('PLAYER_CONNECTED', this.onPlayerConnected);
-    this.server.removeListener('PLAYER_WOUNDED', this.onPlayerWounded);
-    this.server.removeListener('PLAYER_DIED', this.onPlayerDied);
-    this.server.removeListener('PLAYER_REVIVED', this.onPlayerRevived);
-=======
     this.server.removeEventListener('TICK_RATE', this.onTickRate)
     this.server.removeEventListener('UPDATED_A2S_INFORMATION', this.onTickRate)
     this.server.removeEventListener('NEW_GAME', this.onNewGame)
@@ -554,7 +532,6 @@ export default class DBLog extends BasePlugin {
     this.server.removeEventListener('PLAYER_WOUNDED', this.onPlayerWounded)
     this.server.removeEventListener('PLAYER_DIED', this.onPlayerDied)
     this.server.removeEventListener('PLAYER_REVIVED', this.onPlayerRevived)
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
   }
 
   async onTickRate(info) {
@@ -607,11 +584,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.attacker.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.attacker)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.attacker),
         }
       )
     if (info.victim)
@@ -622,11 +595,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.victim.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.victim)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.victim),
         }
       )
 
@@ -657,11 +626,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.attacker.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.attacker)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.attacker),
         }
       )
     if (info.victim)
@@ -672,11 +637,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.victim.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.victim)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.victim),
         }
       )
 
@@ -708,11 +669,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.attacker.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.attacker)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.attacker),
         }
       )
     if (info.victim)
@@ -723,11 +680,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.victim.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.victim)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.victim),
         }
       )
     if (info.reviver)
@@ -738,11 +691,7 @@ export default class DBLog extends BasePlugin {
           lastName: info.reviver.name,
         },
         {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-          conflictFields: this.getPlayerConflictFields(info.reviver)
-=======
-          conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+          conflictFields: this.getPlayerConflictFields(info.reviver),
         }
       )
 
@@ -778,11 +727,7 @@ export default class DBLog extends BasePlugin {
         lastIP: info.ip,
       },
       {
-<<<<<<< HEAD:src/core/plugins/db-log.js
-        conflictFields: this.getPlayerConflictFields(info.player)
-=======
-        conflictFields: ['steamID'],
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/db-log.js
+        conflictFields: this.getPlayerConflictFields(info.player),
       }
     )
   }
@@ -793,8 +738,11 @@ export default class DBLog extends BasePlugin {
       const playersCount = await this.models.Player.count()
 
       if (steamUsersCount === 0) {
-        this.verbose(1, `Skipping migration from SteamUsers to Players: there are no SteamUsers.`);
-        return;
+        this.verbose(
+          1,
+          `Skipping migration from SteamUsers to Players: there are no SteamUsers.`
+        )
+        return
       }
 
       if (steamUsersCount < playersCount) {

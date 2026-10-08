@@ -88,14 +88,10 @@ export default class DiscordAdminRequest extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-admin-request.js
-    this.server.removeListener(`CHAT_COMMAND:${this.options.command}`, this.onChatCommand);
-=======
     this.server.removeEventListener(
       `CHAT_COMMAND:${this.options.command}`,
       this.onChatCommand
     )
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-admin-request.js
   }
 
   async onChatCommand(info) {

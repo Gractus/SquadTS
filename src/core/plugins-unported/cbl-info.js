@@ -46,11 +46,7 @@ export default class CBLInfo extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/cbl-info.js
-    this.server.removeListener('PLAYER_CONNECTED', this.onPlayerConnected);
-=======
     this.server.removeEventListener('PLAYER_CONNECTED', this.onPlayerConnected)
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/cbl-info.js
   }
 
   async onPlayerConnected(info) {
@@ -139,15 +135,10 @@ export default class CBLInfo extends DiscordBasePlugin {
             },
             {
               name: 'Reputation Points',
-<<<<<<< HEAD:src/core/plugins/cbl-info.js
               value: `${data.steamUser.reputationPoints} (${
                 data.steamUser.reputationPointsMonthChange || 0
               } from this month)`,
-              inline: true
-=======
-              value: `${data.steamUser.reputationPoints} (${data.steamUser.reputationPointsMonthChange || 0} from this month)`,
               inline: true,
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/cbl-info.js
             },
             {
               name: 'Risk Rating',

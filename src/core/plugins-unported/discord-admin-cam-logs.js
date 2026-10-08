@@ -41,13 +41,8 @@ export default class DiscordAdminCamLogs extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-admin-cam-logs.js
-    this.server.removeListener('POSSESSED_ADMIN_CAMERA', this.onEntry);
-    this.server.removeListener('UNPOSSESSED_ADMIN_CAMERA', this.onExit);
-=======
     this.server.removeEventListener('POSSESSED_ADMIN_CAMERA', this.onEntry)
     this.server.removeEventListener('UNPOSSESSED_ADMIN_CAMERA', this.onExit)
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-admin-cam-logs.js
   }
 
   async onEntry(info) {

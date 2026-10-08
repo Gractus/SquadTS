@@ -9,9 +9,9 @@ export default {
       time: args[1],
       chainID: args[2],
       flagName: args[3],
-      teamID: args[4]
-    };
+      teamID: args[4],
+    }
 
-    logParser.emit('CAPTURE_ZONE_CAPTURED', data);
-  }
-};
+    logParser.emit('CAPTURE_ZONE_CAPTURED', data)
+  },
+}

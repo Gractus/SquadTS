@@ -60,14 +60,10 @@ export default class DiscordBaseMessageUpdater extends BasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-base-message-updater.js
-    this.options.discordClient.removeListener('messageCreate', this.onDiscordMessage);
-=======
     this.options.discordClient.removeEventListener(
       'messageCreate',
       this.onDiscordMessage
     )
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-base-message-updater.js
   }
 
   async generateMessage() {

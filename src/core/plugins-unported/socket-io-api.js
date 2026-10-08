@@ -162,26 +162,17 @@ export default class SocketIOAPI extends BasePlugin {
       if (ignore.includes(`${prefix}${key}`)) continue
       this.verbose(1, `Setting method listener for ${prefix}${key}...`)
       socket.on(`${prefix}${key}`, async (...rawArgs) => {
-<<<<<<< HEAD:src/core/plugins/socket-io-api.js
-        const args = rawArgs.slice(0, rawArgs.length - 1);
-        const callback = rawArgs[rawArgs.length - 1];
-        this.verbose(1, `Call to ${prefix}${key}(${args.join(', ')})`);
-        // socket.io does not handle the promise this listener returns, so an error must be caught here.
-        try {
-          const reponse = await obj[key](...args);
-          callback(reponse);
-        } catch (err) {
-          this.verbose(1, `Call to ${prefix}${key} failed: ${err.message}`);
-        }
-      });
-=======
         const args = rawArgs.slice(0, rawArgs.length - 1)
         const callback = rawArgs[rawArgs.length - 1]
         this.verbose(1, `Call to ${prefix}${key}(${args.join(', ')})`)
-        const reponse = await obj[key](...args)
-        callback(reponse)
+        // socket.io does not handle the promise this listener returns, so an error must be caught here.
+        try {
+          const reponse = await obj[key](...args)
+          callback(reponse)
+        } catch (err) {
+          this.verbose(1, `Call to ${prefix}${key} failed: ${err.message}`)
+        }
       })
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/socket-io-api.js
     }
 
     for (const key of Object.getOwnPropertyNames(obj)) {

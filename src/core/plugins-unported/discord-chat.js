@@ -48,11 +48,7 @@ export default class DiscordChat extends DiscordBasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-chat.js
-    this.server.removeListener('CHAT_MESSAGE', this.onChatMessage);
-=======
     this.server.removeEventListener('CHAT_MESSAGE', this.onChatMessage)
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-chat.js
   }
 
   async onChatMessage(info) {

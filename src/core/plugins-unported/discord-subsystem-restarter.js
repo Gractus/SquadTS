@@ -45,14 +45,10 @@ export default class DiscordSubsystemRestarter extends BasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-subsystem-restarter.js
-    this.options.discordClient.removeListener('messageCreate', this.onMessage);
-=======
     this.options.discordClient.removeEventListener(
       'messageCreate',
       this.onMessage
     )
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-subsystem-restarter.js
   }
 
   async onMessage(message) {
@@ -60,15 +56,9 @@ export default class DiscordSubsystemRestarter extends BasePlugin {
     if (message.author.bot) return
 
     if (message.content.match(/!squadjs restartsubsystem rcon/i)) {
-<<<<<<< HEAD:src/core/plugins/discord-subsystem-restarter.js
       if (!message.member.roles.cache.has(this.options.role)) {
-        message.reply('you do not have permission to do that.');
-        return;
-=======
-      if (!message.member._roles.includes(this.options.role)) {
         message.reply('you do not have permission to do that.')
         return
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-subsystem-restarter.js
       }
 
       await this.server.restartRCON()
@@ -76,15 +66,9 @@ export default class DiscordSubsystemRestarter extends BasePlugin {
     }
 
     if (message.content.match(/!squadjs restartsubsystem logparser/i)) {
-<<<<<<< HEAD:src/core/plugins/discord-subsystem-restarter.js
       if (!message.member.roles.cache.has(this.options.role)) {
-        message.reply('you do not have permission to do that.');
-        return;
-=======
-      if (!message.member._roles.includes(this.options.role)) {
         message.reply('you do not have permission to do that.')
         return
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-subsystem-restarter.js
       }
 
       await this.server.restartLogParser()

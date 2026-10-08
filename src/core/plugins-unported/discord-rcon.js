@@ -62,14 +62,10 @@ export default class DiscordRcon extends BasePlugin {
   }
 
   async unmount() {
-<<<<<<< HEAD:src/core/plugins/discord-rcon.js
-    this.options.discordClient.removeListener('messageCreate', this.onMessage);
-=======
     this.options.discordClient.removeEventListener(
       'messageCreate',
       this.onMessage
     )
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-rcon.js
   }
 
   async onMessage(message) {
@@ -90,17 +86,11 @@ export default class DiscordRcon extends BasePlugin {
     if (Object.keys(this.options.permissions).length !== 0) {
       const commandPrefix = command.match(/([^ ]+)/)
 
-<<<<<<< HEAD:src/core/plugins/discord-rcon.js
-      let hasPermission = false;
-      for (const [role, allowedCommands] of Object.entries(this.options.permissions)) {
-        if (!message.member.roles.cache.has(role)) continue;
-=======
       let hasPermission = false
       for (const [role, allowedCommands] of Object.entries(
         this.options.permissions
       )) {
-        if (!message.member._roles.includes(role)) continue
->>>>>>> 72db7a7 (Mostly finished rewrite.):src/core/plugins-unported/discord-rcon.js
+        if (!message.member.roles.cache.has(role)) continue
 
         for (const allowedCommand of allowedCommands)
           if (commandPrefix[1].toLowerCase() === allowedCommand.toLowerCase())

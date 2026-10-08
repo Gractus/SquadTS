@@ -10,9 +10,9 @@ export default {
       chainID: args[2],
       flagName: args[3],
       teamID: args[4],
-      previousOwnerTeamID: args[5]
-    };
+      previousOwnerTeamID: args[5],
+    }
 
-    logParser.emit('CAPTURE_ZONE_NEUTRALIZED', data);
-  }
-};
+    logParser.emit('CAPTURE_ZONE_NEUTRALIZED', data)
+  },
+}
