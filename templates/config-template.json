@@ -1,9 +1,8 @@
 {
   "server": {
     "id": 1,
-    "host": "xxx.xxx.xxx.xxx",
-    "queryPort": 27165,
     "rcon": {
+      "host": "xxx.xxx.xxx.xxx",
       "port": 21114,
       "password": "hunter2"
     },

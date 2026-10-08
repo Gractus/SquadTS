@@ -32,8 +32,6 @@ import type { PluginConfig } from './plugins/base-plugin.js'
 
 export interface ServerConfig {
   id: string | number
-  host: string
-  queryPort: number
   rcon: RconClientOptions
   logReader: LogReaderOptions
   plugins?: PluginConfig[]
