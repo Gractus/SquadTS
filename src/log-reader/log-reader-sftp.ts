@@ -1,5 +1,7 @@
 import Stream from 'stream'
 
+import type { Logger } from '@logtape/logtape'
+
 import { Client, type ConnectConfig, type SFTPWrapper, type Stats } from 'ssh2'
 import { LogReader } from './log-reader-base.js'
 
@@ -10,8 +12,8 @@ export class SFTPLogReader extends LogReader {
   filePollTimeout: NodeJS.Timeout | undefined
   pollInterval: number = 1000
   options: ConnectConfig
-  constructor(path: string, options: ConnectConfig) {
-    super(path)
+  constructor(path: string, options: ConnectConfig, logger: Logger) {
+    super(path, logger)
     this.options = options
     this.client = new Client()
   }

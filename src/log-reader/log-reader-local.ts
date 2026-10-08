@@ -1,13 +1,16 @@
 import fs from 'fs'
 import * as fsPromises from 'fs/promises'
+
+import type { Logger } from '@logtape/logtape'
+
 import { LogReader } from './log-reader-base.js'
 
 export class LocalLogReader extends LogReader {
   busy: boolean = false
   pending: boolean = false
   watcher: fs.FSWatcher | undefined
-  constructor(path: string) {
-    super(path)
+  constructor(path: string, logger: Logger) {
+    super(path, logger)
   }
 
   connect() {

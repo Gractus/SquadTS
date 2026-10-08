@@ -1,7 +1,8 @@
 import net from 'net'
 import util from 'node:util'
 
-import Logger from '../common/logger.js'
+import type { Logger } from '@logtape/logtape'
+
 import { PreAllocatedBuffer, SimpleDynamicBuffer } from '../common/buffer.js'
 
 const PacketType = {
@@ -46,6 +47,7 @@ const MINIMUM_PACKET_SIZE = 14
 const BROKEN_PACKET_CONTENTS = Buffer.from('\x00\x00\x00\x01\x00\x00\x00')
 
 export default abstract class SquadRconCore {
+  log: Logger
   host: string
   port: number
   password: string
@@ -65,7 +67,8 @@ export default abstract class SquadRconCore {
   private packetFragmentBuffer: PreAllocatedBuffer = new PreAllocatedBuffer(
     MAXIMUM_PACKET_SIZE
   )
-  constructor(options: RconOptions) {
+  constructor(options: RconOptions, logger: Logger) {
+    this.log = logger
     this.host = options.host
     this.port = options.port
     this.password = options.password
@@ -94,12 +97,14 @@ export default abstract class SquadRconCore {
     this.client = new net.Socket()
     this.isConnected = false
     this.client.on('close', this.cleanupOnClose)
-    this.client.on('error', this.logError)
+    this.client.on('error', err => {
+      this.log.error`Connection error: ${err}`
+    })
     this.client.on('data', this.onData)
   }
 
   private onData(data: Buffer) {
-    // Logger.debug(`Got data: ${this.bufToHexString(data)}`);
+    this.log.trace`Got data: ${this.bufToHexString(data)}`;
 
     let remainingData = data
 
@@ -136,7 +141,7 @@ export default abstract class SquadRconCore {
         packetSize > MAXIMUM_PACKET_SIZE ||
         packetSize < MINIMUM_PACKET_SIZE
       ) {
-        Logger.error('Implausible packet size. Stream is likely de-synced.')
+        this.log.error('Implausible packet size. Stream is likely de-synced.')
         this.resetConnection()
         return new Error('Invalid packet size. Stream is likely de-synced.')
       }
@@ -157,14 +162,14 @@ export default abstract class SquadRconCore {
           // Ignore the broken packet from the incoming data
           bufferSlice = bufferSlice.subarray(probePacketSize)
           totalBytesRead += probePacketSize
-          Logger.debug(`Ignoring some data: ${this.bufToHexString(probeBuf)}`)
+          this.log.debug`Ignoring some data: ${this.bufToHexString(probeBuf)}`
           continue
         }
       }
 
       // If the packet hasn't been fully transmitted, return and wait for next data event.
       if (bufferSlice.length < packetSize) {
-        Logger.debug(
+        this.log.debug(
           `Waiting for more data... Have: ${bufferSlice.length} Expected: ${packetSize}`
         )
         return 0
@@ -181,13 +186,14 @@ export default abstract class SquadRconCore {
   }
 
   private handlePacket(packet: Packet) {
-    Logger.debug(
-      `Processing decoded packet: ${this.decodedPacketToString(packet)}`
-    )
+    this.log.trace(`Processing decoded packet: {packet} {body}`, {
+      packet: packet,
+      body: packet.body.toString(),
+    })
 
     const callBack = this.pendingCommands.get(packet.id)
     if (!callBack) {
-      Logger.warn(
+      this.log.warn(
         `Received SERVERDATA_RESPONSE_VALUE with ID: ${packet.id} but there is no matching callback?`
       )
       return
@@ -211,7 +217,7 @@ export default abstract class SquadRconCore {
             break
 
           default:
-            Logger.error(
+            this.log.error(
               `Unknown packet subtype: ${packet.subtype} in: ${packet}`
             )
             this.resetConnection()
@@ -228,7 +234,7 @@ export default abstract class SquadRconCore {
         break
 
       default:
-        Logger.error(
+        this.log.error(
           `Unknown packet type ${packet.type} in: ${this.decodedPacketToString(packet)}`
         )
         this.resetConnection()
@@ -242,7 +248,7 @@ export default abstract class SquadRconCore {
     if (!this.isConnected) throw new Error('RCON socket is not connected.')
     if (!this.authenticated) throw new Error('RCON not Logged in')
 
-    Logger.debug(`Sending command: ${command}`)
+    this.log.debug`Sending command: ${command}`
 
     const encodedPacket = this.encodePacket(
       PacketType.SERVERDATA_EXEC_COMMAND,
@@ -261,7 +267,7 @@ export default abstract class SquadRconCore {
     this.pendingCommands.set(this.count, callBack)
     this.incrementCount()
 
-    Logger.trace(`Sending packet: ${this.bufToHexString(encodedPacket)}`)
+    this.log.trace`Sending packet: ${this.bufToHexString(encodedPacket)}`
     this.client.write(encodedPacket)
 
     return promise
@@ -278,7 +284,7 @@ export default abstract class SquadRconCore {
       }
       this.client.once('error', rejectConnect)
       this.client.connect(this.port, this.host, async () => {
-        Logger.info(`Connected to: ${this.host}:${this.port}`)
+        this.log.info`Connected to: ${this.host}:${this.port}`
         this.client.removeListener('error', rejectConnect)
         this.isConnected = true
         resolve()
@@ -333,7 +339,7 @@ export default abstract class SquadRconCore {
     }
 
     return new Promise<void>((resolve, reject) => {
-      Logger.info(`Disconnecting from: ${this.host}:${this.port}`)
+      this.log.info`Disconnecting from: ${this.host}:${this.port}`
 
       const onError = (err: Error) => {
         this.client.removeListener('close', onClose)
@@ -353,17 +359,17 @@ export default abstract class SquadRconCore {
   }
 
   public async resetConnection() {
-    Logger.info(`Resetting RCON client connection.`)
+    this.log.info`Resetting RCON client connection.`
     await this.disconnect()
     await this.connect()
   }
 
   private cleanupOnClose() {
-    Logger.info(`RCON client connection closed.`)
+    this.log.info`RCON client connection closed.`
     this.isConnected = false
     this.authenticated = false
 
-    Logger.debug(`Clearing Buffered Data`)
+    this.log.debug`Clearing Buffered Data`
     this.packetFragmentBuffer.clear()
     this.payloadBuffer.id = null
     this.payloadBuffer.buffer.clear()
@@ -374,28 +380,29 @@ export default abstract class SquadRconCore {
     this.pendingCommands.clear()
   }
 
-  private logError(err: Error) {
-    Logger.error(`Connection error: ${err}`)
-  }
-
   private retryConnect() {
     if (this.autoReconnectPending) {
-      Logger.warn(
+      this.log.warn(
         'Reconnect is already pending. - Skipped setting reconnect timeout.'
       )
       return
     }
-    Logger.info(`Sleeping ${this.autoReconnectDelay}ms before reconnecting.`)
     this.autoReconnectPending = true
-    this.autoReconnectTimeout = setTimeout(async () => {
+    const connectLoop = async () => {
       try {
         await this.connect()
         this.autoReconnectPending = false
-      } catch (err) {
-        Logger.error(`Reconnect failed due to error: ${err}`)
-        this.retryConnect()
+      } catch {
+        this.log
+          .info`Sleeping ${this.autoReconnectDelay}ms before reconnecting.`
+        this.autoReconnectTimeout = setTimeout(
+          connectLoop,
+          this.autoReconnectDelay
+        )
       }
-    }, this.autoReconnectDelay)
+    }
+    this.log.info`Sleeping ${this.autoReconnectDelay}ms before reconnecting.`
+    this.autoReconnectTimeout = setTimeout(connectLoop, this.autoReconnectDelay)
   }
 
   private encodePacket(

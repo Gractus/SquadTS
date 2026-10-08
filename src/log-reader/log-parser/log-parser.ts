@@ -2,9 +2,8 @@ import EventEmitter from 'events'
 import fs from 'fs'
 import Stream from 'stream'
 
+import type { Logger } from '@logtape/logtape'
 import RE2 from 're2'
-
-import Logger from '../../common/logger.js'
 
 import { SimpleDynamicBuffer } from '../../common/buffer.js'
 import type {
@@ -69,11 +68,15 @@ const STAMP_PATTERN = new RE2(
 const STAMP_LENGTH = '[2026.09.19-02.35.55:713][116]'.length
 
 export default class SquadLogParser {
+  log: Logger
   events: EventEmitter<ToEventEmitterMap<LogEvents>> = new EventEmitter()
   eventStore: EventStore = {
     deployables: new Map(),
   }
   ruleSet!: RuleSet
+  constructor(logger: Logger) {
+    this.log = logger
+  }
 
   async loadRules() {
     const rules: RuleRE2[] = []
@@ -85,7 +88,7 @@ export default class SquadLogParser {
         !(file.name.endsWith('.js') || file.name.endsWith('.ts'))
       )
         continue
-      Logger.info(`Loading parser file ${file.name}...`)
+      this.log.info`Loading parser file ${file.name}...`
       const module = await import(EVENTS_DIR + file.name)
 
       const input = module.default as Rule | Rule[]
@@ -117,7 +120,7 @@ export default class SquadLogParser {
   }
 
   clearStore() {
-    Logger.info('Cleaning EventStore')
+    this.log.info('Cleaning EventStore')
     this.eventStore.deployables.clear()
   }
 

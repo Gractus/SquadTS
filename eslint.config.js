@@ -32,7 +32,11 @@ export default defineConfig([
       'no-unused-expressions': 'off',
       '@typescript-eslint/no-unused-expressions': [
         'warn',
-        { allowShortCircuit: true, allowTernary: true },
+        {
+          allowShortCircuit: true,
+          allowTernary: true,
+          allowTaggedTemplates: true,
+        },
       ],
       '@typescript-eslint/no-explicit-any': 'warn',
       '@typescript-eslint/no-unsafe-function-type': 'warn',

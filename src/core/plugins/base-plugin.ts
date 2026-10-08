@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import EventEmitter from 'events'
 
-import Logger from '../../common/logger.js'
+import type { Logger } from '@logtape/logtape'
 
 import SquadServer, { type ServerEvents } from '../squad-server.js'
 import type { RconEvents } from '../../rcon/squad-rcon-client.js'
@@ -103,8 +103,7 @@ type ConnectionRecordFromSpec<T extends DependencySpec> =
     [K in keyof T as T[K]['optional'] extends true ? never : K]: InstanceType<
       T[K]['plugin']
     >
-  } & // Step 2: Handle optional keys (where optional IS true)
-  {
+  } & { // Step 2: Handle optional keys (where optional IS true)
     [K in keyof T as T[K]['optional'] extends true ? K : never]?: InstanceType<
       T[K]['plugin']
     >
@@ -123,6 +122,7 @@ export interface PluginConfig<P extends PluginClass = any> {
 
 export default abstract class BasePlugin<TStatic extends PluginClass = any> {
   server: SquadServer
+  log: Logger
   events: EventEmitter = new EventEmitter()
   config: PluginConfig<TStatic>
   options: OptionsFromSpec<TStatic['optionSpec']>
@@ -130,10 +130,10 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   boundHandlerFunctions: Map<string, Function> = new Map()
   safeToUnmount: boolean = true
-  log = Logger.child(this.constructor.name)
   constructor(server: SquadServer, config: PluginConfig<TStatic>) {
     const validConfig = BasePlugin.parseConfig(config)
     this.server = server
+    this.log = server.logger.getChild(this.constructor.name)
     this.config = validConfig
     this.options = validConfig.options as OptionsFromSpec<TStatic['optionSpec']>
     this.mount()

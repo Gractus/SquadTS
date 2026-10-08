@@ -1,18 +1,24 @@
 import { Stream } from 'node:stream'
 
+import type { Logger } from '@logtape/logtape'
+
 import SquadLogParser from './log-parser/log-parser.js'
 
 export abstract class LogReader {
-  parser: SquadLogParser = new SquadLogParser()
-  events = this.parser.events
+  log: Logger
+  parser: SquadLogParser
+  events
   byteCursor: number = 0
   lastModified?: Date
   maxWindowSize: number = 5 * 1000 * 1000 // 5MB
   abortController: AbortController = new AbortController()
   path: string
 
-  constructor(path: string) {
+  constructor(path: string, logger: Logger) {
     this.path = path
+    this.log = logger.getChild('Log Reader')
+    this.parser = new SquadLogParser(this.log)
+    this.events = this.parser.events
   }
 
   async start() {

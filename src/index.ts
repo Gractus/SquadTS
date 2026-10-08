@@ -2,17 +2,16 @@ import fs from 'fs'
 import path from 'path'
 import { parseArgs } from 'node:util'
 
+import { configure, getConsoleSink } from '@logtape/logtape'
+import type { LogTapeConfig } from '@logtape/config'
+
 import { deepMerge } from './common/deep-merge.js'
 import { printLogo } from './common/print-logo.js'
 import SquadServer, { type ServerConfig } from './core/squad-server.js'
 
 interface SquadJSConfig {
   server: ServerConfig
-  logger?: {
-    verboseness: Record<string, number>
-    colors: Record<string, string>
-    timestamps?: boolean
-  }
+  logger?: LogTapeConfig
 }
 
 const CONFIG_DIR = path.resolve(import.meta.dirname, '../config/')
@@ -54,6 +53,20 @@ async function main() {
     )
     config = deepMerge(globalConfig, config) as SquadJSConfig
   }
+
+  if (config.logger)
+    await configure({
+      sinks: {
+        console: getConsoleSink(),
+      },
+      loggers: [
+        {
+          category: `Server ${config.server.id}`,
+          lowestLevel: 'trace',
+          sinks: ['console'],
+        },
+      ],
+    })
 
   const server = new SquadServer(config.server)
   await server.watch()

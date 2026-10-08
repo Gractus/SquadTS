@@ -1,13 +1,13 @@
 import fs from 'fs'
 
-import Logger from '../common/logger.js'
+import type { Logger } from '@logtape/logtape'
 
 import type { PluginClass, PluginConfig } from './plugins/base-plugin.js'
 import SquadServer from './squad-server.js'
 
 const PLUGIN_DIR = new URL('plugins/', import.meta.url)
 
-export async function loadPlugins(): Promise<PluginClass[]> {
+export async function loadPlugins(logger?: Logger): Promise<PluginClass[]> {
   const pluginRegistry: PluginClass[] = []
 
   const dir = await fs.promises.opendir(PLUGIN_DIR)
@@ -18,7 +18,7 @@ export async function loadPlugins(): Promise<PluginClass[]> {
     // Exclude special files
     if (['base-plugin.js', 'readme.md'].includes(dirent.name)) continue
 
-    Logger.info(`Loading plugin file ${dirent.name}...`)
+    logger?.info(`Loading plugin file ${dirent.name}...`)
     const { default: Plugin } = await import(PLUGIN_DIR + dirent.name)
     pluginRegistry.push(Plugin)
   }
@@ -27,12 +27,14 @@ export async function loadPlugins(): Promise<PluginClass[]> {
 
 export class PluginManager {
   server: SquadServer
+  log: Logger
   pluginRegistry: PluginClass[] = []
   configRegistry: Map<PluginClass, Record<string, PluginConfig>> = new Map()
   loadedPlugins: Map<PluginClass, Record<string, InstanceType<PluginClass>>> =
     new Map()
   constructor(server: SquadServer) {
     this.server = server
+    this.log = this.server.logger.getChild('Plugin Manager')
   }
 
   async loadConfig(config: PluginConfig[]) {
@@ -49,7 +51,7 @@ export class PluginManager {
       const { plugin, instance, enabled = true } = rawPluginConfig
 
       if (enabled !== true) {
-        Logger.warn(`Ignored disabled config for plugin: ${plugin}`)
+        this.log.warn`Ignored disabled config for plugin: ${plugin}`
         continue
       }
 

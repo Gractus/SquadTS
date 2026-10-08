@@ -3,7 +3,7 @@ import EventEmitter from 'events'
 import type { AccessOptions } from 'basic-ftp'
 import type { ConnectConfig } from 'ssh2'
 
-import Logger from '../common/logger.js'
+import { getLogger, type Logger } from '@logtape/logtape'
 
 import {
   type ExternalIDs,
@@ -68,10 +68,11 @@ export default class SquadServer {
   options: ServerConfig
   id: string | number
 
+  logger: Logger
   events = new EventEmitter<ToEventEmitterMap<ServerEvents>>()
   rcon: SquadRconClient
   logReader: LogReader
-  plugins: PluginManager = new PluginManager(this)
+  plugins: PluginManager
 
   playerStore: PlayerStore
   admins: AdminsRegister = new Map()
@@ -82,31 +83,41 @@ export default class SquadServer {
   updateServerInfoTimeout: NodeJS.Timeout | undefined
 
   constructor(config: ServerConfig) {
+    this.logger = getLogger(`Server ${config.id}`)
+    this.plugins = new PluginManager(this)
     this.options = structuredClone(config)
     this.id = config.id
 
-    this.rcon = new SquadRconClient({
-      autoUpdatePlayerStore: true,
-      autoReconnect: true,
-      ...config.rcon,
-    })
+    this.rcon = new SquadRconClient(
+      {
+        autoUpdatePlayerStore: true,
+        autoReconnect: true,
+        ...config.rcon,
+      },
+      this.logger
+    )
 
     switch (config.logReader.mode) {
       case 'local': {
-        this.logReader = new LocalLogReader(config.logReader.logFile)
+        this.logReader = new LocalLogReader(
+          config.logReader.logFile,
+          this.logger
+        )
         break
       }
       case 'FTP': {
         this.logReader = new FTPLogReader(
           config.logReader.logFile,
-          config.logReader.ftp!
+          config.logReader.ftp!,
+          this.logger
         )
         break
       }
       case 'SFTP': {
         this.logReader = new SFTPLogReader(
           config.logReader.logFile,
-          config.logReader.sftp!
+          config.logReader.sftp!,
+          this.logger
         )
         break
       }
@@ -125,8 +136,8 @@ export default class SquadServer {
   }
 
   async watch() {
-    Logger.info(
-      `Beginning to watch ${this.options.host}:${this.options.queryPort}...`
+    this.logger.info(
+      `Beginning to watch ${this.options.rcon.host}:${this.options.rcon.port}...`
     )
 
     await this.refreshAdminLists()
@@ -143,7 +154,7 @@ export default class SquadServer {
       this.plugins.loadConfig(this.options.plugins)
     }
 
-    Logger.info(`Watching ${this.serverBrowserInfo!.serverName}...`)
+    this.logger.info(`Watching ${this.serverBrowserInfo!.serverName}...`)
   }
 
   async unwatch() {
@@ -214,13 +225,15 @@ export default class SquadServer {
   async updateServerInfo() {
     clearTimeout(this.updateServerInfoTimeout)
 
-    Logger.info(`Updating server information...`)
-    try {
-      this.serverBrowserInfo = await this.rcon.getServerBrowserInfo()
+    this.logger.info(`Updating server information...`)
+
+    const response = await this.rcon.getServerBrowserInfo()
+    if (response instanceof Error)
+      this.logger.error(`ServerInfo update failed with error: ${response}`)
+    else {
+      this.serverBrowserInfo = response
       this.events.emit('UPDATED_SERVER_INFO', this.serverBrowserInfo)
-      Logger.info(`Updated server information.`)
-    } catch (err) {
-      Logger.error(`ServerInfo update failed with error: ${err}`)
+      this.logger.info(`Updated server information.`)
     }
 
     this.updateServerInfoTimeout = setTimeout(
@@ -232,17 +245,17 @@ export default class SquadServer {
   // async updateLayerInfo() {
   //   clearTimeout(this.updateLayerInfoTimeout);
 
-  //   Logger.verbose('SquadServer', 1, `Updating layer information...`);
+  //   this.logger.info(`Updating layer information...`);
 
   //   try {
   //     this.currentMap = await this.rcon.getCurrentMap();
   //     this.nextMap = this.rcon.getNextMap();
   //     this.emit('UPDATED_LAYER_INFORMATION');
   //   } catch (err) {
-  //     Logger.verbose('SquadServer', 1, 'Failed to update layer information.', err);
+  //     this.logger.error('Failed to update layer information.', err);
   //   }
 
-  //   Logger.verbose('SquadServer', 3, `Updated layer information.`);
+  //   this.logger.info(`Updated layer information.`);
 
   //   this.updateLayerInfoTimeout = setTimeout(
   //     this.updateLayerInfo,
@@ -255,19 +268,19 @@ export default class SquadServer {
       try {
         this.admins = await readAdminLists(this.options?.adminLists)
       } catch (err) {
-        Logger.error(`Error updating admin register: ${err}`)
+        this.logger.error(`Error updating admin register: ${err}`)
       }
     }
   }
 
-  /** Send ingame notification to all admins in server. */
+  /** Send in game notification to all admins in server. */
   async notifyAdmins(message: string) {
     try {
       for (const player of this.activeAdmins) {
         await this.rcon.warn(player.eosID, message)
       }
     } catch (error) {
-      Logger.error(`Failed to notify admins: ${error}`)
+      this.logger.error(`Failed to notify admins: ${error}`)
     }
   }
 

@@ -1,5 +1,7 @@
 import Stream, { PassThrough } from 'node:stream'
 
+import type { Logger } from '@logtape/logtape'
+
 import { type AccessOptions, Client } from 'basic-ftp'
 import { LogReader } from './log-reader-base.js'
 
@@ -8,8 +10,8 @@ export class FTPLogReader extends LogReader {
   filePollTimeout: NodeJS.Timeout | undefined
   pollInterval: number = 1000
   accessOptions: AccessOptions
-  constructor(path: string, options: AccessOptions) {
-    super(path)
+  constructor(path: string, options: AccessOptions, logger: Logger) {
+    super(path, logger)
     this.accessOptions = options
     this.client = new Client()
   }

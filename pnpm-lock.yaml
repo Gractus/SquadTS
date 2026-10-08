@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@logtape/logtape':
+        specifier: ^2.4.0
+        version: 2.4.0
       basic-ftp:
         specifier: ^6.2.2
         version: 6.2.2
@@ -30,6 +33,9 @@ importers:
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@10.12.0)
+      '@logtape/config':
+        specifier: ^2.4.0
+        version: 2.4.0(@logtape/logtape@2.4.0)
       '@types/node':
         specifier: ^26.6.4
         version: 26.6.4
@@ -59,7 +65,7 @@ importers:
         version: 17.6.0
       node:
         specifier: runtime:>=24.0.0
-        version: runtime:26.11.0
+        version: runtime:26.11.1
       prettier:
         specifier: ^3.9.9
         version: 3.9.9
@@ -177,6 +183,14 @@ packages:
 
   '@keyv/serialize@1.1.1':
     resolution: {integrity: sha512-dXn3FZhPv0US+7dtJsIi2R+c7qWYiReoEh5zUntWCf4oSpMNib8FDhSoed6m3QyZdx5hK7iLFkYk3rNxwt8vTA==}
+
+  '@logtape/config@2.4.0':
+    resolution: {integrity: sha512-0PM4Z2YxXuPG++tAZaNq11A582A+tRvcZVRoYI692nsW2OIIhORkbnneh0f1GLCckQKCkopx/D/WvfVR8CCf/w==}
+    peerDependencies:
+      '@logtape/logtape': ^2.4.0
+
+  '@logtape/logtape@2.4.0':
+    resolution: {integrity: sha512-xhvG/NwfBXs+a+oJxl6xOmqA4zX8giP1brvd5lVbL3qUHUkZfVt+4QE/+9p/Vf76JNwe/upH3XYTNItocKQ8Qg==}
 
   '@sapphire/async-queue@1.5.5':
     resolution: {integrity: sha512-cvGzxbba6sav2zZkH8GPf2oGk9yYoD5qrNWdu9fRehifgnFZJMV+nuy2nON2roRO4yQQ+v7MK/Pktl/HgfsUXg==}
@@ -829,7 +843,7 @@ packages:
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
-  node@runtime:26.11.0:
+  node@runtime:26.11.1:
     resolution:
       type: variations
       variants:
@@ -837,9 +851,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-n8unhrH7LXc3AVi8ffnfvKjHs/l3o64hlzJOt44I+ag=
+            integrity: sha256-P+JqKoPXBz/hgz1Lbu9Us0Tue7uKiNdmGae0sL7zArA=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-aix-ppc64.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-aix-ppc64.tar.gz
           targets:
             - cpu: ppc64
               os: aix
@@ -847,9 +861,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-G1HZSAWKWg9Ng3I9OVeG8TpkdWXKTf3qw32vqVBA5fM=
+            integrity: sha256-2RZRG1WWXpG+eojhf4jYlbZ5POq6PmybGUrv5RwsZaw=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-darwin-arm64.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-darwin-arm64.tar.gz
           targets:
             - cpu: arm64
               os: darwin
@@ -857,9 +871,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-3MPNqnF0Trzo2yxQBeeR6yfiFIGKUon03VIKcyEWApc=
+            integrity: sha256-moEpvZqwgDl5PdEUOnrt7mtdYKwGWSrZONi93zYULzo=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-darwin-x64.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-darwin-x64.tar.gz
           targets:
             - cpu: x64
               os: darwin
@@ -867,9 +881,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-mQu+r1kr+umV3vbFtDuJu13dIiMFyRJR47nZv8fBILw=
+            integrity: sha256-FwRU+wIvXptfbMdsJfoy71EAiVvkTrBOkvl4BZFJG78=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-linux-arm64.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-arm64.tar.gz
           targets:
             - cpu: arm64
               os: linux
@@ -877,9 +891,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-4UKSTbSqmBVif9swKLnFksgUrPT+NSPk6LEN3L4hI6g=
+            integrity: sha256-Xk0siyJUYbHvxVE1jD0V+2bH+nRFuE/Vkt9lr3KwJ4w=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-linux-ppc64le.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-ppc64le.tar.gz
           targets:
             - cpu: ppc64le
               os: linux
@@ -887,9 +901,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-2ehPKVR/bTBx4Mgd6fhd17HTEeoOC9IPPDmp5EEcE/I=
+            integrity: sha256-BitIhkOKtJF8nQdLJTpp02ft873gUrWAmwKqSaIjx7s=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-linux-s390x.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-s390x.tar.gz
           targets:
             - cpu: s390x
               os: linux
@@ -897,9 +911,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-zaERoJLn9daL8Ct7/+l38OCjIzKX11TB6WbbflMIW/A=
+            integrity: sha256-EKKLeWC5lMUUy1IXmcu+U/x6HjmwKWc3PgXjH/mnjZ8=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-linux-x64-musl.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-x64-musl.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -908,9 +922,9 @@ packages:
             archive: tarball
             bin:
               node: bin/node
-            integrity: sha256-Lc3xpRoFXjrBAnzloBwkCex/oBa5niXlipOVaKngtq0=
+            integrity: sha256-FfwEOlGleD8vS2NFYQkWWPWn8OPbA/mX3KOoAzoz5Fs=
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-linux-x64.tar.gz
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-x64.tar.gz
           targets:
             - cpu: x64
               os: linux
@@ -918,10 +932,10 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-Czk6IPUPmg9HXpWeio3Mf9zqqK4yKvoYqUwFnC7NmMs=
-            prefix: node-v26.11.0-win-arm64
+            integrity: sha256-jdA63T7UMetDYwb5q+lGQ0vOko0r+WewQRfcN1UFEgg=
+            prefix: node-v26.11.1-win-arm64
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-win-arm64.zip
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-win-arm64.zip
           targets:
             - cpu: arm64
               os: win32
@@ -929,14 +943,36 @@ packages:
             archive: zip
             bin:
               node: node.exe
-            integrity: sha256-2KagmUm8nQU1CI0+SFml+DP+R9PN/2PtteD0gxlsgw0=
-            prefix: node-v26.11.0-win-x64
+            integrity: sha256-l/NqipaE/w0+NXWLRhD+9bYopYgOlvLMwRJA5dr5k04=
+            prefix: node-v26.11.1-win-x64
             type: binary
-            url: https://nodejs.org/download/release/v26.11.0/node-v26.11.0-win-x64.zip
+            url: https://nodejs.org/download/release/v26.11.1/node-v26.11.1-win-x64.zip
           targets:
             - cpu: x64
               os: win32
-    version: 26.11.0
+        - resolution:
+            archive: tarball
+            bin:
+              node: bin/node
+            integrity: sha256-WsQtcRdpJNNL5XDIVWfHKcySgylNP9cQARhRUQswydE=
+            type: binary
+            url: https://unofficial-builds.nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-arm64-musl.tar.gz
+          targets:
+            - cpu: arm64
+              os: linux
+              libc: musl
+        - resolution:
+            archive: tarball
+            bin:
+              node: bin/node
+            integrity: sha256-3IIvQ6VYd+BgueFnAgGckd65aEMQ+kfqTpvasPIUY2Y=
+            type: binary
+            url: https://unofficial-builds.nodejs.org/download/release/v26.11.1/node-v26.11.1-linux-x64-musl.tar.gz
+          targets:
+            - cpu: x64
+              os: linux
+              libc: musl
+    version: 26.11.1
     hasBin: true
 
   nopt@10.0.1:
@@ -1380,6 +1416,12 @@ snapshots:
       keyv: 5.6.0
 
   '@keyv/serialize@1.1.1': {}
+
+  '@logtape/config@2.4.0(@logtape/logtape@2.4.0)':
+    dependencies:
+      '@logtape/logtape': 2.4.0
+
+  '@logtape/logtape@2.4.0': {}
 
   '@sapphire/async-queue@1.5.5': {}
 
@@ -1992,7 +2034,7 @@ snapshots:
       undici: 8.11.2
       which: 7.0.0
 
-  node@runtime:26.11.0: {}
+  node@runtime:26.11.1: {}
 
   nopt@10.0.1:
     dependencies:

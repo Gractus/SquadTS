@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 
-import Logger from '../common/logger.js'
+import type { Logger } from '@logtape/logtape'
 
 import { parseIDs, type OnlineIDs } from '../common/online-ids.js'
 import {
@@ -217,8 +217,8 @@ export default class SquadRconClient extends SquadRconCore {
   autoUpdatePlayerStoreTimeout: NodeJS.Timeout | undefined = undefined
   playerStore: PlayerStore = new PlayerStore(this)
 
-  constructor(options: RconClientOptions) {
-    super(options)
+  constructor(options: RconClientOptions, logger: Logger) {
+    super(options, logger.getChild('RCON'))
     this.autoUpdatePlayerStore = options.autoUpdatePlayerStore ?? true
     this.autoUpdatePlayerStoreInterval =
       options.autoUpdatePlayerStoreInterval ?? 1000
@@ -230,7 +230,7 @@ export default class SquadRconClient extends SquadRconCore {
       /\[Chat(?<channel>All|Team|Squad|Admin)] \[Online IDs:(?<onlineIDs>[^\]]+)\] (?<name>.+?) : (?<message>.*)/
     )
     if (matchChat?.groups) {
-      Logger.debug(`Matched chat message: ${contents}`)
+      this.log.debug`Matched chat message: ${contents}`
 
       let chatChannel!: ChatChannel
       switch (matchChat.groups.channel) {
@@ -264,7 +264,7 @@ export default class SquadRconClient extends SquadRconCore {
       /Remote admin has warned player (?<name>.*)\. Message was "(?<message>.*)"/
     )
     if (matchWarn?.groups) {
-      Logger.debug(`Matched warn message: ${contents}`)
+      this.log.debug`Matched warn message: ${contents}`
       const result: RconEvents['PLAYER_WARNED'] = {
         time: new Date(),
         playerName: matchWarn.groups.name,
@@ -278,7 +278,7 @@ export default class SquadRconClient extends SquadRconCore {
       /\[Online Ids:(?<onlineIDs>[^\]]+)\] (?<name>.+) has possessed admin camera\./
     )
     if (matchPossessedAdminCam?.groups) {
-      Logger.debug(`Matched admin camera possessed: ${contents}`)
+      this.log.debug`Matched admin camera possessed: ${contents}`
       const result: RconEvents['POSSESSED_ADMIN_CAMERA'] = {
         time: new Date(),
         player: {
@@ -294,7 +294,7 @@ export default class SquadRconClient extends SquadRconCore {
       /\[Online IDs:(?<onlineIDs>[^\]]+)\] (?<name>.+) has unpossessed admin camera\./
     )
     if (matchUnpossessedAdminCam?.groups) {
-      Logger.debug(`Matched admin camera unpossessed: ${contents}`)
+      this.log.debug`Matched admin camera unpossessed: ${contents}`
       const result: RconEvents['UNPOSSESSED_ADMIN_CAMERA'] = {
         time: new Date(),
         player: {
@@ -312,7 +312,7 @@ export default class SquadRconClient extends SquadRconCore {
     if (matchSqCreated?.groups) {
       // Ignore this event since we prefer to use the player store based method of recognising squad creation/destruction.
       return
-      // Logger.verbose('SquadRcon', 4, `Matched Squad Created: ${contents}`);
+      // this.log.info`Matched Squad Created: ${contents}`;
       // const result: RconEvents['SQUAD_CREATED'] = {
       //   time: new Date(),
       //   playerName: matchSqCreated.groups.playerName,
@@ -329,7 +329,7 @@ export default class SquadRconClient extends SquadRconCore {
       /Kicked player (?<playerID>[0-9]+)\. \[Online IDs=(?<onlineIDs>[^\]]+)\] (?<name>.*)/
     )
     if (matchKick?.groups) {
-      Logger.debug(`Matched kick message: ${contents}`)
+      this.log.debug`Matched kick message: ${contents}`
 
       const result: RconEvents['PLAYER_KICKED'] = {
         time: new Date(),
@@ -347,7 +347,7 @@ export default class SquadRconClient extends SquadRconCore {
       /Banned player (?<playerID>[0-9]+)\. \[Online IDs=(?<onlineIDs>[^\]]+)\] (?<name>.*) for interval (?<interval>.*)/
     )
     if (matchBan?.groups) {
-      Logger.debug(`Matched ban message: ${contents}`)
+      this.log.debug`Matched ban message: ${contents}`
 
       const result: RconEvents['PLAYER_BANNED'] = {
         time: new Date(),
