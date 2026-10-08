@@ -103,7 +103,8 @@ type ConnectionRecordFromSpec<T extends DependencySpec> =
     [K in keyof T as T[K]['optional'] extends true ? never : K]: InstanceType<
       T[K]['plugin']
     >
-  } & { // Step 2: Handle optional keys (where optional IS true)
+  } & {
+    // Step 2: Handle optional keys (where optional IS true)
     [K in keyof T as T[K]['optional'] extends true ? K : never]?: InstanceType<
       T[K]['plugin']
     >

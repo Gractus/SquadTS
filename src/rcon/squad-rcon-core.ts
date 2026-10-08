@@ -104,7 +104,7 @@ export default abstract class SquadRconCore {
   }
 
   private onData(data: Buffer) {
-    this.log.trace`Got data: ${this.bufToHexString(data)}`;
+    this.log.trace`Got data: ${this.bufToHexString(data)}`
 
     let remainingData = data
 
