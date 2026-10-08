@@ -142,7 +142,8 @@ export default class SquadServer {
 
     await this.rcon.connect()
     this.watchRCON()
-    this.currentLayer = await this.rcon.getCurrentMap()
+    const layer = await this.rcon.getCurrentMap()
+    if (!(layer instanceof Error)) this.currentLayer = layer
     await this.updateServerInfo()
 
     await this.logReader.connect()

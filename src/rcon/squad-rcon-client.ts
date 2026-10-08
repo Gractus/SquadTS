@@ -362,8 +362,9 @@ export default class SquadRconClient extends SquadRconCore {
     }
   }
 
-  async getCurrentMap(): Promise<Layer | undefined> {
+  async getCurrentMap(): Promise<Layer | undefined | Error> {
     const response = await this.executeCommand('ShowCurrentMap')
+    if (response instanceof Error) return response
     const match = response.match(
       /^Current level is (?<level>[^,]*), layer is (?<layer>[^,]*)/
     )
@@ -376,8 +377,9 @@ export default class SquadRconClient extends SquadRconCore {
     }
   }
 
-  async getNextMap(): Promise<Layer | undefined> {
+  async getNextMap(): Promise<Layer | undefined | Error> {
     const response = await this.executeCommand('ShowNextMap')
+    if (response instanceof Error) return response
     const match = response.match(
       /^Next level is (?<level>[^,]*), layer is (?<layer>[^,]*)/
     )
@@ -390,8 +392,9 @@ export default class SquadRconClient extends SquadRconCore {
     }
   }
 
-  async getListPlayers(): Promise<PlayerList> {
+  async getListPlayers(): Promise<PlayerList | Error> {
     const response = await this.executeCommand('ListPlayers')
+    if (response instanceof Error) return response
 
     const players: PlayerListEntry[] = []
 
@@ -430,8 +433,9 @@ export default class SquadRconClient extends SquadRconCore {
     return { time: new Date(), players: players }
   }
 
-  async getSquads(): Promise<GetSquadsResult> {
+  async getSquads(): Promise<GetSquadsResult | Error> {
     const response = await this.executeCommand('ListSquads')
+    if (response instanceof Error) return response
     const time = new Date()
     const tickets: Record<TeamID, number> = [0, 0]
     const squads: SquadListEntry[] = []
@@ -477,35 +481,38 @@ export default class SquadRconClient extends SquadRconCore {
   }
 
   async warn(id: string | number, message: string) {
-    await this.executeCommand(`AdminWarn "${id}" ${message}`)
+    return await this.executeCommand(`AdminWarn "${id}" ${message}`)
   }
 
   async kick(id: string | number, reason: string) {
-    await this.executeCommand(`AdminKick "${id}" ${reason}`)
+    return await this.executeCommand(`AdminKick "${id}" ${reason}`)
   }
 
   async ban(id: string, banLength: BanLength, message: string) {
-    await this.executeCommand(`AdminBan "${id}" ${banLength} ${message}`)
+    return await this.executeCommand(`AdminBan "${id}" ${banLength} ${message}`)
   }
 
   async banByPlayerID(id: number, banLength: BanLength, message: string) {
-    await this.executeCommand(`AdminBanById "${id}" ${banLength} ${message}`)
+    return await this.executeCommand(
+      `AdminBanById "${id}" ${banLength} ${message}`
+    )
   }
 
   async switchTeam(id: string | number) {
-    await this.executeCommand(`AdminForceTeamChange "${id}"`)
+    return await this.executeCommand(`AdminForceTeamChange "${id}"`)
   }
 
   async broadcast(message: string) {
-    await this.executeCommand(`AdminBroadcast ${message}`)
+    return await this.executeCommand(`AdminBroadcast ${message}`)
   }
 
   async setFogOfWar(mode: 0 | 1) {
-    await this.executeCommand(`AdminSetFogOfWar ${mode}`)
+    return await this.executeCommand(`AdminSetFogOfWar ${mode}`)
   }
 
-  async getServerBrowserInfo(): Promise<ServerBrowserInfo> {
+  async getServerBrowserInfo(): Promise<ServerBrowserInfo | Error> {
     const response = await this.executeCommand(`ShowServerInfo`)
+    if (response instanceof Error) return response
     const data = JSON.parse(response)
     const result: ServerBrowserInfo = {
       serverName: data.ServerName_s,
@@ -537,16 +544,14 @@ export default class SquadRconClient extends SquadRconCore {
 
   async updatePlayerStore() {
     clearTimeout(this.autoUpdatePlayerStoreTimeout)
-    try {
-      await this.playerStore.update()
-    } finally {
-      if (this.autoUpdatePlayerStore) {
-        this.autoUpdatePlayerStoreTimeout = setTimeout(
-          this.updatePlayerStore,
-          this.autoUpdatePlayerStoreInterval
-        )
-      }
+    const result = await this.playerStore.update()
+    if (this.autoUpdatePlayerStore) {
+      this.autoUpdatePlayerStoreTimeout = setTimeout(
+        this.updatePlayerStore,
+        this.autoUpdatePlayerStoreInterval
+      )
     }
+    return result
   }
 
   async connect() {

@@ -80,14 +80,21 @@ export class PlayerStore {
   constructor(private client: SquadRconClient) {}
 
   async update() {
-    const [newSquadList, { time: newTime, players: newPlayerList }] =
-      await Promise.all([this.client.getSquads(), this.client.getListPlayers()])
+    const [squadListResponse, playerListResponse] = await Promise.all([
+      this.client.getSquads(),
+      this.client.getListPlayers(),
+    ])
+
+    if (squadListResponse instanceof Error) return squadListResponse
+    if (playerListResponse instanceof Error) return playerListResponse
+
+    const { time: newTime, players: newPlayerList } = playerListResponse
 
     const latestSquadListMap: Record<TeamID, Map<SquadID, SquadListEntry>> = [
       new Map(),
       new Map(),
     ]
-    newSquadList.squads.forEach(squad => {
+    squadListResponse.squads.forEach(squad => {
       latestSquadListMap[squad.teamID].set(squad.squadID, squad)
     })
 

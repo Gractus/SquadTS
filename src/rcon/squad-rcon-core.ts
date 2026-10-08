@@ -245,8 +245,8 @@ export default abstract class SquadRconCore {
 
   public executeCommand(command: string) {
     // if (this.client.readyState !== 'open') throw new Error('RCON socket is not connected.');
-    if (!this.isConnected) throw new Error('RCON socket is not connected.')
-    if (!this.authenticated) throw new Error('RCON not Logged in')
+    if (!this.isConnected) return new Error('RCON socket is not connected.')
+    if (!this.authenticated) return new Error('RCON not Logged in')
 
     this.log.debug`Sending command: ${command}`
 
@@ -256,12 +256,11 @@ export default abstract class SquadRconCore {
       command
     )
     if (encodedPacket.length > MAXIMUM_PACKET_SIZE)
-      throw new Error('Packet too long.')
+      return new Error('Packet too long.')
 
-    const { promise, resolve, reject } = Promise.withResolvers<string>()
+    const { promise, resolve } = Promise.withResolvers<string | Error>()
     const callBack = (result: string | Error) => {
-      if (typeof result === 'string') resolve(result)
-      else reject(result)
+      resolve(result)
     }
 
     this.pendingCommands.set(this.count, callBack)
