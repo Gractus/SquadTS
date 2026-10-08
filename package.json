@@ -8,7 +8,7 @@
   "scripts": {
     "start": "node dist/index.js",
     "prepare": "husky",
-    "lint": "eslint --fix . && prettier --write \"./**/*.js\"",
+    "lint": "eslint --fix . && prettier --write ./**/*.js ./**/*.ts",
     "lint-staged": "lint-staged",
     "build-application": "tsc",
     "build-config": "tsc && node ./dist/build/build-config-file.js",

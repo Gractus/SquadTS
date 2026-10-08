@@ -7,7 +7,9 @@ import promise from 'eslint-plugin-promise'
 import n from 'eslint-plugin-n'
 
 export default defineConfig([
-  { ignores: ['**/node_modules/*', 'dist/', 'src/core/plugins-unported/'] },
+  {
+    ignores: ['**/node_modules/*', 'dist/', 'src/core/plugins-unported/'],
+  },
   {
     files: ['**/*.js'],
     rules: {
