@@ -2,7 +2,11 @@ import fs from 'fs'
 import path from 'path'
 import { parseArgs } from 'node:util'
 
-import { configure, getConsoleSink } from '@logtape/logtape'
+import {
+  configure,
+  getAnsiColorFormatter,
+  getConsoleSink,
+} from '@logtape/logtape'
 import type { LogTapeConfig } from '@logtape/config'
 
 import { deepMerge } from './common/deep-merge.js'
@@ -57,7 +61,7 @@ async function main() {
   if (config.logger)
     await configure({
       sinks: {
-        console: getConsoleSink(),
+        console: getConsoleSink({ formatter: getAnsiColorFormatter() }),
       },
       loggers: [
         {
