@@ -23,9 +23,9 @@ export default class AutoTKWarn extends BasePlugin<typeof AutoTKWarn> {
       event: 'TEAM_KILL',
       handler: 'onTeamKill',
     },
-  ] satisfies EventSpec<typeof AutoTKWarn>[]
+  ] satisfies EventSpec<AutoTKWarn>[]
 
-  async onTeamKill(event: ServerEvents['TEAM_KILL']) {
+  onTeamKill = (event: ServerEvents['TEAM_KILL']) => {
     if (this.options.attackerMessage) {
       this.server.rcon.warn(event.attacker.eosID, this.options.attackerMessage)
     }

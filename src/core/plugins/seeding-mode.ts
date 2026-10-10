@@ -52,7 +52,7 @@ export default class SeedingMode extends BasePlugin<typeof SeedingMode> {
       source: 'LOG',
       handler: 'onNewGame',
     },
-  ] satisfies EventSpec<typeof SeedingMode>[]
+  ] satisfies EventSpec<SeedingMode>[]
 
   silenced = false
   interval?: NodeJS.Timeout
@@ -78,7 +78,7 @@ export default class SeedingMode extends BasePlugin<typeof SeedingMode> {
     clearInterval(this.interval)
   }
 
-  onNewGame() {
+  onNewGame = () => {
     if (this.options.waitOnNewGames) this.silenced = true
     setTimeout(() => {
       this.silenced = false

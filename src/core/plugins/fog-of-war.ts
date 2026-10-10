@@ -21,9 +21,9 @@ export default class FogOfWar extends BasePlugin<typeof FogOfWar> {
       source: 'LOG',
       handler: 'onNewGame',
     },
-  ] satisfies EventSpec<typeof FogOfWar>[]
+  ] satisfies EventSpec<FogOfWar>[]
 
-  async onNewGame() {
+  onNewGame = async () => {
     setTimeout(() => {
       this.server.rcon.setFogOfWar(this.options.mode)
     }, this.options.delay * 1000)

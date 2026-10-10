@@ -150,7 +150,7 @@ export default class SquadServer {
     this.watchLog()
 
     if (this.options.plugins) {
-      this.plugins.loadConfig(this.options.plugins)
+      this.plugins.mountFromConfig(this.options.plugins)
     }
 
     this.logger.info(`Watching ${this.serverBrowserInfo!.serverName}...`)

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { loadPlugins } from '../core/plugin-manager.js'
+import { loadPlugins, parseConfig } from '../core/plugin-manager.js'
 
 const TEMPLATE_PATH = path.resolve(
   import.meta.dirname,
@@ -31,7 +31,7 @@ async function buildConfig() {
 
   for (const plugin of plugins) {
     try {
-      const config = plugin.defaultConfig
+      const config = parseConfig(plugin)
       pluginConfigs.push(config)
     } catch (error) {
       console.log(`Cannot create default config for ${plugin.name}: ${error}`)

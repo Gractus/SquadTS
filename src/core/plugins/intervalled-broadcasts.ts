@@ -1,4 +1,4 @@
-import BasePlugin from './base-plugin.js'
+import BasePlugin, { type OptionSpec } from './base-plugin.js'
 
 export default class IntervalBroadcasts extends BasePlugin<
   typeof IntervalBroadcasts
@@ -8,18 +8,16 @@ export default class IntervalBroadcasts extends BasePlugin<
     'preset intervals'
   static defaultEnabled = false
 
-  static optionSpec = {
+  static override optionSpec = {
     broadcasts: {
-      required: false,
       description: 'Messages to broadcast.',
       example: ['This server is powered by SquadJS.'],
     },
     interval: {
-      required: false,
       description: 'Frequency of the broadcasts in seconds.',
       default: 5 * 60,
     },
-  }
+  } satisfies OptionSpec
 
   interval?: NodeJS.Timeout
   index = 0

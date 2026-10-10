@@ -37,7 +37,7 @@ export default class DiscordAdminBroadcast extends BasePlugin<
       event: 'ADMIN_BROADCAST',
       handler: 'onAdminBroadcast',
     },
-  ] satisfies EventSpec<typeof DiscordAdminBroadcast>[]
+  ] satisfies EventSpec<DiscordAdminBroadcast>[]
 
   discordClient!: DiscordClient
 
@@ -45,7 +45,7 @@ export default class DiscordAdminBroadcast extends BasePlugin<
     this.discordClient = this.deps['discordClient']
   }
 
-  async onAdminBroadcast(data: LogEvents['ADMIN_BROADCAST']) {
+  onAdminBroadcast = async (data: LogEvents['ADMIN_BROADCAST']) => {
     await this.discordClient.sendEmbed({
       title: 'Admin Broadcast',
       color: this.options.color,

@@ -69,26 +69,26 @@ export default class AutoKickUnassigned extends BasePlugin<
 
   static override eventSpec = [
     {
-      event: 'MATCH_START',
       source: 'LOG',
+      event: 'MATCH_START',
       handler: 'onNewGame',
     },
     {
-      event: 'PLAYER_SQUAD_CHANGE',
       source: 'RCON',
+      event: 'PLAYER_CHANGED_SQUAD',
       handler: 'onPlayerSquadChange',
     },
     {
-      event: 'PLAYER_CONNECTED',
       source: 'RCON',
+      event: 'PLAYER_CONNECTED',
       handler: 'onPlayerCountChanged',
     },
     {
-      event: 'PLAYER_DISCONNECTED',
       source: 'RCON',
+      event: 'PLAYER_DISCONNECTED',
       handler: 'onPlayerDisconnect',
     },
-  ] satisfies EventSpec<typeof AutoKickUnassigned>[]
+  ] satisfies EventSpec<AutoKickUnassigned>[]
 
   waitingAfterGameStart = false
   trackedPlayers: Map<eosID, Tracker> = new Map()
@@ -111,7 +111,7 @@ export default class AutoKickUnassigned extends BasePlugin<
     clearTimeout(this.newGameTimeout)
   }
 
-  async onNewGame() {
+  onNewGame = () => {
     this.waitingAfterGameStart = true
     this.newGameTimeout = setTimeout(() => {
       this.waitingAfterGameStart = false
@@ -119,17 +119,17 @@ export default class AutoKickUnassigned extends BasePlugin<
     }, this.options.roundStartDelay * 1000)
   }
 
-  onPlayerDisconnect(event: RconEvents['PLAYER_DISCONNECTED']) {
+  onPlayerDisconnect = (event: RconEvents['PLAYER_DISCONNECTED']) => {
     this.unTrack(event.player.eosID)
     this.onPlayerCountChanged()
   }
 
-  async onPlayerSquadChange(event: RconEvents['PLAYER_CHANGED_SQUAD']) {
+  onPlayerSquadChange = (event: RconEvents['PLAYER_CHANGED_SQUAD']) => {
     if (event.newSquadID) this.unTrack(event.player.eosID)
     else this.track(event.player)
   }
 
-  onPlayerCountChanged() {
+  onPlayerCountChanged = () => {
     if (this.waitingAfterGameStart) return
 
     let playersOverLimit =

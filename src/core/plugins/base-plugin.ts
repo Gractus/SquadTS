@@ -9,30 +9,33 @@ import type { LogEvents } from '../../log-reader/log-parser/log-parser.js'
 
 export interface PluginClass {
   new (server: SquadServer, config: PluginConfig): BasePlugin
-  parseConfig(config: unknown): PluginConfig
-  parseOptionsConfig(optionsConfig: unknown): OptionsFromSpec<any>
-  parseConnectionsConfig(connectionsConfig: unknown): ConnectionsFromSpec<any>
-  parseCommandConfig(commandAliasesConfig: unknown): CommandAliasFromSpec<any>
   description: string
   defaultEnabled: boolean
-  defaultConfig: PluginConfig
   dependencySpec: DependencySpec
   optionSpec: OptionSpec
   commandSpec: CommandSpec<any>
+  eventSpec: EventSpec<any>[]
 }
 
+/** Used to specify all options the plugin will offer users of the plugin.  */
 export type OptionSpec = {
-  [key: string]: {
+  [name: string]: {
+    /** Used in the auto-generated docs. */
     description: string
-    default?: any
-    example?: any
+    /** If excluded or set to `undefined` this option is required and the user must specify. */
+    default?: boolean | string | number | object | null
+    /** Used in auto-generated docs and to derive the type if no default is provided. */
+    example?: boolean | string | number | object | null
   }
 }
 
-export type CommandSpec<T extends BasePlugin> = {
-  [key: string]: {
+export type CommandSpec<T extends InstanceType<PluginClass> = any> = {
+  [name: string]: {
+    /** Used in the auto-generated docs. */
     description: string
-    handler: ChatCommandHandler<T>
+    /** Function called when the command is executed via one of the command aliases in the in-game chat. */
+    handler: EventHandlers<T, ServerEvents['CHAT_COMMAND']>
+    /** Default set of keywords that can be used to trigger the command ('!alias' in chat). Can be overridden in config.*/
     aliases: string[]
   }
 }
@@ -45,57 +48,43 @@ export type DependencySpec = {
   }
 }
 
-type MethodNames<T> = {
-  [K in keyof T]-?: T[K] extends (...args: any[]) => any ? K : never
-}[keyof T]
+type EventHandlers<T extends InstanceType<PluginClass>, Event> = Extract<
+  { [K in keyof T]: T[K] extends (arg: Event) => void ? K : never }[keyof T],
+  string
+>
 
-type EventHandler<EventMap> = {
-  [K in keyof EventMap]: (arg: EventMap[K]) => any
-}[keyof EventMap]
+type EventSpecEntry<
+  T extends InstanceType<PluginClass>,
+  M extends Record<string, any>,
+> = {
+  [K in keyof M]: { event: K; handler: EventHandlers<T, M[K]> }
+}[keyof M]
 
-export type EventHandlers<T extends InstanceType<PluginClass>, EventMap> = {
-  [K in keyof T]-?: T[K] extends EventHandler<EventMap> ? K : never
-}[keyof T]
+type EventSpecEntryWithSource<
+  T extends InstanceType<PluginClass>,
+  S,
+  M extends Record<string, any>,
+> = { source: S } & EventSpecEntry<T, M>
 
-type ChatCommandHandler<T> = {
-  [K in keyof T]-?: T[K] extends (message: ServerEvents['CHAT_COMMAND']) => void
-    ? K
-    : never
-}[keyof T]
+export type EventSpec<T extends InstanceType<PluginClass>> =
+  | EventSpecEntry<T, ServerEvents> // Default when no source specified
+  | EventSpecEntryWithSource<T, 'server', RconEvents>
+  | EventSpecEntryWithSource<T, 'RCON', RconEvents>
+  | EventSpecEntryWithSource<T, 'LOG', LogEvents>
 
-export type EventSpec<T extends PluginClass> =
-  | {
-      source?: 'server'
-      event: keyof ServerEvents
-      handler: MethodNames<InstanceType<T>>
-    }
-  | {
-      source: 'RCON'
-      event: keyof RconEvents
-      handler: EventHandlers<InstanceType<T>, RconEvents>
-    }
-  | {
-      source: 'LOG'
-      event: keyof LogEvents
-      handler: EventHandlers<InstanceType<T>, LogEvents>
-    }
-  | {
-      source: keyof T['dependencySpec']
-      event: any
-      handler: MethodNames<InstanceType<T>>
-    }
-
-type OptionsFromSpec<T extends OptionSpec> = {
+export type OptionsFromSpec<T extends OptionSpec> = {
   [K in keyof T]: 'default' extends keyof T[K]
     ? T[K]['default']
     : 'example' extends keyof T[K]
       ? T[K]['example']
-      : any
+      : unknown
 }
-type CommandAliasFromSpec<T extends CommandSpec<any>> = {
+export type CommandAliasFromSpec<T extends CommandSpec> = {
   [K in keyof T]: string[]
 }
-type ConnectionsFromSpec<T extends DependencySpec> = { [K in keyof T]: string }
+export type ConnectionsFromSpec<T extends DependencySpec> = {
+  [K in keyof T]: string
+}
 
 type ConnectionRecordFromSpec<T extends DependencySpec> =
   // Step 1: Handle required keys (where optional is NOT true)
@@ -123,20 +112,18 @@ export interface PluginConfig<P extends PluginClass = any> {
 
 export default abstract class BasePlugin<TStatic extends PluginClass = any> {
   server: SquadServer
+  // events = new EventEmitter()
+  config!: PluginConfig<TStatic>
   log: Logger
-  events: EventEmitter = new EventEmitter()
-  config: PluginConfig<TStatic>
-  options: OptionsFromSpec<TStatic['optionSpec']>
+  options!: OptionsFromSpec<TStatic['optionSpec']>
   deps!: ConnectionRecordFromSpec<TStatic['dependencySpec']>
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  boundHandlerFunctions: Map<string, Function> = new Map()
+  boundHandlerFunctions: Map<string, (...args: any[]) => void> = new Map()
   safeToUnmount: boolean = true
   constructor(server: SquadServer, config: PluginConfig<TStatic>) {
-    const validConfig = BasePlugin.parseConfig(config)
     this.server = server
     this.log = server.logger.getChild(this.constructor.name)
-    this.config = validConfig
-    this.options = validConfig.options as OptionsFromSpec<TStatic['optionSpec']>
+    this.config = config
+    this.options = config.options
     this.mount()
   }
 
@@ -147,15 +134,11 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
   static readonly defaultEnabled: boolean = false
 
   /**
-   * Specify all events you want to listen for and they will be automatically (un)bound on (un)mount.
-   * Don't use this for chat commands, use the dedicated commandSpec instead.
+   * Specify all user configurable options your plugin has.
+   * These will all be available in this.options
+   * If you don't specify a default, then a value must be specified in the user supplied config or the config will fail to parse.
    */
-  static readonly eventSpec: EventSpec<any>[] = []
-
-  /**
-   * Specify all chat commands you want to listen for and they will be automatically (un)bound on (un)mount.
-   */
-  static readonly commandSpec: CommandSpec<any> = {}
+  static readonly optionSpec: OptionSpec = {}
 
   /**
    * Specify all plugin dependencies your plugin wants.
@@ -165,15 +148,19 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
   static readonly dependencySpec: DependencySpec = {}
 
   /**
-   * Specify all user configurable options your plugin has.
-   * These will all be available in this.options
-   * If you don't specify a default, then a value must be sepcified in the user supplied config or the config will fail to parse.
+   * Specify all chat commands you want to listen for and they will be automatically (un)bound on (un)mount.
    */
-  static readonly optionSpec: OptionSpec = {}
+  static readonly commandSpec: CommandSpec<any> = {}
+
+  /**
+   * Specify all events you want to listen for and they will be automatically (un)bound on (un)mount.
+   * Don't use this for chat commands, use the dedicated commandSpec instead.
+   */
+  static readonly eventSpec: EventSpec<any>[] = []
 
   /**
    * Perform any work that needs to be done before the plugin is considered ready to mount.
-   * e.g. Connect to a database, authenticate with some API, etc.
+   * e.g. Bind event handler functions, connect to a database, authenticate with some API, etc.
    */
   async prepareToMount() {}
 
@@ -190,195 +177,25 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
    */
   async unmountCleanup() {}
 
-  /**
-   * Returns a default config for this plugin.
-   * Note that if there are any options that don't have a default in your optionsSpec then this will fail since there is no valid default config.
-   */
-  static get defaultConfig(): PluginConfig {
-    return this.parseConfig({
-      plugin: this.name,
-      instance: 'default',
-      enabled: this.defaultEnabled,
-      options: {},
-      commandAliases: {},
-      connections: {},
-    })
-  }
-
-  /**
-   * Validates a supplied config and fills in any unspecified configuration options with their defaults.
-   * Returns a valid PluginConfig for this plugin.
-   */
-  static parseConfig(config: unknown): PluginConfig {
-    if (
-      typeof config !== 'object' ||
-      config === null ||
-      Array.isArray(config)
-    ) {
-      throw new TypeError('Config must be a plain object.')
-    }
-
-    const {
-      plugin,
-      instance,
-      enabled = true,
-      options = {},
-      commandAliases = {},
-      connections = {},
-    } = config as Record<any, any>
-
-    if (plugin !== this.name) {
-      throw new TypeError(
-        `Expected "${this.name}" in 'plugin' field of config.`
-      )
-    }
-    if (typeof instance !== 'string') {
-      throw new TypeError('Instance field of config must be a string.')
-    }
-    if (typeof enabled !== 'boolean') {
-      throw new TypeError('Enabled field must be a boolean.')
-    }
-
-    const pluginConfig: PluginConfig = {
-      plugin,
-      instance,
-      enabled,
-      options: this.parseOptionsConfig(options),
-      commandAliases: this.parseCommandConfig(commandAliases),
-      connections: this.parseConnectionsConfig(connections),
-    }
-    return pluginConfig
-  }
-
-  static parseOptionsConfig(optionsConfig: unknown): OptionsFromSpec<any> {
-    if (
-      typeof optionsConfig !== 'object' ||
-      optionsConfig === null ||
-      Array.isArray(optionsConfig)
-    ) {
-      throw new TypeError('Options must be a plain object.')
-    }
-
-    const validatedOptions: Record<string, any> = {}
-
-    for (const [option, spec] of Object.entries(this.optionSpec)) {
-      const value = (optionsConfig as Record<any, any>)[option]
-
-      if (value === undefined) {
-        if (spec.default !== undefined) {
-          validatedOptions[option] = spec.default
-        } else {
-          throw new Error(`Missing required option: ${option}`)
-        }
-      } else if (typeof value !== 'string') {
-        throw new TypeError(`Option "${option}" is not a string.`)
-      } else {
-        validatedOptions[option] = value
-      }
-    }
-    return validatedOptions as CommandAliasFromSpec<any>
-  }
-
-  static parseCommandConfig(
-    commandAliasesConfig: unknown
-  ): CommandAliasFromSpec<any> {
-    if (
-      typeof commandAliasesConfig !== 'object' ||
-      commandAliasesConfig === null ||
-      Array.isArray(commandAliasesConfig)
-    ) {
-      throw new TypeError('commandAliasesConfig must be a plain object.')
-    }
-
-    const validatedCommandAliases: Record<string, string[]> = {}
-
-    for (const [command, spec] of Object.entries(this.commandSpec)) {
-      const aliases = (commandAliasesConfig as Record<any, any>)[command]
-
-      if (aliases === undefined) {
-        validatedCommandAliases[command] = spec.aliases
-      } else if (
-        Array.isArray(aliases) &&
-        aliases.every(item => typeof item === 'string')
-      ) {
-        validatedCommandAliases[command] = aliases
-      } else {
-        throw new TypeError(
-          `Error in commandAliases on '${command}'. Command aliases must be an array of strings.`
-        )
-      }
-    }
-    return validatedCommandAliases as CommandAliasFromSpec<any>
-  }
-
-  static parseConnectionsConfig(
-    connectionConfig: unknown
-  ): ConnectionsFromSpec<any> {
-    if (
-      typeof connectionConfig !== 'object' ||
-      connectionConfig === null ||
-      Array.isArray(connectionConfig)
-    ) {
-      throw new TypeError('dependencyConfig must be a plain object.')
-    }
-    const validatedConnections: Record<string, string> = {}
-
-    for (const [dep, spec] of Object.entries(
-      this.dependencySpec as DependencySpec
-    )) {
-      const value = (connectionConfig as Record<any, any>)[dep]
-
-      if (value === undefined) {
-        if (spec?.optional !== true) {
-          throw new Error(
-            `Required connection is not specified in config: ${dep}`
-          )
-        }
-      } else if (typeof value === 'string') {
-        validatedConnections[dep] = value
-      } else {
-        throw new TypeError(
-          `Error in dependencyConfig on '${dep}'. Connection instance must be string.`
-        )
-      }
-    }
-    return validatedConnections as ConnectionsFromSpec<any>
-  }
-
-  bindEventHandler(emitter: EventEmitter, event: string, handler: string) {
-    const handlerString = handler
-    let fn = this.boundHandlerFunctions.get(handlerString)
-    if (fn === undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-      fn = (this as any)[handlerString].bind(this) as Function
-      this.boundHandlerFunctions.set(handlerString, fn)
-    }
-    emitter.on(event, fn())
-  }
-
-  unbindEventHandler(emitter: EventEmitter, event: string, handler: string) {
-    const handlerString = handler
-    const fn = this.boundHandlerFunctions.get(handlerString)
-    if (fn === undefined)
-      throw new Error("Can't unbind handler that was never registered.")
-    emitter.removeListener(event, fn())
-  }
-
   async mount() {
     await this.prepareToMount()
 
     // Find all dependencies and load them into this.deps
-    const deps: Record<string, any> = {}
+    const deps: Record<string, BasePlugin> = {}
     for (const [dep, spec] of Object.entries(
-      (this.constructor as typeof BasePlugin).dependencySpec
+      (this.constructor as TStatic).dependencySpec as DependencySpec
     )) {
-      const configuredInstance = this.config.connections[dep]
+      const configuredInstance = (
+        this.config.connections as ConnectionsFromSpec<
+          TStatic['dependencySpec']
+        >
+      )[dep]
       if (configuredInstance === undefined) {
-        // Skip unconfigured optional connection
+        // Skip un-configured optional connection
         // Config is already validated before this point to make sure anything absent is indeed optional
         return
       }
-      const pluginInstance = this.server.plugins.loadedPlugins.get(
+      const pluginInstance = this.server.plugins.mountedPlugins.get(
         spec.plugin
       )?.[configuredInstance]
       if (pluginInstance === undefined) {
@@ -391,43 +208,28 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
     }
 
     // Bind all event listeners
-    for (const event of (this.constructor as typeof BasePlugin).eventSpec) {
-      let emitter: EventEmitter
-      const source = event?.source
-      switch (source) {
-        case undefined:
-        case 'server':
-          emitter = this.server.events
-          break
-        case 'RCON':
-          emitter = this.server.rcon.events
-          break
-        case 'LOG':
-          emitter = this.server.logReader.events
-          break
-        default:
-          emitter = deps[source as string]
-          // Skip binding handler for missing optional dependency
-          if (!emitter) {
-            continue
-          }
-      }
-      this.bindEventHandler(emitter, event.event, event.handler)
+    for (const event of (this.constructor as TStatic).eventSpec) {
+      const emitter = this.getEmitterForSource(event)
+      const fn = (this as unknown as Record<string, (args: any[]) => void>)[
+        event.handler
+      ]
+      emitter.on(event.event, fn)
     }
 
     this.deps = deps as ConnectionRecordFromSpec<TStatic['dependencySpec']>
 
     // Bind all chat command event handlers
     for (const [command, spec] of Object.entries(
-      (this.constructor as typeof BasePlugin).commandSpec
+      (this.constructor as TStatic).commandSpec
     )) {
-      const aliases = this.config.commandAliases[command]
-      for (const alias of aliases) {
-        this.bindEventHandler(
-          this.server.rcon.events,
-          `CHAT_COMMAND:${alias}`,
-          spec.handler
-        )
+      const fn = (
+        this as unknown as Record<
+          string,
+          (args: ServerEvents['CHAT_COMMAND']) => void
+        >
+      )[spec.handler]
+      for (const alias of this.config.commandAliases[command]) {
+        this.server.events.on(`CHAT_COMMAND:${alias}`, fn)
       }
     }
   }
@@ -436,50 +238,52 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
     if (!this.safeToUnmount)
       throw new Error('Plugin currently unsafe to unmount.')
 
-    // Notify any dependent plugins that this plugin is being unmounted.
-    this.events.removeAllListeners()
-
     //Unbind all event listeners
-    ;(this.constructor as typeof BasePlugin).eventSpec.forEach(event => {
-      const source = event?.source
-      let emitter: EventEmitter
-      switch (source) {
-        case 'server':
-        case undefined:
-          emitter = this.server.events
-          break
-        case 'RCON':
-          emitter = this.server.rcon.events
-          break
-        case 'LOG':
-          emitter = this.server.logReader.events
-          break
-        default:
-          emitter = (this.deps as Record<string, any>)[
-            source as string
-          ] as EventEmitter
-          if (!emitter) {
-            return
-          }
-      }
-      this.unbindEventHandler(emitter, event.event, event.handler)
-    })
+    for (const event of (this.constructor as TStatic).eventSpec as EventSpec<
+      InstanceType<TStatic>
+    >[]) {
+      const emitter = this.getEmitterForSource(event)
+      const fn = (this as unknown as Record<string, (args: any[]) => void>)[
+        event.handler
+      ]
+      emitter.removeListener(event.event, fn)
+    }
 
     // Unbind all chat command event handlers
     for (const [command, spec] of Object.entries(
-      (this.constructor as typeof BasePlugin).commandSpec
+      (this.constructor as TStatic).commandSpec
     )) {
-      // Overload default aliases with those from config if any exist.
-      const aliases = this.config.commandAliases[command]
-      aliases.forEach(alias => {
-        this.unbindEventHandler(
-          this.server.rcon.events,
-          `CHAT_COMMAND:${alias}`,
-          spec.handler
-        )
-      })
+      const fn = (
+        this as unknown as Record<
+          string,
+          (args: ServerEvents['CHAT_COMMAND']) => void
+        >
+      )[spec.handler]
+      for (const alias of this.config.commandAliases[command]) {
+        this.server.events.on(`CHAT_COMMAND:${alias}`, fn)
+      }
     }
 
     await this.unmountCleanup()
+  }
+
+  private getEmitterForSource(event: EventSpec<any>) {
+    const source = 'source' in event ? event.source : undefined
+    let emitter: EventEmitter
+    switch (source) {
+      case 'server':
+      case undefined:
+        emitter = this.server.events
+        break
+      case 'RCON':
+        emitter = this.server.rcon.events
+        break
+      case 'LOG':
+        emitter = this.server.logReader.events
+        break
+      // default:
+      //   emitter = (this.deps as Record<string, BasePlugin>)[source].events
+    }
+    return emitter
   }
 }

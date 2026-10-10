@@ -2,7 +2,16 @@ import fs from 'fs'
 
 import type { Logger } from '@logtape/logtape'
 
-import type { PluginClass, PluginConfig } from './plugins/base-plugin.js'
+import type {
+  CommandAliasFromSpec,
+  CommandSpec,
+  ConnectionsFromSpec,
+  DependencySpec,
+  OptionsFromSpec,
+  OptionSpec,
+  PluginClass,
+  PluginConfig,
+} from './plugins/base-plugin.js'
 import SquadServer from './squad-server.js'
 
 const PLUGIN_DIR = new URL('plugins/', import.meta.url)
@@ -30,14 +39,14 @@ export class PluginManager {
   log: Logger
   pluginRegistry: PluginClass[] = []
   configRegistry: Map<PluginClass, Record<string, PluginConfig>> = new Map()
-  loadedPlugins: Map<PluginClass, Record<string, InstanceType<PluginClass>>> =
+  mountedPlugins: Map<PluginClass, Record<string, InstanceType<PluginClass>>> =
     new Map()
   constructor(server: SquadServer) {
     this.server = server
     this.log = this.server.logger.getChild('Plugin Manager')
   }
 
-  async loadConfig(config: PluginConfig[]) {
+  async mountFromConfig(config: PluginConfig[]) {
     this.pluginRegistry = await loadPlugins()
     for (const rawPluginConfig of config) {
       if (
@@ -48,38 +57,38 @@ export class PluginManager {
         throw new TypeError('Config must be a plain object.')
       }
 
-      const { plugin, instance, enabled = true } = rawPluginConfig
+      const { plugin: pluginName, instance, enabled = true } = rawPluginConfig
 
       if (enabled !== true) {
-        this.log.warn`Ignored disabled config for plugin: ${plugin}`
+        this.log.warn`Ignored disabled config for plugin: ${pluginName}`
         continue
       }
 
-      const Plugin = this.pluginRegistry.find(
-        pluginClass => pluginClass.name === plugin
+      const pluginClass = this.pluginRegistry.find(
+        pluginClass => pluginClass.name === pluginName
       )
-      if (!Plugin)
+      if (!pluginClass)
         throw new Error(
-          `Error parsing config: Plugin ${plugin} does not exist.`
+          `Error parsing config: Plugin ${pluginName} does not exist.`
         )
 
-      const validConfig = Plugin.parseConfig(rawPluginConfig)
+      const validConfig = parseConfig(pluginClass, rawPluginConfig)
 
-      const pluginInstances = this.configRegistry.get(Plugin) ?? {}
+      const pluginInstances = this.configRegistry.get(pluginClass) ?? {}
 
       if (instance in pluginInstances)
         throw new Error(
-          `Duplicate instance ID: ${instance} for plugin: ${plugin}.`
+          `Duplicate instance ID: ${instance} for plugin: ${pluginName}.`
         )
 
       pluginInstances[instance] = validConfig
-      this.configRegistry.set(Plugin, pluginInstances)
+      this.configRegistry.set(pluginClass, pluginInstances)
     }
 
     // Fill in default config for plugins that are enabled by default.
     for (const Plugin of this.pluginRegistry) {
       if (Plugin.defaultEnabled) {
-        const defaultConfig = Plugin.defaultConfig
+        const defaultConfig = parseConfig(Plugin)
         const pluginInstances = this.configRegistry.get(Plugin) ?? {}
         if (defaultConfig.instance in pluginInstances) {
           // Skip inserting the default config if there is already a custom config loaded.
@@ -101,7 +110,7 @@ export class PluginManager {
       const stack: StackEntry[] = []
       for (const [instance, pluginConfig] of Object.entries(configInstances)) {
         // Check if already mounted
-        const loadedInstance = this.loadedPlugins.get(Plugin)?.[instance]
+        const loadedInstance = this.mountedPlugins.get(Plugin)?.[instance]
         if (loadedInstance !== undefined) {
           continue
         }
@@ -113,7 +122,7 @@ export class PluginManager {
           )) {
             const pluginType = Plugin.dependencySpec[connection].plugin
             const loadedInstance =
-              this.loadedPlugins?.get(pluginType)?.[instance]
+              this.mountedPlugins?.get(pluginType)?.[instance]
             if (loadedInstance !== undefined) {
               continue
             }
@@ -143,9 +152,9 @@ export class PluginManager {
               stackEntry.config
             )
             await newPlugin.mount()
-            const loadedInstances = this.loadedPlugins.get(Plugin) ?? {}
+            const loadedInstances = this.mountedPlugins.get(Plugin) ?? {}
             loadedInstances[instance] = newPlugin
-            this.loadedPlugins.set(Plugin, loadedInstances)
+            this.mountedPlugins.set(Plugin, loadedInstances)
           }
         }
       }
@@ -156,4 +165,138 @@ export class PluginManager {
     // TODO: This.
     return
   }
+}
+
+/**
+ * Validates a supplied config and fills in any unspecified configuration options with their defaults.
+ * Assuming there are no required values you can pass in an empty object to get the default config.
+ * Throws an error if config has invalid types or is missing required values.
+ */
+
+export function parseConfig<P extends PluginClass>(
+  pluginClass: P,
+  config?: unknown
+): PluginConfig<P> {
+  if (config === undefined) {
+    config = {}
+  } else if (typeof config !== 'object' || Array.isArray(config)) {
+    throw new TypeError('Config must be a plain object.')
+  }
+  const {
+    plugin = pluginClass.name,
+    instance = 'default',
+    enabled = pluginClass.defaultEnabled,
+    options,
+    commandAliases,
+    connections,
+  } = config as Record<any, any>
+
+  if (plugin !== pluginClass.name)
+    throw new TypeError(
+      `Expected "${pluginClass.name}" in 'plugin' field of config.`
+    )
+
+  if (typeof instance === 'string')
+    throw new TypeError('Instance field of config must be a string.')
+
+  if (typeof enabled !== 'boolean')
+    throw new TypeError('Enabled field must be a boolean.')
+
+  return {
+    plugin: plugin,
+    instance: instance,
+    enabled: enabled,
+    options: parseOptionsConfig(pluginClass.optionSpec, options ?? {}),
+    commandAliases: parseCommandConfig(
+      pluginClass.commandSpec,
+      commandAliases ?? {}
+    ),
+    connections: parseConnectionsConfig(
+      pluginClass.dependencySpec,
+      connections ?? {}
+    ),
+  } as PluginConfig<typeof pluginClass>
+}
+
+export function parseOptionsConfig<T extends OptionSpec>(
+  optionSpec: T,
+  optionsConfig: unknown
+) {
+  if (typeof optionsConfig !== 'object' || Array.isArray(optionsConfig))
+    throw new TypeError('Options must be a plain object.')
+
+  const validatedOptions: Record<string, any> = {}
+
+  for (const [option, spec] of Object.entries(optionSpec)) {
+    const value = (optionsConfig as Record<any, any>)[option]
+
+    if (value === undefined) {
+      if (spec.default !== undefined) {
+        validatedOptions[option] = spec.default
+      } else {
+        throw new Error(`Missing required option: ${option}`)
+      }
+    } else validatedOptions[option] = value
+  }
+  return validatedOptions as OptionsFromSpec<T>
+}
+
+export function parseCommandConfig<T extends CommandSpec>(
+  commandSpec: T,
+  commandAliasesConfig: unknown
+) {
+  if (
+    typeof commandAliasesConfig !== 'object' ||
+    Array.isArray(commandAliasesConfig)
+  )
+    throw new TypeError('commandAliasesConfig must be a plain object.')
+
+  const validatedCommandAliases: Record<string, string[]> = {}
+
+  for (const [command, spec] of Object.entries(commandSpec)) {
+    const aliases = (commandAliasesConfig as Record<string, any>)[command]
+
+    if (aliases === undefined) {
+      validatedCommandAliases[command] = spec.aliases
+    } else if (
+      Array.isArray(aliases) &&
+      aliases.every(item => typeof item === 'string')
+    ) {
+      validatedCommandAliases[command] = aliases
+    } else {
+      throw new TypeError(
+        `Error in commandAliases on '${command}'. Command aliases must be an array of strings.`
+      )
+    }
+  }
+  return validatedCommandAliases as CommandAliasFromSpec<T>
+}
+
+export function parseConnectionsConfig<T extends DependencySpec>(
+  dependencySpec: T,
+  connectionConfig: unknown
+) {
+  if (typeof connectionConfig !== 'object' || Array.isArray(connectionConfig))
+    throw new TypeError('dependencyConfig must be a plain object.')
+
+  const validatedConnections: Record<string, string> = {}
+
+  for (const [dep, spec] of Object.entries(dependencySpec)) {
+    const value = (connectionConfig as Record<string, any>)[dep]
+
+    if (value == undefined) {
+      if (spec?.optional !== true) {
+        throw new Error(
+          `Required connection is not specified in config: ${dep}`
+        )
+      }
+    } else if (typeof value === 'string') {
+      validatedConnections[dep] = value
+    } else {
+      throw new TypeError(
+        `Error in dependencyConfig on '${dep}'. Connection instance must be string.`
+      )
+    }
+  }
+  return validatedConnections as ConnectionsFromSpec<T>
 }
