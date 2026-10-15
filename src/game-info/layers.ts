@@ -50,7 +50,7 @@ interface Team {
   allowedAlliances: Alliance[]
   allowedFactions: FactionID[]
   allowedUnitTypes: UnitType[]
-  allowedUnits: Unit[]
+  allowedUnits: string[]
 }
 
 export interface Layer {
@@ -87,4 +87,8 @@ export const LAYERS: Record<string, Layer> = JSON.parse(
 
 export function getLayerByClassname(classname: string): Layer | undefined {
   return LAYERS[classname]
+}
+
+export function getLayerByDisplayName(displayName: string) {
+  return Object.values(LAYERS).find(layer => layer.name === displayName)
 }

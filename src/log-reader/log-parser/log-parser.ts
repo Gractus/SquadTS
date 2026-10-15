@@ -11,7 +11,7 @@ import type {
   InGameIDs,
   ToEventEmitterMap,
 } from '../../common/types.js'
-import type { roundEndInterface } from './events/match-end.js'
+import type { Match } from './events/match-transitions.js'
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface LogEvents {}
@@ -58,7 +58,7 @@ interface Deployable {
 export interface EventStore {
   deployables: Map<string, Deployable>
   currentJoin?: Partial<Player>
-  roundEnd?: Partial<roundEndInterface>
+  match: Partial<Match>
 }
 
 const EVENTS_DIR = new URL('./events/', import.meta.url)
@@ -72,6 +72,7 @@ export default class SquadLogParser {
   events: EventEmitter<ToEventEmitterMap<LogEvents>> = new EventEmitter()
   eventStore: EventStore = {
     deployables: new Map(),
+    match: {},
   }
   ruleSet!: RuleSet
   constructor(logger: Logger) {
@@ -88,7 +89,7 @@ export default class SquadLogParser {
         !(file.name.endsWith('.js') || file.name.endsWith('.ts'))
       )
         continue
-      this.log.info`Loading parser file ${file.name}...`
+      this.log.info`Loading parser event rule file ${file.name}...`
       const module = await import(EVENTS_DIR + file.name)
 
       const input = module.default as Rule | Rule[]
@@ -119,9 +120,24 @@ export default class SquadLogParser {
     })
   }
 
+  clearMatch() {
+    this.log.info('Cleaning Current Match Data from EventStore')
+    this.eventStore.match = {}
+    this.eventStore.deployables.clear()
+  }
+
   clearStore() {
     this.log.info('Cleaning EventStore')
-    this.eventStore.deployables.clear()
+    this.clearMatch()
+  }
+
+  async catchup(stream: Stream.Readable) {
+    const emit = this.events.emit
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.events.emit = (() => {}) as any
+    const bytesConsumed = await this.parseStream(stream)
+    this.events.emit = emit
+    return bytesConsumed
   }
 
   /** Returns bytes consumed. */
@@ -159,6 +175,7 @@ export default class SquadLogParser {
     let bytesConsumed = 0
     let endOfLine = buffer.indexOf(0x0a)
     if (endOfLine === -1) return bytesConsumed
+    else endOfLine += 1
     let line = buffer.subarray(bytesConsumed, endOfLine)
 
     while (bytesConsumed < buffer.length) {
@@ -199,6 +216,7 @@ export default class SquadLogParser {
       bytesConsumed = endOfLine
       endOfLine = buffer.indexOf(0x0a, bytesConsumed + STAMP_LENGTH)
       if (endOfLine === -1) break
+      else endOfLine += 1
       line = buffer.subarray(bytesConsumed, endOfLine)
     }
 

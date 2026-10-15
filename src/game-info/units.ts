@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import path from 'path'
+import { getLayerByClassname } from './layers.js'
 import type { Vehicle } from './vehicles.js'
 
 type PossibleAlliances = 'BLUFOR' | 'PAC' | 'REDFOR' | 'INDEPENDENT' | 'Unknown'
@@ -11,6 +12,8 @@ export const Alliance: Record<FactionID, PossibleAlliances> = {
   GFI: 'REDFOR',
   MEI: 'INDEPENDENT',
   PLA: 'PAC',
+  PLANMC: 'PAC',
+  PLAAGF: 'PAC',
   RGF: 'REDFOR',
   USMC: 'BLUFOR',
   USA: 'BLUFOR',
@@ -20,19 +23,24 @@ export const Alliance: Record<FactionID, PossibleAlliances> = {
 } as const
 export type Alliance = (typeof Alliance)[keyof typeof Alliance]
 
-export type FactionID =
-  | 'ADF'
-  | 'BAF'
-  | 'CAF'
-  | 'GFI'
-  | 'MEI'
-  | 'PLA'
-  | 'RGF'
-  | 'USMC'
-  | 'USA'
-  | 'VDV'
-  | 'WPMC'
-  | 'Unknown'
+export const FactionID = {
+  'Australian Defence Force': 'ADF',
+  'British Armed Forces': 'BAF',
+  'Canadian Armed Forces': 'CAF',
+  'Ground Forces of Iran': 'GFI',
+  'Middle Eastern Insurgents': 'MEI',
+  "People's Liberation Army": 'PLA',
+  'PLA Amphibious Ground Forces': 'PLAAGF',
+  'PLA Navy Marine Corps': 'PLANMC',
+  'Russian Ground Forces': 'RGF',
+  'United States Marine Corps': 'USMC',
+  'United States Army': 'USA',
+  'Russian Airborne Forces': 'VDV',
+  'Western Private Military Contractors': 'WPMC',
+  '': 'Unknown',
+} as const
+export type FactionID = (typeof FactionID)[keyof typeof FactionID]
+export type FactionName = keyof typeof FactionID
 
 export type UnitType =
   | 'Combined Arms'
@@ -81,17 +89,34 @@ export const UNITS: Record<string, Unit> = JSON.parse(
   readFileSync(UNITS_FILE, 'utf8')
 )
 
-export function getUnit(className?: string, displayName?: string): Unit {
-  return (
-    Object.values(UNITS).find(
-      unit => unit.className === className || unit.displayName === displayName
-    ) ?? {
-      faction: 'Unknown',
-      alliance: 'Unknown',
-      className: className ? className : 'Unknown',
-      displayName: displayName ? displayName : 'Unknown',
-      type: 'Unknown',
-      assets: [],
-    }
-  )
+export function getUnitByClassName(className: string) {
+  return UNITS[className]
+}
+
+export function getUnit(
+  layerClassname: string,
+  factionName: string,
+  displayName: string
+) {
+  const layer = getLayerByClassname(layerClassname)
+  if (!layer) return
+  const teamConfig = layer.teamConfig
+  for (const unitClassname of teamConfig.team1.allowedUnits) {
+    const candidateUnit = UNITS[unitClassname]
+    if (
+      candidateUnit &&
+      candidateUnit.faction === factionName &&
+      candidateUnit.displayName === displayName
+    )
+      return candidateUnit
+  }
+  for (const unitClassname of teamConfig.team2.allowedUnits) {
+    const candidateUnit = UNITS[unitClassname]
+    if (
+      candidateUnit &&
+      candidateUnit.faction === factionName &&
+      candidateUnit.displayName === displayName
+    )
+      return candidateUnit
+  }
 }

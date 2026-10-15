@@ -16,21 +16,21 @@ export class FTPLogReader extends LogReader {
     this.client = new Client()
   }
 
-  async connect() {
+  protected async connect() {
     await this.client.access(this.accessOptions)
   }
 
-  disconnect() {
+  protected disconnect() {
     this.client.close()
   }
 
-  async waitForChange() {
+  protected async waitForChange() {
     const { promise, resolve, reject } = Promise.withResolvers<void>()
     const pollUntilChange = async () => {
       if (this.abortController.signal.aborted) reject()
-      const lastMod = await this.client.lastMod(this.path)
-      if (lastMod !== this.lastModified) {
-        this.lastModified = lastMod
+      const size = await this.client.size(this.path)
+      if (size !== this.lastSize) {
+        this.lastSize = size
         resolve()
       } else {
         this.filePollTimeout = setTimeout(pollUntilChange, this.pollInterval)
@@ -40,14 +40,11 @@ export class FTPLogReader extends LogReader {
     return promise
   }
 
-  async getSize() {
+  protected async getSize() {
     return this.client.size(this.path)
   }
-  async getLastModified() {
-    return this.client.lastMod(this.path)
-  }
 
-  getStream(start: number): Stream.Readable {
+  protected getStream(start: number): Stream.Readable {
     const stream = new PassThrough()
     this.client.downloadTo(stream, this.path, start)
     return stream

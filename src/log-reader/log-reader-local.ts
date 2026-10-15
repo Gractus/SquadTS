@@ -13,26 +13,25 @@ export class LocalLogReader extends LogReader {
     super(path, logger)
   }
 
-  connect() {
+  protected connect() {
     this.watcher = fs.watch(this.path)
     return Promise.resolve()
   }
 
-  disconnect() {
+  protected disconnect() {
     this.watcher?.close()
   }
 
-  waitForChange() {
+  protected waitForChange() {
     const { promise, resolve, reject } = Promise.withResolvers<void>()
     const onChange = async () => {
       this.abortController.signal.removeEventListener('abort', onAbort)
-      this.watcher!.removeListener('error', onChange)
-      this.lastModified = await this.getLastModified()
+      this.watcher!.removeListener('error', onError)
       resolve()
     }
     const onAbort = () => {
       this.watcher!.removeListener('change', onChange)
-      this.watcher!.removeListener('error', onChange)
+      this.watcher!.removeListener('error', onError)
       reject()
     }
     const onError = (err: Error) => {
@@ -46,14 +45,11 @@ export class LocalLogReader extends LogReader {
     return promise
   }
 
-  getStream(start: number) {
+  protected getStream(start: number) {
     return fs.createReadStream(this.path, { start: start })
   }
 
-  async getSize() {
+  protected async getSize() {
     return (await fsPromises.stat(this.path)).size
-  }
-  async getLastModified() {
-    return (await fsPromises.stat(this.path)).mtime
   }
 }

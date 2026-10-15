@@ -18,7 +18,7 @@ export class SFTPLogReader extends LogReader {
     this.client = new Client()
   }
 
-  async connect() {
+  protected async connect() {
     this.client.connect(this.options)
     const { promise, resolve, reject } = Promise.withResolvers<void>()
     this.client.sftp((err, sftp) => {
@@ -32,18 +32,18 @@ export class SFTPLogReader extends LogReader {
     await promise
   }
 
-  disconnect() {
+  protected disconnect() {
     this.sftp?.end()
     this.client?.end()
   }
 
-  async waitForChange() {
+  protected async waitForChange() {
     const { promise, resolve, reject } = Promise.withResolvers<void>()
     const pollUntilChange = async () => {
       if (this.abortController.signal.aborted) reject()
-      const lastMod = new Date((await this.getFileStats()).mtime)
-      if (lastMod !== this.lastModified) {
-        this.lastModified = lastMod
+      const size = await this.getSize()
+      if (size !== this.lastSize) {
+        this.lastSize = size
         resolve()
       } else {
         this.filePollTimeout = setTimeout(pollUntilChange, this.pollInterval)
@@ -57,11 +57,7 @@ export class SFTPLogReader extends LogReader {
     return this.sftp!.createReadStream(this.path, { start: offset })
   }
 
-  async getLastModified() {
-    return new Date((await this.getFileStats()).mtime)
-  }
-
-  async getSize(useCache = true) {
+  protected async getSize(useCache = false) {
     if (!useCache || !this.statsCache) await this.getFileStats()
     return this.statsCache!.size
   }

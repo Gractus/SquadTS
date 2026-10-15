@@ -11,7 +11,6 @@ import {
   TeamID,
   type ToEventEmitterMap,
 } from '../common/types.js'
-import type { Layer } from '../game-info/layers.js'
 import { LogReader } from '../log-reader/log-reader-base.js'
 import { FTPLogReader } from '../log-reader/log-reader-ftp.js'
 import { LocalLogReader } from '../log-reader/log-reader-local.js'
@@ -61,6 +60,7 @@ export interface ServerEvents {
     attacker: Player
     victim: Player
   }
+  MATCH_END: MatchOutcome
 }
 
 export default class SquadServer {
@@ -75,7 +75,7 @@ export default class SquadServer {
 
   playerStore: RconStore
   admins: AdminsRegister = new Map()
-  currentLayer?: Layer
+  currentLayerClassname?: string
   matchHistory: MatchOutcome[]
   serverBrowserInfo: ServerBrowserInfo | undefined
 
@@ -142,10 +142,10 @@ export default class SquadServer {
     await this.rcon.connect(this.options.rcon)
     this.watchRCON()
     const layer = await this.rcon.getCurrentMap()
-    if (!(layer instanceof Error)) this.currentLayer = layer
+    if (!(layer instanceof Error)) this.currentLayerClassname = layer
     await this.updateServerInfo()
 
-    await this.logReader.connect()
+    await this.logReader.start()
     this.watchLog()
 
     if (this.options.plugins) {
@@ -159,7 +159,7 @@ export default class SquadServer {
     this.rcon.events.removeAllListeners()
     await this.rcon.disconnect()
     this.logReader.events.removeAllListeners()
-    this.logReader.disconnect()
+    this.logReader.stop()
   }
 
   private watchRCON() {
@@ -187,16 +187,45 @@ export default class SquadServer {
 
   private watchLog() {
     this.logReader.events.on('MATCH_START', data => {
-      this.currentLayer = data.layer
+      this.currentLayerClassname = data.layerClassname
       this.refreshAdminLists()
     })
 
-    this.logReader.events.on('MATCH_ENDED', data => {
-      this.matchHistory.unshift(data)
+    this.logReader.events.on('MATCH_ENDED', async data => {
+      const match: MatchOutcome = data
+
+      await Promise.all([this.updateServerInfo, this.rcon.updatePlayerStore])
+      // Fallback to info gathered from RCON in the event that log missed any of these fields.
+      if (
+        this.serverBrowserInfo &&
+        this.serverBrowserInfo?.matchStartTime.getTime() < data.end.getTime()
+      ) {
+        match.start = data.start ?? this.serverBrowserInfo?.matchStartTime
+        match.layerClassname =
+          data.layerClassname ?? this.serverBrowserInfo?.currentLayer
+
+        if (match.team1)
+          match.team1.unitClassname = this.serverBrowserInfo.team1UnitClassname
+        else
+          match.team1 = {
+            unitClassname: this.serverBrowserInfo?.team1UnitClassname,
+            tickets: this.playerStore.team1.tickets,
+          }
+        if (match.team2)
+          match.team2.unitClassname = this.serverBrowserInfo.team2UnitClassname
+        else
+          match.team2 = data.team2 ?? {
+            unitClassname: this.serverBrowserInfo?.team2UnitClassname,
+            tickets: this.playerStore.team2.tickets,
+          }
+      }
+
+      this.matchHistory.unshift(match)
       this.matchHistory = this.matchHistory.slice(
         0,
         this.options.layerHistoryMaxLength
       )
+      this.events.emit('MATCH_END', match)
     })
 
     this.logReader.events.on('PLAYER_WOUNDED', data => {
@@ -239,27 +268,6 @@ export default class SquadServer {
       this.options.updateServerInfoInterval
     )
   }
-
-  // async updateLayerInfo() {
-  //   clearTimeout(this.updateLayerInfoTimeout);
-
-  //   this.logger.info(`Updating layer information...`);
-
-  //   try {
-  //     this.currentMap = await this.rcon.getCurrentMap();
-  //     this.nextMap = this.rcon.getNextMap();
-  //     this.emit('UPDATED_LAYER_INFORMATION');
-  //   } catch (err) {
-  //     this.logger.error('Failed to update layer information.', err);
-  //   }
-
-  //   this.logger.info(`Updated layer information.`);
-
-  //   this.updateLayerInfoTimeout = setTimeout(
-  //     this.updateLayerInfo,
-  //     this.options.updateLayerInfoInterval
-  //   );
-  // }
 
   async refreshAdminLists() {
     if (this.options.adminLists) {

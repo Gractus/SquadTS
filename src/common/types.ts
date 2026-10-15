@@ -1,5 +1,3 @@
-import type { Layer } from '../game-info/layers.js'
-import type { Unit } from '../game-info/units.js'
 import type { OnlineIDs } from './online-ids.js'
 
 /**
@@ -37,10 +35,23 @@ export type ToEventEmitterMap<T extends Record<string, any>> = {
 }
 
 export interface MatchOutcome {
-  layer: Layer
+  layerClassname?: string
+  /** Match ended due to forced map change or other admin action. */
+  forcedEnd: boolean
   start?: Date
   end: Date
+  /** `undefined` if draw or the forcedEnd is `true` */
   winner?: TeamID
-  team1: { unit?: Unit; tickets: number }
-  team2: { unit?: Unit; tickets: number }
+  team1?: {
+    faction?: string
+    subFaction?: string
+    unitClassname?: string
+    tickets: number
+  }
+  team2?: {
+    faction?: string
+    subFaction?: string
+    unitClassname?: string
+    tickets: number
+  }
 }

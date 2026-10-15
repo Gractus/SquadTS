@@ -9,7 +9,7 @@ export abstract class LogReader {
   parser: SquadLogParser
   events
   byteCursor: number = 0
-  lastModified?: Date
+  lastSize?: number
   maxWindowSize: number = 5 * 1000 * 1000 // 5MB
   abortController: AbortController = new AbortController()
   path: string
@@ -22,12 +22,11 @@ export abstract class LogReader {
   }
 
   async start() {
-    await this.connect()
-    this.lastModified = await this.getLastModified()
+    await Promise.all([this.connect(), this.parser.loadRules()])
     const size = await this.getSize()
     this.byteCursor = this.byteCursor = Math.max(0, size - this.maxWindowSize)
-    // const stream = this.getStream(offset)
-    // this.byteCursor += await this.parser.catchup(stream)
+    const stream = this.getStream(this.byteCursor)
+    this.byteCursor += await this.parser.catchup(stream)
     this.watchLoop()
   }
 
@@ -51,10 +50,9 @@ export abstract class LogReader {
     this.parser.clearStore()
   }
 
-  async connect() {}
-  disconnect() {}
-  abstract waitForChange(): Promise<void>
-  abstract getSize(): Promise<number>
-  abstract getLastModified(): Promise<Date>
-  abstract getStream(offset: number): Stream.Readable
+  protected async connect() {}
+  protected disconnect() {}
+  protected abstract waitForChange(): Promise<void>
+  protected abstract getSize(): Promise<number>
+  protected abstract getStream(offset: number): Stream.Readable
 }
