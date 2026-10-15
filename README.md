@@ -258,6 +258,33 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
 </details>
 
 <details>
+<summary>ChatShortcuts</summary>
+<h2>ChatShortcuts</h2>
+<p>Can be configured to make chat commands that broadcast or warn the caller with present messages.</p>
+<h3>Options</h3>
+<table>
+<tr>
+  <td>Option</td>
+  <td>Description</td>
+  <td>Default</td>
+  <td>Example</td>
+</tr>
+<tr>
+  <td>commands</td>
+  <td>An array of objects containing the following properties: <ul><li><code>command</code> - The command that initiates the message.</li><li><code>type</code> - Either <code>warn</code> or <code>broadcast</code>.</li><li><code>message</code> - The message to respond with.</li><li><code>chats</code> - A list of chats to ignore the commands in. Use this to limit it to admins.</li></ul></td>
+  <td><code>[
+  {
+    "command": "whatisthebestsquadserveradminframework",
+    "type": "warn",
+    "message": "SquadTS might be up there.",
+    "chats": []
+  }
+]</code></td>
+  <td></td>
+</tr></table>
+</details>
+
+<details>
 <summary>DiscordAdminBroadcast</summary>
 <h2>DiscordAdminBroadcast</h2>
 <p>The <code>DiscordAdminBroadcast</code> plugin will send a copy of admin broadcasts made in game to a Discord channel.</p>
@@ -461,6 +488,13 @@ See [Sequelize's documentation](https://sequelize.org/master/manual/getting-star
   <td>❌ Must Specify</td>
   <td><code>sqlite:database.sqlite</code></td>
 </tr></table>
+</details>
+
+<details>
+<summary>TeamShuffle</summary>
+<h2>TeamShuffle</h2>
+<p>Extremely simple team shuffler. Absolutely smashes stacks. No mercy. No friends will be made today.</p>
+null
 </details>
 
 <br>

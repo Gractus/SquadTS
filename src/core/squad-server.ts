@@ -16,12 +16,13 @@ import { LogReader } from '../log-reader/log-reader-base.js'
 import { FTPLogReader } from '../log-reader/log-reader-ftp.js'
 import { LocalLogReader } from '../log-reader/log-reader-local.js'
 import { SFTPLogReader } from '../log-reader/log-reader-sftp.js'
-import { type Player, PlayerStore } from '../rcon/player-store.js'
 import SquadRconClient, {
   ChatChannel,
   type RconClientOptions,
   type ServerBrowserInfo,
 } from '../rcon/squad-rcon-client.js'
+import type { RconConnectConfig } from '../rcon/squad-rcon-core.js'
+import { type Player, RconStore } from '../rcon/squad-rcon-store.js'
 import {
   type AdminList,
   type AdminsRegister,
@@ -32,7 +33,7 @@ import type { PluginConfig } from './plugins/base-plugin.js'
 
 export interface ServerConfig {
   id: string | number
-  rcon: RconClientOptions
+  rcon: RconConnectConfig & { options: RconClientOptions }
   logReader: LogReaderOptions
   plugins?: PluginConfig[]
   adminLists?: AdminList[]
@@ -72,7 +73,7 @@ export default class SquadServer {
   logReader: LogReader
   plugins: PluginManager
 
-  playerStore: PlayerStore
+  playerStore: RconStore
   admins: AdminsRegister = new Map()
   currentLayer?: Layer
   matchHistory: MatchOutcome[]
@@ -86,14 +87,14 @@ export default class SquadServer {
     this.options = structuredClone(config)
     this.id = config.id
 
-    this.rcon = new SquadRconClient(
-      {
-        autoUpdatePlayerStore: true,
+    this.rcon = new SquadRconClient({
+      options: {
+        autoUpdateDataStore: true,
         autoReconnect: true,
-        ...config.rcon,
+        ...config.rcon.options,
       },
-      this.logger
-    )
+      logger: this.logger,
+    })
 
     switch (config.logReader.mode) {
       case 'local': {
@@ -129,8 +130,6 @@ export default class SquadServer {
     this.options.layerHistoryMaxLength = config.layerHistoryMaxLength || 20
     this.options.updateServerInfoInterval =
       config.updateServerInfoInterval ?? 30 * 1000
-
-    this.updateServerInfo = this.updateServerInfo.bind(this)
   }
 
   async watch() {
@@ -140,7 +139,7 @@ export default class SquadServer {
 
     await this.refreshAdminLists()
 
-    await this.rcon.connect()
+    await this.rcon.connect(this.options.rcon)
     this.watchRCON()
     const layer = await this.rcon.getCurrentMap()
     if (!(layer instanceof Error)) this.currentLayer = layer
@@ -153,7 +152,7 @@ export default class SquadServer {
       this.plugins.mountFromConfig(this.options.plugins)
     }
 
-    this.logger.info(`Watching ${this.serverBrowserInfo!.serverName}...`)
+    this.logger.info(`Watching ${this.serverBrowserInfo?.serverName}...`)
   }
 
   async unwatch() {
@@ -221,7 +220,7 @@ export default class SquadServer {
     })
   }
 
-  async updateServerInfo() {
+  updateServerInfo = async () => {
     clearTimeout(this.updateServerInfoTimeout)
 
     this.logger.info(`Updating server information...`)

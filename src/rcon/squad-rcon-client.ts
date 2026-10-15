@@ -1,7 +1,6 @@
 import EventEmitter from 'events'
 
-import type { Logger } from '@logtape/logtape'
-
+import { getLogger, type Logger } from '@logtape/logtape'
 import { parseIDs, type OnlineIDs } from '../common/online-ids.js'
 import {
   TeamID,
@@ -9,10 +8,11 @@ import {
   type SquadID,
   type ToEventEmitterMap,
 } from '../common/types.js'
-import { getLayerByClassname, type Layer } from '../game-info/layers.js'
-import { getUnit, type Unit } from '../game-info/units.js'
-import { PlayerStore, type Player } from './player-store.js'
-import SquadRconCore, { type RconOptions } from './squad-rcon-core.js'
+import SquadRconCore, {
+  type RconConnectConfig,
+  type RconOptions,
+} from './squad-rcon-core.js'
+import { RconStore, type Player } from './squad-rcon-store.js'
 
 interface PlayerList {
   time: Date
@@ -59,10 +59,10 @@ export interface ServerBrowserInfo {
   publicQueue: number
   publicQueueLimit: number
   playerCount: number
-  currentLayer?: Layer
-  nextLayer?: Layer
-  teamOne?: Unit
-  teamTwo?: Unit
+  currentLayer?: string
+  nextLayer?: string
+  team1UnitClassname?: string
+  team2UnitClassname?: string
   matchTimeout: number
   matchStartTime: Date
   gameVersion: string
@@ -206,22 +206,23 @@ export interface RconEvents {
 }
 
 export interface RconClientOptions extends RconOptions {
-  autoUpdatePlayerStore?: boolean
-  autoUpdatePlayerStoreInterval?: number
+  autoUpdateDataStore?: boolean
+  autoUpdateDataStoreInterval?: number
 }
 
 export default class SquadRconClient extends SquadRconCore {
   events = new EventEmitter<ToEventEmitterMap<RconEvents>>()
-  autoUpdatePlayerStore: boolean
-  autoUpdatePlayerStoreInterval: number
-  autoUpdatePlayerStoreTimeout: NodeJS.Timeout | undefined = undefined
-  playerStore: PlayerStore = new PlayerStore(this)
+  autoUpdateDataStore: boolean
+  autoUpdateDataStoreInterval: number
+  autoUpdateDataStoreTimeout: NodeJS.Timeout | undefined = undefined
+  playerStore: RconStore = new RconStore(this)
 
-  constructor(options: RconClientOptions, logger: Logger) {
-    super(options, logger.getChild('RCON'))
-    this.autoUpdatePlayerStore = options.autoUpdatePlayerStore ?? true
-    this.autoUpdatePlayerStoreInterval =
-      options.autoUpdatePlayerStoreInterval ?? 1000
+  constructor(config: { options?: RconClientOptions; logger?: Logger } = {}) {
+    const log = config.logger?.getChild('RCON') ?? getLogger()
+    super(config.options ?? {}, log)
+    this.autoUpdateDataStore = config.options?.autoUpdateDataStore ?? true
+    this.autoUpdateDataStoreInterval =
+      config.options?.autoUpdateDataStoreInterval ?? 1000
     this.updatePlayerStore = this.updatePlayerStore.bind(this)
   }
 
@@ -362,14 +363,14 @@ export default class SquadRconClient extends SquadRconCore {
     }
   }
 
-  async getCurrentMap(): Promise<Layer | undefined | Error> {
+  async getCurrentMap(): Promise<string | undefined | Error> {
     const response = await this.executeCommand('ShowCurrentMap')
     if (response instanceof Error) return response
     const match = response.match(
-      /^Current level is (?<level>[^,]*), layer is (?<layer>[^,]*)/
+      /^Current level is (?<level>[^,]*), layer is (?<layerClassname>[^,]*)/
     )
     if (match?.groups) {
-      return getLayerByClassname(match.groups.layer)
+      return match.groups.layerClassname
     } else {
       throw new Error(
         'Received malformed response to ShowCurrentMap RCON command.'
@@ -377,14 +378,14 @@ export default class SquadRconClient extends SquadRconCore {
     }
   }
 
-  async getNextMap(): Promise<Layer | undefined | Error> {
+  async getNextMap(): Promise<string | undefined | Error> {
     const response = await this.executeCommand('ShowNextMap')
     if (response instanceof Error) return response
     const match = response.match(
-      /^Next level is (?<level>[^,]*), layer is (?<layer>[^,]*)/
+      /^Next level is (?<level>[^,]*), layer is (?<layerClassname>[^,]*)/
     )
     if (match?.groups) {
-      return getLayerByClassname(match.groups.layer)
+      return match.groups.layerClassname
     } else {
       throw new Error(
         'Received malformed response to ShowNextMap RCON command.'
@@ -515,54 +516,50 @@ export default class SquadRconClient extends SquadRconCore {
     if (response instanceof Error) return response
     const data = JSON.parse(response)
     const result: ServerBrowserInfo = {
-      serverName: data.ServerName_s,
-      gameVersion: data.GameVersion_s,
+      serverName: data.ServerName_s as string,
+      gameVersion: data.GameVersion_s as string,
 
-      maxPlayers: +data.MaxPlayers,
-      reserveSlots: +data.PlayerReserveCount_I,
-      reserveQueue: +data.ReservedQueue_I,
-      publicQueue: +data.PublicQueue_I,
-      publicQueueLimit: +data.PublicQueueLimit_I,
+      maxPlayers: +data.MaxPlayers as number,
+      reserveSlots: +data.PlayerReserveCount_I as number,
+      reserveQueue: +data.ReservedQueue_I as number,
+      publicQueue: +data.PublicQueue_I as number,
+      publicQueueLimit: +data.PublicQueueLimit_I as number,
 
-      playerCount: +data.PlayerCount_I,
+      playerCount: +data.PlayerCount_I as number,
 
-      currentLayer: getLayerByClassname(data.MapName_s),
-      nextLayer: getLayerByClassname(data.NextLayer_s),
+      currentLayer: data.MapName_s as string,
+      nextLayer: data.NextLayer_s as string,
 
-      matchTimeout: +data.MatchTimeout_d,
+      matchTimeout: +data.MatchTimeout_d as number,
       matchStartTime: new Date(Date.now() - +data.PLAYTIME_I * 1000),
 
-      teamOne: getUnit(
-        data.TeamOne_s?.replace(new RegExp(data.MapName_s, 'i'), '') || ''
-      ),
-      teamTwo: getUnit(
-        data.TeamTwo_s?.replace(new RegExp(data.MapName_s, 'i'), '') || ''
-      ),
+      team1UnitClassname: data.TeamOne_s,
+      team2UnitClassname: data.TeamTwo_s,
     }
     return result
   }
 
   async updatePlayerStore() {
-    clearTimeout(this.autoUpdatePlayerStoreTimeout)
+    clearTimeout(this.autoUpdateDataStoreTimeout)
     const result = await this.playerStore.update()
-    if (this.autoUpdatePlayerStore) {
-      this.autoUpdatePlayerStoreTimeout = setTimeout(
+    if (this.autoUpdateDataStore) {
+      this.autoUpdateDataStoreTimeout = setTimeout(
         this.updatePlayerStore,
-        this.autoUpdatePlayerStoreInterval
+        this.autoUpdateDataStoreInterval
       )
     }
     return result
   }
 
-  async connect() {
-    await super.connect()
-    if (this.autoUpdatePlayerStore) {
+  async connect(options: RconConnectConfig = {}) {
+    await super.connect(options)
+    if (this.autoUpdateDataStore) {
       this.updatePlayerStore()
     }
   }
 
   async disconnect(): Promise<void> {
-    clearTimeout(this.autoUpdatePlayerStoreTimeout)
-    await this.disconnect()
+    clearTimeout(this.autoUpdateDataStoreTimeout)
+    await super.disconnect()
   }
 }

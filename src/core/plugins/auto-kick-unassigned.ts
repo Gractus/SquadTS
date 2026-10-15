@@ -1,5 +1,5 @@
 import type { eosID } from '../../common/online-ids.js'
-import type { Player } from '../../rcon/player-store.js'
+import type { Player } from '../../rcon/squad-rcon-store.js'
 import type { RconEvents } from '../../rcon/squad-rcon-client.js'
 import BasePlugin, { type EventSpec, type OptionSpec } from './base-plugin.js'
 

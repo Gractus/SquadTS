@@ -44,7 +44,7 @@ interface Squad {
 
 class TeamHelper {
   constructor(
-    private store: PlayerStore,
+    private store: RconStore,
     private teamID: TeamID
   ) {}
   get players() {
@@ -56,9 +56,13 @@ class TeamHelper {
   get unassigned() {
     return this.store['unassigned'][this.teamID].values()
   }
+  get tickets() {
+    return this.store['tickets'][this.teamID]
+  }
 }
 
-export class PlayerStore {
+export class RconStore {
+  private tickets: Record<TeamID, number> = [-Infinity, -Infinity]
   private _players: Map<eosID, Player> = new Map()
   private teams: Record<TeamID, Map<eosID, Player>> = [new Map(), new Map()]
   private squads: Record<TeamID, Map<SquadID, Squad>> = [new Map(), new Map()]
@@ -87,6 +91,8 @@ export class PlayerStore {
 
     if (squadListResponse instanceof Error) return squadListResponse
     if (playerListResponse instanceof Error) return playerListResponse
+
+    this.tickets = squadListResponse.tickets
 
     const { time: newTime, players: newPlayerList } = playerListResponse
 

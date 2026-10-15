@@ -1,8 +1,7 @@
 import net from 'net'
 import util from 'node:util'
 
-import type { Logger } from '@logtape/logtape'
-
+import { lazy, type Logger } from '@logtape/logtape'
 import { PreAllocatedBuffer, SimpleDynamicBuffer } from '../common/buffer.js'
 
 const PacketType = {
@@ -22,11 +21,15 @@ const PacketSubType = {
 type PacketSubType = (typeof PacketSubType)[keyof typeof PacketSubType]
 
 export interface RconOptions {
-  host: string
-  port: number
-  password: string
   autoReconnect?: boolean
   autoReconnectInterval?: number
+}
+
+export interface RconConnectConfig {
+  host?: string
+  port?: number
+  password?: string
+  force?: boolean
 }
 
 export interface Packet {
@@ -46,11 +49,14 @@ const MAXIMUM_PACKET_SIZE = 4096
 const MINIMUM_PACKET_SIZE = 14
 const BROKEN_PACKET_CONTENTS = Buffer.from('\x00\x00\x00\x01\x00\x00\x00')
 
+export const DEFAULT_HOST = '127.0.0.1'
+export const DEFAULT_PORT = 21114
+
 export default abstract class SquadRconCore {
   log: Logger
-  host: string
-  port: number
-  password: string
+  host: string = DEFAULT_HOST
+  port: number = DEFAULT_PORT
+  password: string = ''
   /** If true, client will automatically try to reconnect if connection drops.*/
   autoReconnect: boolean
   /** Time in ms between reconnect attempts*/
@@ -61,17 +67,17 @@ export default abstract class SquadRconCore {
   private authenticated: boolean
   private client: net.Socket
   private count: number
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-  private pendingCommands: Map<number, Function>
+
+  private pendingCommands: Map<
+    number,
+    ((input: string | Error) => void) | ((input: number | Error) => void)
+  >
   private payloadBuffer: PayloadBuffer
   private packetFragmentBuffer: PreAllocatedBuffer = new PreAllocatedBuffer(
     MAXIMUM_PACKET_SIZE
   )
   constructor(options: RconOptions, logger: Logger) {
     this.log = logger
-    this.host = options.host
-    this.port = options.port
-    this.password = options.password
 
     // internal variables
     this.authenticated = false
@@ -96,15 +102,16 @@ export default abstract class SquadRconCore {
     // setup socket
     this.client = new net.Socket()
     this.isConnected = false
-    this.client.on('close', this.cleanupOnClose)
     this.client.on('error', err => {
-      this.log.error`Connection error: ${err}`
+      this.log.debug`Connection error: ${err}`
     })
     this.client.on('data', this.onData)
   }
 
   private onData(data: Buffer) {
-    this.log.trace`Got data: ${this.bufToHexString(data)}`
+    this.log.trace('Got data: {data}', {
+      data: lazy(() => this.bufToHexString(data)),
+    })
 
     let remainingData = data
 
@@ -162,7 +169,9 @@ export default abstract class SquadRconCore {
           // Ignore the broken packet from the incoming data
           bufferSlice = bufferSlice.subarray(probePacketSize)
           totalBytesRead += probePacketSize
-          this.log.debug`Ignoring some data: ${this.bufToHexString(probeBuf)}`
+          this.log.debug('Ignoring some data: {data}', {
+            data: lazy(() => this.bufToHexString(probeBuf)),
+          })
           continue
         }
       }
@@ -186,10 +195,15 @@ export default abstract class SquadRconCore {
   }
 
   private handlePacket(packet: Packet) {
-    this.log.trace(`Processing decoded packet: {packet} {body}`, {
+    this.log.trace('Processing decoded packet: {packet} {body}', {
       packet: packet,
-      body: packet.body.toString(),
+      body: lazy(() => packet.body.toString()),
     })
+
+    if (packet.type === PacketType.SERVERDATA_EVENT_VALUE) {
+      this.processRconEvent(packet.body.toString())
+      return
+    }
 
     const callBack = this.pendingCommands.get(packet.id)
     if (!callBack) {
@@ -198,6 +212,7 @@ export default abstract class SquadRconCore {
       )
       return
     }
+
     switch (packet.type) {
       case PacketType.SERVERDATA_RESPONSE_VALUE:
         switch (packet.subtype) {
@@ -211,7 +226,9 @@ export default abstract class SquadRconCore {
 
           case PacketSubType.END_PAYLOAD:
             this.payloadBuffer.buffer.append(packet.body)
-            callBack(this.payloadBuffer.buffer.subarray().toString())
+            ;(callBack as (input: string | Error) => void)(
+              this.payloadBuffer.buffer.toString()
+            )
             this.payloadBuffer.buffer.clear()
             this.pendingCommands.delete(packet.id)
             break
@@ -225,12 +242,8 @@ export default abstract class SquadRconCore {
         break
 
       case PacketType.SERVERDATA_AUTH_RESPONSE:
-        callBack(packet.subtype)
+        ;(callBack as (input: number | Error) => void)(packet.subtype)
         this.pendingCommands.delete(packet.id)
-        break
-
-      case PacketType.SERVERDATA_EVENT_VALUE:
-        this.processRconEvent(packet.body.toString())
         break
 
       default:
@@ -244,7 +257,6 @@ export default abstract class SquadRconCore {
   abstract processRconEvent(contents: string): void
 
   public executeCommand(command: string) {
-    // if (this.client.readyState !== 'open') throw new Error('RCON socket is not connected.');
     if (!this.isConnected) return new Error('RCON socket is not connected.')
     if (!this.authenticated) return new Error('RCON not Logged in')
 
@@ -266,7 +278,9 @@ export default abstract class SquadRconCore {
     this.pendingCommands.set(this.count, callBack)
     this.incrementCount()
 
-    this.log.trace`Sending packet: ${this.bufToHexString(encodedPacket)}`
+    this.log.trace('Sending packet: {packet}', {
+      packet: lazy(() => this.bufToHexString(encodedPacket)),
+    })
     this.client.write(encodedPacket)
 
     return promise
@@ -279,21 +293,27 @@ export default abstract class SquadRconCore {
 
     return new Promise<void>((resolve, reject) => {
       const rejectConnect = (err: Error) => {
+        this.client.removeListener('connect', acceptConnect)
         reject(err)
       }
-      this.client.once('error', rejectConnect)
-      this.client.connect(this.port, this.host, async () => {
+      const acceptConnect = async () => {
         this.log.info`Connected to: ${this.host}:${this.port}`
         this.client.removeListener('error', rejectConnect)
+        this.client.once('close', this.cleanupOnClose)
         this.isConnected = true
         resolve()
-      })
+      }
+      this.client.once('error', rejectConnect)
+      this.client.once('connect', acceptConnect)
+      this.client.connect(this.port, this.host)
     })
   }
 
   protected async authenticate(password = this.password) {
     if (!this.isConnected) throw new Error('RCON socket is not connected')
     if (this.authenticated) throw new Error('Already authenticated!')
+
+    this.log.info('Authenticating...')
 
     const encodedPacket = this.encodePacket(
       PacketType.SERVERDATA_AUTH,
@@ -303,7 +323,13 @@ export default abstract class SquadRconCore {
 
     const { promise, resolve, reject } = Promise.withResolvers<void>()
     const callBack = (result: number | Error) => {
-      if (result === 1) resolve()
+      // Squad RCON doesn't seem to actually reject failed authentication attempts, it just closes the connection.
+      // Odds are if we get this far it's already succeeded.
+      // Leaving this here just in case that behavior changes.
+      if (result === 1) {
+        this.log.info('Authentication successful.')
+        resolve()
+      }
       if (result instanceof Error) reject(result)
       reject(new Error('RCON authentication failed. - Wrong Password?'))
     }
@@ -313,17 +339,30 @@ export default abstract class SquadRconCore {
 
     this.client.write(encodedPacket)
 
-    await promise
+    try {
+      await promise
+    } catch {
+      throw new Error('Authentication Failed - Wrong Password?')
+    }
     this.authenticated = true
   }
 
-  protected async connect(password = this.password) {
-    await this.connectSocket()
+  protected async connect(options: RconConnectConfig = {}) {
+    this.host = options.host ?? this.host
+    this.port = options.port ?? this.port
+    this.password = options.password ?? this.password
+    this.log.info`Starting connection to ${this.host}:${this.port}`
     try {
-      await this.authenticate(password)
+      await this.connectSocket()
+      await this.authenticate(this.password)
     } catch (err) {
+      this.log
+        .error`Connection attempt failed: ${err instanceof Error ? err.message : err}`
       await this.disconnect()
-      throw err
+      if (options.force ?? false) {
+        this.retryConnect()
+        return
+      } else throw err
     }
     if (this.autoReconnect) this.client.once('close', this.retryConnect)
   }
@@ -345,6 +384,7 @@ export default abstract class SquadRconCore {
         reject(err)
       }
       const onClose = () => {
+        this.log.info`RCON client connection closed.`
         this.client.removeListener('error', onError)
         resolve()
       }
@@ -363,8 +403,11 @@ export default abstract class SquadRconCore {
     await this.connect()
   }
 
-  private cleanupOnClose() {
-    this.log.info`RCON client connection closed.`
+  private cleanupOnClose(hadError: boolean) {
+    if (hadError) this.log.error`Lost RCON client connection.`
+    else if (this.authenticated)
+      this.log
+        .warn`Remote server closed connection. - Probably shutdown or rebooting`
     this.isConnected = false
     this.authenticated = false
 
@@ -373,9 +416,9 @@ export default abstract class SquadRconCore {
     this.payloadBuffer.id = null
     this.payloadBuffer.buffer.clear()
 
-    this.pendingCommands.forEach(callback =>
+    for (const callback of this.pendingCommands.values()) {
       callback(new Error('RCON connection closed.'))
-    )
+    }
     this.pendingCommands.clear()
   }
 

@@ -4,7 +4,8 @@
     "rcon": {
       "host": "xxx.xxx.xxx.xxx",
       "port": 21114,
-      "password": "hunter2"
+      "password": "hunter2",
+      "force": false
     },
     "logReader": {
       "logFile": "C:/path/to/your/Squad Dedicated Server/SquadGame/Saved/Logs/SquadGame.log",
@@ -36,7 +37,95 @@
         "source": "ftp://<user>:<password>@<host>:<port>/<url-path>"
       }
     ],
-    "plugins": [],
+    "plugins": [
+      {
+        "plugin": "AutoKickUnassigned",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "playerThreshold": 93,
+          "timeBeforeKick": 360,
+          "warnInterval": 30,
+          "warningMessage": "Join a squad, you are unassigned and will be kicked",
+          "kickMessage": "Autokick - All players must join a squad.",
+          "roundStartDelay": 900,
+          "ignoreAdmins": false,
+          "ignoreWhitelist": false
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "AutoTKWarn",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "attackerMessage": "Please apologise for ALL TKs in ALL chat!",
+          "victimMessage": null
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "ChatShortcuts",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "commands": [
+            {
+              "command": "whatisthebestsquadserveradminframework",
+              "type": "warn",
+              "message": "SquadTS might be up there.",
+              "chats": []
+            }
+          ]
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "FogOfWar",
+        "instance": "default",
+        "enabled": false,
+        "options": {
+          "mode": 1,
+          "delay": 10
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "SeedingMode",
+        "instance": "default",
+        "enabled": true,
+        "options": {
+          "interval": 150,
+          "seedingThreshold": 50,
+          "seedingMessage": "Seeding Rules Active! Fight only over the middle flags! No FOB Hunting!",
+          "liveEnabled": true,
+          "liveThreshold": 52,
+          "liveMessage": "Live!",
+          "waitOnNewGames": true,
+          "waitTimeOnNewGame": 30
+        },
+        "commandAliases": {},
+        "connections": {}
+      },
+      {
+        "plugin": "TeamShuffle",
+        "instance": "default",
+        "enabled": true,
+        "options": {},
+        "commandAliases": {
+          "run": [
+            "shuffle",
+            "teamsmasher",
+            "randomize"
+          ]
+        },
+        "connections": {}
+      }
+    ],
     "layerHistoryMaxLength": 20
   },
   "logger": {

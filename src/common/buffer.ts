@@ -19,6 +19,10 @@ export class PreAllocatedBuffer {
     return this.buffer.subarray(start, safeEnd)
   }
 
+  toString() {
+    return this.buffer.subarray(0, this.stored).toString()
+  }
+
   append(source: Buffer, start?: number, end?: number) {
     return this.writeBytes(source, start, end, this.stored)
   }
