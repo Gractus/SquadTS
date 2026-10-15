@@ -196,7 +196,7 @@ export function parseConfig<P extends PluginClass>(
       `Expected "${pluginClass.name}" in 'plugin' field of config.`
     )
 
-  if (typeof instance === 'string')
+  if (typeof instance !== 'string')
     throw new TypeError('Instance field of config must be a string.')
 
   if (typeof enabled !== 'boolean')
