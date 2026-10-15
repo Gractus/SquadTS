@@ -1,13 +1,13 @@
 import fs from 'fs'
-import path from 'path'
 import { parseArgs } from 'node:util'
+import path from 'path'
 
+import { configureFromObject, type LogTapeConfig } from '@logtape/config'
 import {
   configure,
   getAnsiColorFormatter,
   getConsoleSink,
 } from '@logtape/logtape'
-import type { LogTapeConfig } from '@logtape/config'
 
 import { deepMerge } from './common/deep-merge.js'
 import { printLogo } from './common/print-logo.js'
@@ -58,7 +58,7 @@ async function main() {
     config = deepMerge(globalConfig, config) as SquadJSConfig
   }
 
-  if (config.logger)
+  if (!config.logger)
     await configure({
       sinks: {
         console: getConsoleSink({ formatter: getAnsiColorFormatter() }),
@@ -66,11 +66,20 @@ async function main() {
       loggers: [
         {
           category: `Server ${config.server.id}`,
-          lowestLevel: 'trace',
+          lowestLevel: 'info',
           sinks: ['console'],
+        },
+        {
+          category: [`Server ${config.server.id}`, 'RCON'],
+          lowestLevel: 'info',
+        },
+        {
+          category: [`Server ${config.server.id}`, 'Log Reader'],
+          lowestLevel: 'info',
         },
       ],
     })
+  else await configureFromObject(config.logger)
 
   const server = new SquadServer(config.server)
   await server.watch()

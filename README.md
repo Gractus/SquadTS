@@ -229,6 +229,7 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
   <td><code>false</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -255,6 +256,7 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
   <td><code>null</code></td>
   <td><code>You were killed by your own team.</code></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -282,6 +284,7 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
 ]</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -308,6 +311,7 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
   <td><code>16761867</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -335,6 +339,7 @@ Other plugins should depend on this to share a single connection.</p>
   <td><code>null</code></td>
   <td><code>123456789123456789</code></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -361,6 +366,7 @@ Other plugins should depend on this to share a single connection.</p>
   <td><code>10</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -389,6 +395,7 @@ Other plugins should depend on this to share a single connection.</p>
   <td><code>300</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -451,6 +458,7 @@ Other plugins should depend on this to share a single connection.</p>
   <td><code>30</code></td>
   <td></td>
 </tr></table>
+
 </details>
 
 <details>
@@ -488,13 +496,26 @@ See [Sequelize's documentation](https://sequelize.org/master/manual/getting-star
   <td>❌ Must Specify</td>
   <td><code>sqlite:database.sqlite</code></td>
 </tr></table>
+
 </details>
 
 <details>
 <summary>TeamShuffle</summary>
 <h2>TeamShuffle</h2>
 <p>Extremely simple team shuffler. Absolutely smashes stacks. No mercy. No friends will be made today.</p>
-null
+
+<h3>Commands</h3>
+<table>
+<tr>
+  <td>Command</td>
+  <td>Description</td>
+  <td>Default Aliases</td>
+</tr>
+<tr>
+  <td>run</td>
+  <td>Immediately shuffles the teams.</td>
+  <td><code>shuffle,teamsmasher,randomize</code></td>
+</tr></table>
 </details>
 
 <br>

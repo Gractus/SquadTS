@@ -55,7 +55,28 @@ ${Object.entries(plugin.optionSpec)
 </tr>`
   )
   .join('\n')}</table>`
-    : null
+    : ''
+}
+${
+  Object.keys(plugin.commandSpec).length > 0
+    ? `<h3>Commands</h3>
+<table>
+<tr>
+  <td>Command</td>
+  <td>Description</td>
+  <td>Default Aliases</td>
+</tr>
+${Object.entries(plugin.commandSpec)
+  .map(
+    ([commandName, spec]) =>
+      `<tr>
+  <td>${commandName}</td>
+  <td>${spec.description}</td>
+  <td>${`<code>${spec.aliases}</code>`}</td>
+</tr>`
+  )
+  .join('\n')}</table>`
+    : ''
 }
 </details>`
     )
