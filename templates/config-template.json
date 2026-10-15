@@ -4,7 +4,8 @@
     "rcon": {
       "host": "xxx.xxx.xxx.xxx",
       "port": 21114,
-      "password": "hunter2"
+      "password": "hunter2",
+      "force": false
     },
     "logReader": {
       "logFile": "C:/path/to/your/Squad Dedicated Server/SquadGame/Saved/Logs/SquadGame.log",
