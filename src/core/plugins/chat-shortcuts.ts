@@ -9,7 +9,7 @@ interface ChatCommand {
   chats: ChatChannel[]
 }
 
-export default class ChatShortcuts extends BasePlugin {
+export default class ChatShortcuts extends BasePlugin<typeof ChatShortcuts> {
   static description =
     'Can be configured to make chat commands that broadcast or warn the caller with present messages.'
 
@@ -23,7 +23,7 @@ export default class ChatShortcuts extends BasePlugin {
         '<li><code>command</code> - The command that initiates the message.</li>' +
         '<li><code>type</code> - Either <code>warn</code> or <code>broadcast</code>.</li>' +
         '<li><code>message</code> - The message to respond with.</li>' +
-        '<li><code>chats</code> - A list of chats to ignore the commands in. Use this to limit it to admins.</li>' +
+        '<li><code>chats</code> - Chats channels where this command should be ignored. Use this to limit it to admins.</li>' +
         '</ul>',
       default: [
         {
@@ -32,7 +32,7 @@ export default class ChatShortcuts extends BasePlugin {
           message: 'SquadTS might be up there.',
           chats: [],
         },
-      ] satisfies ChatCommand[],
+      ] as ChatCommand[],
     },
   } satisfies OptionSpec
 
@@ -41,12 +41,12 @@ export default class ChatShortcuts extends BasePlugin {
   async postMount() {
     for (const command of this.options.commands) {
       const handler = async (data: ServerEvents['CHAT_COMMAND']) => {
-        if (!command.ignoreChats.includes(data.chat)) return
+        if (command.chats.includes(data.chat)) return
 
         if (command.type === 'broadcast') {
-          await this.server.rcon.broadcast(command.response)
+          await this.server.rcon.broadcast(command.message)
         } else if (command.type === 'warn') {
-          await this.server.rcon.warn(data.player.eosID, command.response)
+          await this.server.rcon.warn(data.player.eosID, command.message)
         }
       }
       const commandLowerCase = command.command.toLowerCase()
