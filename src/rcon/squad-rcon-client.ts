@@ -542,6 +542,9 @@ export default class SquadRconClient extends SquadRconCore {
   async updatePlayerStore() {
     clearTimeout(this.autoUpdateDataStoreTimeout)
     const result = await this.playerStore.update()
+    if (result instanceof Error) {
+      this.log.error('Updating RCON data store failed')
+    } else this.log.info('Updated RCON data store.')
     if (this.autoUpdateDataStore) {
       this.autoUpdateDataStoreTimeout = setTimeout(
         this.updatePlayerStore,
