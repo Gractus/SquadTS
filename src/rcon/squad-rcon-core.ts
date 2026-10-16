@@ -141,7 +141,7 @@ export default abstract class SquadRconCore {
     let bufferSlice = buffer
 
     while (bufferSlice.length > 4) {
-      const size = buffer.readInt32LE(0)
+      const size = bufferSlice.readInt32LE(0)
       const packetSize = size + 4
 
       if (
