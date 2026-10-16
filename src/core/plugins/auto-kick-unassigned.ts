@@ -81,7 +81,7 @@ export default class AutoKickUnassigned extends BasePlugin<
     {
       source: 'RCON',
       event: 'PLAYER_CONNECTED',
-      handler: 'onPlayerCountChanged',
+      handler: 'onPlayerConnect',
     },
     {
       source: 'RCON',
@@ -101,7 +101,7 @@ export default class AutoKickUnassigned extends BasePlugin<
     for (const player of this.server.team1.unassigned) {
       this.track(player)
     }
-    this.onPlayerCountChanged()
+    this.refreshTimers()
   }
 
   override async unmountCleanup() {
@@ -115,21 +115,27 @@ export default class AutoKickUnassigned extends BasePlugin<
     this.waitingAfterGameStart = true
     this.newGameTimeout = setTimeout(() => {
       this.waitingAfterGameStart = false
-      this.onPlayerCountChanged()
+      this.refreshTimers()
     }, this.options.roundStartDelay * 1000)
+  }
+
+  onPlayerConnect = (event: RconEvents['PLAYER_CONNECTED']) => {
+    this.track(event.player)
+    this.refreshTimers()
   }
 
   onPlayerDisconnect = (event: RconEvents['PLAYER_DISCONNECTED']) => {
     this.unTrack(event.player.eosID)
-    this.onPlayerCountChanged()
+    this.refreshTimers()
   }
 
   onPlayerSquadChange = (event: RconEvents['PLAYER_CHANGED_SQUAD']) => {
     if (event.newSquadID) this.unTrack(event.player.eosID)
     else this.track(event.player)
+    this.refreshTimers()
   }
 
-  onPlayerCountChanged = () => {
+  refreshTimers = () => {
     if (this.waitingAfterGameStart) return
 
     let playersOverLimit =
@@ -173,9 +179,9 @@ export default class AutoKickUnassigned extends BasePlugin<
       tracker.startTime = new Date()
       tracker.warnIntervalID = setInterval(() => {
         const timeLeft =
-          Date.now() -
           tracker.startTime!.getTime() +
-          this.options.timeBeforeKick * 1000
+          this.options.timeBeforeKick * 1000 -
+          Date.now()
         this.server.rcon.warn(
           tracker.player.eosID,
           `${this.options.warningMessage} - ${this.msFormat(timeLeft)}`
