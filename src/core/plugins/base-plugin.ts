@@ -8,7 +8,7 @@ import type { RconEvents } from '../../rcon/squad-rcon-client.js'
 import type { LogEvents } from '../../log-reader/log-parser/log-parser.js'
 
 export interface PluginClass {
-  new (server: SquadServer, config: PluginConfig): BasePlugin
+  new (server: SquadServer, config: PluginConfig): BasePlugin<any>
   description: string
   defaultEnabled: boolean
   dependencySpec: DependencySpec
@@ -110,7 +110,7 @@ export interface PluginConfig<P extends PluginClass = any> {
   options: OptionsFromSpec<P['optionSpec']>
 }
 
-export default abstract class BasePlugin<TStatic extends PluginClass = any> {
+export default abstract class BasePlugin<TStatic extends PluginClass> {
   server: SquadServer
   // events = new EventEmitter()
   config!: PluginConfig<TStatic>
@@ -180,7 +180,7 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
     await this.prepareToMount()
 
     // Find all dependencies and load them into this.deps
-    const deps: Record<string, BasePlugin> = {}
+    const deps: Record<string, BasePlugin<any>> = {}
     for (const [dep, spec] of Object.entries(
       (this.constructor as TStatic).dependencySpec as DependencySpec
     )) {

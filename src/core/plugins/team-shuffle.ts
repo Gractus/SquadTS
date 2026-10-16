@@ -1,7 +1,7 @@
 import type { ServerEvents } from '../squad-server.js'
 import BasePlugin, { type CommandSpec } from './base-plugin.js'
 
-export default class TeamShuffle extends BasePlugin {
+export default class TeamShuffle extends BasePlugin<typeof TeamShuffle> {
   static description =
     'Extremely simple team shuffler. Absolutely smashes stacks. No mercy. No friends will be made today.'
 
