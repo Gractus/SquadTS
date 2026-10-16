@@ -60,7 +60,9 @@ export interface ServerEvents {
     attacker: Player
     victim: Player
   }
-  MATCH_END: MatchOutcome
+  MATCH_ENDED: MatchOutcome
+  PLAYER_COUNT_CHANGED: number
+  UPDATED_SERVER_INFO: ServerBrowserInfo
 }
 
 export default class SquadServer {
@@ -172,17 +174,17 @@ export default class SquadServer {
           {
             time: data.time,
             chat: data.channel,
-            arg: command.groups.args.trim(),
+            arg: command.groups.arg.trim(),
             player: data.player,
           }
         )
     })
 
     this.rcon.events.on('PLAYER_CONNECTED', () => {
-      this.events.emit('PLAYER_COUNT_CHANGED')
+      this.events.emit('PLAYER_COUNT_CHANGED', this.playerCount)
     })
     this.rcon.events.on('PLAYER_DISCONNECTED', () => {
-      this.events.emit('PLAYER_COUNT_CHANGED')
+      this.events.emit('PLAYER_COUNT_CHANGED', this.playerCount)
     })
   }
 
@@ -226,7 +228,7 @@ export default class SquadServer {
         0,
         this.options.layerHistoryMaxLength
       )
-      this.events.emit('MATCH_END', match)
+      this.events.emit('MATCH_ENDED', match)
     })
 
     this.logReader.events.on('PLAYER_WOUNDED', data => {
