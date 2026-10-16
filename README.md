@@ -273,7 +273,7 @@ Interested in creating your own plugin? [See more here](./squad-server/plugins/r
 </tr>
 <tr>
   <td>commands</td>
-  <td>An array of objects containing the following properties: <ul><li><code>command</code> - The command that initiates the message.</li><li><code>type</code> - Either <code>warn</code> or <code>broadcast</code>.</li><li><code>message</code> - The message to respond with.</li><li><code>chats</code> - A list of chats to ignore the commands in. Use this to limit it to admins.</li></ul></td>
+  <td>An array of objects containing the following properties: <ul><li><code>command</code> - The command that initiates the message.</li><li><code>type</code> - Either <code>warn</code> or <code>broadcast</code>.</li><li><code>message</code> - The message to respond with.</li><li><code>chats</code> - Chats channels where this command should be ignored. Use this to limit it to admins.</li></ul></td>
   <td><code>[
   {
     "command": "whatisthebestsquadserveradminframework",

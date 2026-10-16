@@ -46,7 +46,7 @@ export class PluginManager {
     this.log = this.server.logger.getChild('Plugin Manager')
   }
 
-  async mountFromConfig(config: PluginConfig[]) {
+  async loadConfig(config: PluginConfig[]) {
     this.pluginRegistry = await loadPlugins()
     for (const rawPluginConfig of config) {
       if (
@@ -57,12 +57,9 @@ export class PluginManager {
         throw new TypeError('Config must be a plain object.')
       }
 
-      const { plugin: pluginName, instance, enabled = true } = rawPluginConfig
-
-      if (enabled !== true) {
-        this.log.warn`Ignored disabled config for plugin: ${pluginName}`
-        continue
-      }
+      // Assume that if a config is present then it should be enabled unless explicitly disabled.
+      rawPluginConfig.enabled = rawPluginConfig.enabled ?? true
+      const { plugin: pluginName, instance, enabled } = rawPluginConfig
 
       const pluginClass = this.pluginRegistry.find(
         pluginClass => pluginClass.name === pluginName
@@ -72,9 +69,20 @@ export class PluginManager {
           `Error parsing config: Plugin ${pluginName} does not exist.`
         )
 
-      const validConfig = parseConfig(pluginClass, rawPluginConfig)
-
       const pluginInstances = this.configRegistry.get(pluginClass) ?? {}
+
+      // Insert minimal config just to keep track of disabled plugins.
+      if (!enabled) {
+        pluginInstances[instance] = {
+          plugin: pluginName,
+          instance,
+          enabled,
+        } as PluginConfig
+        this.configRegistry.set(pluginClass, pluginInstances)
+        continue
+      }
+
+      const validConfig = parseConfig(pluginClass, rawPluginConfig)
 
       if (instance in pluginInstances)
         throw new Error(
@@ -109,6 +117,11 @@ export class PluginManager {
 
       const stack: StackEntry[] = []
       for (const [instance, pluginConfig] of Object.entries(configInstances)) {
+        if (!pluginConfig.enabled) {
+          this.log
+            .warn`Ignored disabled config for plugin: ${pluginConfig.plugin}:${pluginConfig.instance}`
+          continue
+        }
         // Check if already mounted
         const loadedInstance = this.mountedPlugins.get(Plugin)?.[instance]
         if (loadedInstance !== undefined) {
@@ -138,7 +151,7 @@ export class PluginManager {
               )
             }
             const config = this.configRegistry?.get(pluginType)?.[instance]
-            if (config === undefined)
+            if (config === undefined || !config.enabled)
               throw new Error(
                 `Plugin: '${Plugin}:${pluginConfig.instance}' specifies dependency on '${pluginType}:${instance}', but there is no configured/enabled instance by that name.`
               )

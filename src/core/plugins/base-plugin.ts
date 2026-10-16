@@ -124,7 +124,6 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
     this.log = server.logger.getChild(this.constructor.name)
     this.config = config
     this.options = config.options
-    this.mount()
   }
 
   static get description(): string {
@@ -232,6 +231,7 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
         this.server.events.on(`CHAT_COMMAND:${alias}`, fn)
       }
     }
+    await this.postMount()
   }
 
   async unmount() {
@@ -260,7 +260,7 @@ export default abstract class BasePlugin<TStatic extends PluginClass = any> {
         >
       )[spec.handler]
       for (const alias of this.config.commandAliases[command]) {
-        this.server.events.on(`CHAT_COMMAND:${alias}`, fn)
+        this.server.events.removeListener(`CHAT_COMMAND:${alias}`, fn)
       }
     }
 

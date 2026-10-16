@@ -131,8 +131,8 @@
   "logger": {
     "sinks": {
       "console": {
-        "type": "console",
-        "formatter": "ansiColor"
+        "type": "#console()",
+        "formatter": "#ansiColor()"
       }
     },
     "loggers": [
