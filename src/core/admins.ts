@@ -3,6 +3,7 @@ import fs from 'fs'
 import { Writable } from 'stream'
 
 import { type steamID } from '../common/online-ids.js'
+import { SimpleDynamicBuffer } from '../common/buffer.js'
 
 export interface AdminList {
   type: 'local' | 'remote' | 'ftp'
@@ -48,15 +49,15 @@ async function fetchRawList(adminList: AdminList): Promise<string> {
         user: match.groups.user,
         password: match.groups.password,
       })
-      const chunks: Buffer[] = []
+      const buffer: SimpleDynamicBuffer = new SimpleDynamicBuffer(8192)
       const collector = new Writable({
         write(chunk: Buffer, _encoding, callback) {
-          chunks.push(chunk)
+          buffer.append(chunk)
           callback()
         },
       })
       await ftpClient.downloadTo(collector, match.groups.path)
-      data = Buffer.concat(chunks).toString('utf8')
+      data = buffer.toString('utf8')
       ftpClient.close()
       break
     }

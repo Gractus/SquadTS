@@ -19,8 +19,8 @@ export class PreAllocatedBuffer {
     return this.buffer.subarray(start, safeEnd)
   }
 
-  toString() {
-    return this.buffer.subarray(0, this.stored).toString()
+  toString(encoding?: BufferEncoding) {
+    return this.buffer.subarray(0, this.stored).toString(encoding)
   }
 
   append(source: Buffer, start?: number, end?: number) {
